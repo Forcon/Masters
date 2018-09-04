@@ -9,8 +9,11 @@ from myBoolean import *
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
 
-# класс главного окна
+
 class Auto_main:
+    """
+    класс главного окна
+    """
     def __init__(self, master):  # ----- Создает плашку для ввода текста для поиска
         self.master = master
         self.sendValue = ''
@@ -26,19 +29,6 @@ class Auto_main:
         self.FIO = self.Text_Entry('Имя:', 130)
         self.Adress = self.Text_Entry('Адрес на ЯМ:', 170, url = 'https://www.livemaster.ru/')
 
-        # self.name_label = Label(text='Имя:')
-        # self.name_label.place(relx=.05, y=50, anchor="c")
-        # self.text_entry = Entry(self.master, textvariable = self.message)
-        # self.text_entry.place(relx=.5, y=50, anchor="c", width=300)
-
-        # self.text_entry = Entry(self.master, textvariable = self.message)
-        # self.text_entry.place(relx=.5, y=90, anchor="c", width=300)
-        #
-        # self.text_entry = Entry(self.master, textvariable = self.message)
-        # self.text_entry.place(relx=.5, y=130, anchor="c", width=300)
-        #
-        # self.text_entry = Entry(self.master, textvariable = self.message)
-        # self.text_entry.place(relx=.5, y=170, anchor="c", width=300)
         self.button_name = Button(self.master, text = "Авторизоваться*", command = self.check_auto,  width = 14, height = 3, fg='green')
         self.button_name.place(relx=.87, rely=.35, anchor="c")
         self.button_avto = Button(self.master, text = "Новый автор", command = self.check_new, width = 14, height = 3, fg='black')
@@ -48,6 +38,11 @@ class Auto_main:
         self.master.mainloop()
 
     def focusIni(self, step = 0):
+        """
+
+        :param int step:
+        :return:
+        """
         if step == 0:
             if str(self.Mail) == '': self.Mail.text_entry.focus_set() # Ставит курсор в первое пустое поле
             elif str(self.Password) == '': self.Password.text_entry.focus_set()
@@ -108,17 +103,6 @@ class Auto_main:
         elif btn == 0 and re.search(r"[а-яА-ЯёЁ]", str(self.Adress)):
             messagebox.showinfo("GUI Python", "В адресе не может быть русских букв")
             self.focusIni(4)
-
-        # elif btn == 0 and re.fullmatch(r"https://www\.livemaster\.ru/[\w'._+-]+", str(self.Adress)):
-        #     adrr = ", в нем не может быть русских букв" if re.search(r"[а-яА-ЯёЁ]", str(self.Adress)) else ''
-        #     messagebox.showinfo("GUI Python", "Формат адреса на Ярмарке маcтеров неверный" + adrr)
-
-        # elif btn == 0 and (not re.fullmatch(r"https://www\.livemaster\.ru/[\w'._+-]+", str(self.Adress)) or re.search(r"[а-яА-ЯёЁ]", str(self.Adress))):
-        #     adrr = ", в нем не может быть русских букв" if re.search(r"[а-яА-ЯёЁ]", str(self.Adress)) else ''
-        #     messagebox.showinfo("GUI Python", "Формат адреса на Ярмарке маcтеров неверный" + adrr)
-
-        # elif btn == 1 and mail_sql != str(self.Password):
-        #     messagebox.showinfo("GUI Python", "Пользователя с таким е-мейлом нет в базе. Вы можете создать нового пользователя.")
 
         elif btn == 1 and password_sql != str(self.Password):
             messagebox.showinfo("GUI Python", "Пароль для данного адреса другой")
