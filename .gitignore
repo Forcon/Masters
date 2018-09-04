@@ -1,0 +1,6 @@
+.idea/**
+img/**
+**/*.pyc
+**/*.db
+tmp_*
+tmp/**
