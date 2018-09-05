@@ -2,9 +2,13 @@
 import sqlite3
 from tkinter import messagebox
 
-from myBoolean import *
+from myBoolean import * # Дополнительные окна
 
 # from myDialog import *
+"""
+Программа создает окно авторизации, где можно либо авторизоваться в программе, либо завести нового пользователя.
+Нужно, чтобы использовтаь свои наработки в базе + не подтягивать собственные работы в выборку
+"""
 
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
@@ -12,7 +16,7 @@ cursor = SQL_Connect.cursor()
 
 class Auto_main:
     """
-    класс главного окна
+    Класс главного окна, создает окно авторизации
     """
     def __init__(self, master):  # ----- Создает плашку для ввода текста для поиска
         self.master = master

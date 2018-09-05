@@ -4,7 +4,9 @@
 # импортирование модулей python
 from tkinter import *
 from myBoolean import *
-
+"""
+Диалоговое окно проверки пароля - импортируемый модуль
+"""
 # класс дочернего окна
 class dialog:
     def __init__(self, master):

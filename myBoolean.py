@@ -5,6 +5,10 @@
 from tkinter import *
 import tkinter as tk
 
+"""
+Диалоговре окно выхода
+"""
+
 # класс диалогового окна выхода
 class yesno:
     def __init__(self, master):

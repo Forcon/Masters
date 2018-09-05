@@ -11,6 +11,10 @@ import ssl
 import sqlite3
 from Root_text import *
 
+"""
+Предварительная версия программы для записи данных в коллекцию (?)
+"""
+
 ssl._create_default_https_context = ssl._create_unverified_context # Использование ssl
 
 url_collect = 'https://www.livemaster.ru/gallery/876453/edit&wf=general&pos=2'
@@ -78,7 +82,7 @@ for el in srt_item:
     if el not in tag_summ: tag_summ[el] = 1
     else: tag_summ[el] += 1
 
-srt_tag = [] # -------- Самые популярны тэги
+srt_tag = [] # -------- Самые популярные тэги
 for i, el in enumerate(sorted(tag_summ.items(), key=lambda x: x[1], reverse=True)):
     if i < 20: srt_tag.append(el[0])
 

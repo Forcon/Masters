@@ -10,6 +10,9 @@ import urllib
 import urllib.request, urllib.error, urllib.parse
 import datetime
 
+"""
+Вариант программы для сбора данных с одной страницы ЯМ, (автор, цена и т.д.) - для настройки этого модуля
+"""
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
 

@@ -1,6 +1,9 @@
 import sqlite3
 import re
 import numpy as np
+"""
+Программа для настройки списка тегов из базы
+"""
 
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()

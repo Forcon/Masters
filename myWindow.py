@@ -5,7 +5,9 @@
 from tkinter import *
 from myBoolean import *
 from myDialog import *
-
+"""
+Пример окна с возвратом значения
+"""
 # класс главного окна
 class main:
   def __init__(self, master):
