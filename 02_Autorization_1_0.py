@@ -43,7 +43,7 @@ class Auto_main:
 
     def focusIni(self, step = 0):
         """
-
+        Устаналивает фокус либо на первом пустом поле, либо на поле, для которого указан порядковый номер
         :param int step:
         :return:
         """
@@ -52,23 +52,26 @@ class Auto_main:
             elif str(self.Password) == '': self.Password.text_entry.focus_set()
             elif str(self.FIO) == '': self.FIO.text_entry.focus_set()
             elif str(self.Adress) == '': self.Adress.text_entry.focus_set()
+            else: self.Mail.text_entry.focus_set()
         else:
             if step == 1: self.Mail.text_entry.focus_set() # Ставит курсор в указаннное пустое поле
             elif step == 2: self.Password.text_entry.focus_set()
             elif step == 3: self.FIO.text_entry.focus_set()
             elif step == 4: self.Adress.text_entry.focus_set()
 
-    def check_auto(self):  # ----- Авторизация
+    def check_auto(self):  # ----- Если авторизация
         self.probe(1)
-        # self.master.destroy()
 
-    def check_new(self):   # ----- Новый пользователь
+    def check_new(self):   # ----- Если новый пользователь
         self.probe(0)
 
     def probe(self, btn): # ----- Смотрит, введен ли нужный текст и выдает предупреждение
-        """Подпрограмма проверяет все возможные типы ошибок при введении в поля"""
-        try:
-            cursor.execute("SELECT Mail, Pass, FIO, URL_Autor FROM Autor WHERE Mail = '{:s}'".format(str(self.Mail)))  # Пароль по е-мейл
+        """
+        Подпрограмма проверяет все возможные типы ошибок при введении текста в поля,
+        :param int btn:
+        """
+        try: # Считываем из базы все что есть по данному е-мейлу
+            cursor.execute("SELECT Mail, Pass, FIO, URL_Autor FROM Autor WHERE Mail = '{:s}'".format(str(self.Mail)))
             mail_sql = cursor.fetchall()
 
             if mail_sql == []:
@@ -84,42 +87,34 @@ class Auto_main:
         except sqlite3.Error as e:
             messagebox.showinfo("GUI Python", "Ошибка при чтении из базы: '{:s}'".format(e))
 
-        if FALSE:
+        if FALSE: # Это как раз и есть проверка всех полей на корректность заполнения
             pass
-
         elif btn == 0 and (str(self.FIO) == '' or str(self.Mail) == '' or str(self.Password) == '' or str(
                 self.Adress) == ''):
             messagebox.showinfo("GUI Python", "Надо заполнить все поля")
             self.focusIni()
-
         elif btn == 1 and (str(self.Mail) == '' or str(self.Password) == ''):
             messagebox.showinfo("GUI Python", "Надо ввести е-мейл и пароль")
             self.focusIni()
-
         elif not re.fullmatch(r"[\w'._+-]+@[\w'._+-]+[.][\w'._+-]+", str(self.Mail)):
             messagebox.showinfo("GUI Python", "Формат е-мейла неверный.")
             self.focusIni(1)
-
         elif btn == 1 and mail_sql == '':
             messagebox.showinfo("GUI Python", "Пользователя с адресом '{:s}' нет в базе. Вы можете создать нового пользователя.".format(str(self.Mail)))
             self.focusIni(1)
-
         elif btn == 0 and re.search(r"[а-яА-ЯёЁ]", str(self.Adress)):
             messagebox.showinfo("GUI Python", "В адресе не может быть русских букв")
             self.focusIni(4)
-
         elif btn == 1 and password_sql != str(self.Password):
             messagebox.showinfo("GUI Python", "Пароль для данного адреса другой")
             self.Password.text_entry.delete('0', END)
             self.focusIni(2)
-
         elif btn == 0 and mail_sql != '' and password_sql == str(self.Password):
             if self.dopParam('Пользователь с е-мейлом: ' + mail_sql + " уже есть в базе. Хотите авторизоваться?"):
                 btn = 1
                 self.obnovlDan(name_sql, adress_sql, btn)
             else:
                 self.master.destroy()
-
         elif btn == 0:
             password_new = self.openDialog(text = 'Введите пароль еще раз...')
             if password_new != str(self.Password):
@@ -133,7 +128,6 @@ class Auto_main:
 
         elif btn == 1 and (str(self.FIO) != '' or str(self.Adress) != ''):
             self.obnovlDan(name_sql, adress_sql, btn)
-
             # if (name_sql != str(self.FIO) or adress_sql != str(self.Adress)):
             #     question = 'Хотите обновить профиль, изменив'
             #     if name_sql != str(self.FIO):
@@ -147,12 +141,19 @@ class Auto_main:
             #         self.ReturnValue = {'FIO': str(self.FIO), 'Mail': str(self.Mail), 'Password': str(self.Password),
             #                             'Adress': str(self.Adress), 'New': btn}
             #         self.master.destroy()
-        else:
+        else: # В финале возвращаем значения из корректно заполненных полей
             self.ReturnValue = {'FIO': str(self.FIO), 'Mail': str(self.Mail), 'Password': str(self.Password),
                                 'Adress': str(self.Adress), 'New': btn}
             self.master.destroy()
 
     def obnovlDan(self, name_sql, adress_sql, btn):
+        """
+        Вместо создания нового пользователя производит авторизацию, возможно с перезаписью значений в поля
+        :param str name_sql:
+        :param str adress_sql:
+        :param int btn:
+        :return:
+        """
         if (name_sql != str(self.FIO) or adress_sql != str(self.Adress)):
             question = 'Хотите обновить профиль, изменив'
             if name_sql != str(self.FIO):
@@ -168,6 +169,11 @@ class Auto_main:
                 self.master.destroy()
 
     def dopParam(self, text = ''):
+        """
+        Используется для обратного диалога
+        :param str text:
+        :return:
+        """
         self.text = text
         self.dialog = yesno(self.master)
         self.returnValue = self.dialog.go('Вопрос:', self.text, width= 300, height = 120)
@@ -176,12 +182,21 @@ class Auto_main:
             return self.returnValue
 
     def exitMethod(self):
+        """
+        Для проверки готовности выйти
+        :return:
+        """
         self.dialog = yesno(self.master)
         self.returnValue = self.dialog.go('Вопрос:', 'Вы хотите выйти?')
         if self.returnValue:
             self.master.destroy()
 
     def openDialog(self, text):
+        """
+        ?
+        :param str text:
+        :return:
+        """
         self.dialog = dialog(self.master)
         self.returnValue = self.dialog.go(text)
         return self.returnValue
@@ -193,7 +208,16 @@ class Auto_main:
 
 
     class Text_Entry:
+        """
+        Создает пару: подпись и поле для заполнения
+        """
         def __init__(self, message='[имя поля]', pi_y=10, show = '', url = ''):
+            """
+            :param str message:
+            :param int pi_y:
+            :param str show:
+            :param str url:
+            """
             self.name_label = Label(text = message)
             self.name_label.place(relx=.05, y = pi_y, anchor="w")
 
@@ -208,6 +232,9 @@ class Auto_main:
 
 # класс дочернего окна
 class dialog:
+    """
+    Создает дополнительное окно с обратной связью
+    """
     def __init__(self, master, text = ''):
         self.top = Toplevel(master)
         self.top.title('Проверка пароля')
@@ -230,7 +257,11 @@ class dialog:
         #     return self.x.get()
 
     def go(self, myText=''):
-        self.label['text']  = myText
+        """
+        :param str myText:
+        :return: str
+        """
+        self.label['text'] = myText
         self.top.grab_set()
         self.top.focus_set()
         self.text_entry.focus_set()

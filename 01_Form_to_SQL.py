@@ -61,6 +61,8 @@ from Root_text import *
 def one_list(bs, i):
     """
     Считывает данные про работу (автор, цена, материал и т.д.) с одной страницы
+
+    (надо сделать в виде отдельного файла для простоты отладки)
     """
     if 'Работа продана или удалена мастером' in bs.find("li", {"class": "item-info__item"}).text:
         print('Работа продана или удалена мастером')
@@ -110,22 +112,15 @@ def one_list(bs, i):
             print('{0:} из {1:} ---> {2:.2%}'.format((k + 1), len(item_url), (k + 1) / len(item_url)))
         except sqlite3.Error as e:
             print(e, '----------> ?', name)
+
 """
 Основная программа для сбора картинок и информации про работу в базу
 """
 
-# global text
-# text = text_search()
-# print(text)
-# breakpoint()
-
 # text = "ведьма украшение"
 
 root = Tk()
-text = str(main(root))
-# print(text_seach)
-# print(text_seach.sendValue == '')
-
+text = str(main(root)) # Получаем текст для дальнейшего поиска на ЯМ
 if text == '':
     sys.exit()
 
@@ -152,8 +147,6 @@ driver.find_element_by_name("password").send_keys("1970Fortuna")
 driver.find_element_by_name("password").send_keys(Keys.ENTER)
 
 time.sleep(1)
-# text = input('Введите текст для поиска: ')
-
 
 elem = driver.find_element_by_name("search")
 elem.send_keys(text)
@@ -177,10 +170,9 @@ print(kol_znach)
 
 item_collection = bs.findAll("a", { "class" : "js-stat-main-item-title" })
 for el in item_collection:
-    if not ('materialy-dlya-tvorchestva'  or 'vintazh' or 'dlya-ukrashenij') in str(el):# --------- Исключаем матариалы для творчества (можно и другие тоже добавить)
+    if not ('materialy-dlya-tvorchestva'  or 'vintazh' or 'dlya-ukrashenij') in str(el):# --------- Исключаем матариалы для творчества, винтаж и "для украшений" (и другое тоже добавляем, что не может входить в коллекцию)
         item_url.append(str(el).split('href="')[1].split('" itemprop=')[0])
 
-# item_url.append('-----------------------------')
 try:
     driver.find_element_by_class_name("pagebar__page").send_keys(Keys.ENTER)
 except:
@@ -196,7 +188,9 @@ for i in range(1, int(kol_znach/120)+1):
     for el in item_collection:
         if not ('materialy-dlya-tvorchestva' or 'vintazh' or 'dlya-ukrashenij') in str(el): # --------- Исключаем матариалы для творчества (можно и другие тоже добавить)
             item_url.append(str(el).split('href="')[1].split('" itemprop=')[0])
-
+"""
+Выше -- какой-то повтор кода, надо пом с ним разобраться...
+"""
 
 for k, el in enumerate(item_url):
     item = []
@@ -205,45 +199,9 @@ for k, el in enumerate(item_url):
     bs = BeautifulSoup(html, "html.parser")
     one_list(bs, k)
 
-    # try: # Цена
-    #     price = bs.find("span", {"class": "price"}).text
-    #     price = int(''.join(str(re.search(r'.*', price).group(0)).split(' ')[:-1]))
-    # except AttributeError:
-    #     price = 0
-    #     pass
-    #
-    # img_url = bs.find("a", {"class": "photo-switcher__slide--active"}).img  # Получаем и сохраняем картинку для коллекции
-    # img_url = str(img_url).split('src="')[1].split('"')[0]
-    # now_img = 'img/' + str(datetime.datetime.now()) + '.jpg'
-    # urllib.request.urlretrieve(img_url, now_img)
-    #
-    # name = bs.find("a", {"class": "master__name"}).text
-    # name_url = bs.find("a", {"class": "master__name"}).text
-    # counter = bs.find("span", {"class": "item-social-actions__counter"}).text[1:-1]
-    # list_item = bs.findAll("li", {"class": "tag-list__item"})
-    # gallery_all = bs.findAll("span", {"class": "item-social-actions__text"})
-    # link = bs.find("link", {"rel": "canonical"})
-    # url = str(link).split('"')[1]
-    # for el in list_item:
-    #     item.append(el.text[1:-1])
-    #
-    # for el in gallery_all:
-    #     if not el.text.find('Галерея коллекций с работой'):
-    #         gallery = str(el.text).split('(')[1][:-1]
-    #
-    # try:
-    #     cursor.execute("""INSERT INTO 'Items' (
-    #     'Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 'Tags', 'Word_Search', 'Price', 'Name_Img')
-    #         VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:s}', '{:}', '{:s}')
-    #         """.format(name, name_url, url, counter, gallery, ','.join(item), text, price, now_img))
-    #
-    #     SQL_Connect.commit()  # Применение изменений к базе данных
-    #     print('{0:} из {1:} ---> {2:.2%}'.format((i+1), len(item_url), (i+1)/len(item_url)))
-    # except sqlite3.Error as e:
-    #     print(e, '----------> ?', name)
+cursor.close()
+SQL_Connect.close()
 
 # Вы можете прочитать атрибут innerHTML, чтобы получить источник содержимого элемента или outerHTML для источника с текущим элементом.
 # element.get_attribute('innerHTML')
 
-cursor.close()
-SQL_Connect.close()
