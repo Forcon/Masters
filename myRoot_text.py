@@ -33,6 +33,7 @@ class main:
 
         self.text_entry = Entry(self.master, textvariable = self.message)
         self.text_entry.place(relx=.5, rely=.5, anchor="c", width=300)
+        self.text_entry.focus_set()
         self.message_button = Button(self.master, text = "Найти картинки", command = self.show_message)
         self.message_button.place(relx=.85, rely=.5, anchor="c")
 
@@ -45,6 +46,16 @@ class main:
     def show_message(self):  # ----- Смотрит, введен ли текст и
         if self.text_entry.get() == '':
             messagebox.showinfo("GUI Python", "Надо ввести текст для поиска")
+        elif re.search(r"[a-zA-Z]", str(self.text_entry.get())):
+            self.dialog = yesno(self.master)
+            self.returnValue = self.dialog.go('Вопрос:', 'В запросе латинские буквы. Вы уверены?')
+            if self.returnValue:
+                self.sendValue = self.text_entry.get()
+                self.text_entry.delete('0', END)
+                self.master.destroy()
+            else:
+                self.text_entry.delete('0', END)
+                self.text_entry.focus_set()
         else:
             self.sendValue = self.text_entry.get()
             self.text_entry.delete('0', END)
