@@ -12,7 +12,7 @@ import urllib
 import datetime
 from tkinter import *
 from tkinter import messagebox
-from Root_text import *
+from myRoot_text import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
@@ -20,45 +20,7 @@ from Root_text import *
 Основная программа v 2.2 (с окном ввода)
  """
 
-# def clear_text(): # ----- Очищает поле от введенного текста
-#     text_entry.delete(0, END)
-#
-# def show_message(): # ----- Смотрит, введен ли текст и
-#     if text_entry.get() == '':
-#         messagebox.showinfo("GUI Python", "Надо ввести текст для поиска")
-#     else:
-#         # messagebox.showinfo("Начинаем поиск картинок по словосочетанию...", text_entry.get())
-#         text = text_entry.get()
-#         clear_text()
-#         root.destroy()
-#
-# def text_search(): # ----- Создает плашку для ввода текста для поиска
-#     global text_entry
-#     global root
-#     width = 600
-#     height = 100
-#     root = Tk()
-#     width_sc = (root.winfo_screenwidth() - width) // 2
-#     height_sc = (root.winfo_screenheight() - height) // 2
-#
-#     root.title("Отбор картинок в базу")
-#     root.geometry(str(width) + "x" + str(height) + "+" + str(width_sc) + "+" + str(height_sc))
-#
-#
-#     message = StringVar()
-#     name_label = Label(text = 'Введите текст для поиска по "Ярмарке Мастеров":')
-#     name_label.place(relx=.5, rely=.2, anchor="c")
-#
-#     text_entry = Entry(textvariable = message)
-#     text_entry.place(relx=.5, rely=.5, anchor="c", width = 300)
-#
-#     message_button = Button(text="Найти картинки", command = show_message)
-#     message_button.place(relx=.85, rely=.5, anchor="c")
-#     root.mainloop()
-#
-#     return message.get()
-
-def one_list(bs, i):
+def one_list(bs, text, i):
     """
     Считывает данные про работу (автор, цена, материал и т.д.) с одной страницы
 
@@ -109,14 +71,14 @@ def one_list(bs, i):
                            materyal.lower(), size, location))
 
             SQL_Connect.commit()  # Применение изменений к базе данных
-            print('{0:} из {1:} ---> {2:.2%}'.format((k + 1), len(item_url), (k + 1) / len(item_url)))
+            print('{0:} из {1:} ---> {2:.2%}'.format((i + 1), len(item_url), (i + 1) / len(item_url)))
         except sqlite3.Error as e:
             print(e, '----------> ?', name)
 
 """
 Основная программа для сбора картинок и информации про работу в базу
 """
-
+# text = 'птичка сердолик'
 # text = "ведьма украшение"
 
 root = Tk()
@@ -134,7 +96,6 @@ headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) '
 
 # --------- Формирует в базе данные по запросу ключевого слова
 url_list = 'https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from='
-# text = 'птичка сердолик'
 
 # --------- Запуск Firefox
 driver = webdriver.Firefox()
@@ -154,9 +115,13 @@ driver.find_element_by_class_name("ui-search-btn").submit()
 # elem.send_keys(Keys.ENTER)
 time.sleep(3)
 
-# -------- Показываем по 120 на странице
+# -------- Показываем по 120 картинок на странице
 try:
-    Select(driver.find_element_by_name('cnt')).select_by_visible_text('120')
+    driver.find_element_by_id("perPage").click()
+    select = driver.find_elements_by_class_name("js-perpage-btn")
+    for option in select:
+        if option.get_attribute('data-value') == '6':
+            option.click()
 except:
     pass
 
@@ -168,17 +133,19 @@ if bs.find('h1') == 'По данному запросу ничего не най
 kol_znach = int(re.search(r'\s\d+\s', str(re.search(r'По Вашему запросу.+', bs.text)), flags=0).group())
 print(kol_znach)
 
-item_collection = bs.findAll("a", { "class" : "js-stat-main-item-title" })
+# item_collection = bs.findAll("a", { "class" : "js-stat-main-item-title" })
+item_collection = bs.findAll("a", { "class" : "item-block__name" })
+
 for el in item_collection:
     if not ('materialy-dlya-tvorchestva'  or 'vintazh' or 'dlya-ukrashenij') in str(el):# --------- Исключаем матариалы для творчества, винтаж и "для украшений" (и другое тоже добавляем, что не может входить в коллекцию)
-        item_url.append(str(el).split('href="')[1].split('" itemprop=')[0])
+        item_url.append(str(el).split('href="')[1].split('" title')[0])
 
-try:
-    driver.find_element_by_class_name("pagebar__page").send_keys(Keys.ENTER)
+try: # ------- Пролистываем первую страницу
+    driver.find_element_by_class_name("pagebar__arrow--right").click()
 except:
     pass
 
-# --------- Собираем все значения ссылок на работы
+# --------- Собираем все значения ссылок на работы, начиная со второй страницы
 for i in range(1, int(kol_znach/120)+1):
     driver.get(url_list + str(120*i))
     pagesours = driver.page_source
@@ -187,17 +154,14 @@ for i in range(1, int(kol_znach/120)+1):
 
     for el in item_collection:
         if not ('materialy-dlya-tvorchestva' or 'vintazh' or 'dlya-ukrashenij') in str(el): # --------- Исключаем матариалы для творчества (можно и другие тоже добавить)
-            item_url.append(str(el).split('href="')[1].split('" itemprop=')[0])
-"""
-Выше -- какой-то повтор кода, надо пом с ним разобраться...
-"""
+            item_url.append(str(el).split('href="')[1].split('" title')[0])
 
 for k, el in enumerate(item_url):
     item = []
     name_url = 'https://www.livemaster.ru/' + el
     html = urlopen(name_url).read()  # .decode('cp1251')
     bs = BeautifulSoup(html, "html.parser")
-    one_list(bs, k)
+    one_list(bs, text, k)
 
 cursor.close()
 SQL_Connect.close()
