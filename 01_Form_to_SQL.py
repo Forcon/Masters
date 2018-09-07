@@ -1,6 +1,5 @@
 # import requests
 # from urllib.request import urlopen
-# from selenium.webdriver.support.ui import Select
 # from bs4 import BeautifulSoup
 # import ssl
 # import re
@@ -10,6 +9,7 @@
 # from tkinter import *
 # from tkinter import messagebox
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
 from selenium import webdriver
 import time
 from myRoot_text import *
@@ -20,14 +20,17 @@ from myOneSheet import *
 
 Основная программа v 2.3 (с окном ввода)
  """
-text_seach = 'птичка сердолик'
+# text_seach = 'птичка сердолик'
 # text_seach = "ведьма украшение"
 
-# root = Tk()
-# text_seach = str(main(root)) # Получаем текст для дальнейшего поиска на ЯМ
-# if text_seach == '':
-#     sys.exit()
-autor = 'set-bs'
+root = Tk()
+rez_vibor = TextSearсh(root).sendValue # Получаем текст для дальнейшего поиска на ЯМ
+if rez_vibor[1] != '':
+    autor = rez_vibor[1]
+else:
+    autor = ''
+    text_seach = rez_vibor[0]
+
 
 ssl._create_default_https_context = ssl._create_unverified_context
 SQL_Connect = sqlite3.connect('Masters.db')
@@ -65,14 +68,21 @@ else:
     driver.get(url_autor)
 
 # -------- Показываем по 120 картинок на странице
-try:
-    driver.find_element_by_id("perPage").click()
-    select = driver.find_elements_by_class_name("js-perpage-btn")
-    for option in select:
-        if option.get_attribute('data-value') == '6':
-            option.click()
-except:
-    pass
+if autor == '':  # ----- Для данных по ключевым словам
+    try:
+        driver.find_element_by_id("perPage").click()
+        select = driver.find_elements_by_class_name("js-perpage-btn")
+        for option in select:
+            if option.get_attribute('data-value') == '6':
+                option.click()
+    except:
+        pass
+else:
+    try:
+        Select(driver.find_element_by_name('cnt')).select_by_visible_text('120')
+        pass
+    except:
+        pass
 
 pagesours = driver.page_source
 bs = BeautifulSoup(pagesours, "html.parser")#, headers = headers) # ---------- Надо отработать вариант с возможными ошибками (например точно делится на 120, или меньше 40 и т.д.)
@@ -101,6 +111,13 @@ else: # --- Для данных по работам автора
         if not ('materialy-dlya-tvorchestva'  or 'vintazh' or 'dlya-ukrashenij') in str(el):# --------- Исключаем матариалы для творчества, винтаж и "для украшений" (и другое тоже добавляем, что не может входить в коллекцию)
             item_url.append(str(el).split('href="')[1].split('"')[0])
 
+    try:# ------- Пролистываем первую страницу
+        driver.find_element_by_class_name("pagebar__page").send_keys(Keys.ENTER)
+    except:
+        pass
+
+
+breakpoint()
 # --------- Собираем все значения ссылок на работы, начиная со второй страницы (пока без пролистывания по автору)
 for i in range(1, int(kol_znach/120)+1):
     driver.get(url_list + str(120*i))

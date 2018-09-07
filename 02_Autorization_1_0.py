@@ -175,7 +175,7 @@ class Auto_main:
         :return:
         """
         self.text = text
-        self.dialog = yesno(self.master)
+        self.dialog = YesNo(self.master)
         self.returnValue = self.dialog.go('Вопрос:', self.text, width= 300, height = 120)
         if self.returnValue:
             self.master.destroy()
@@ -186,7 +186,7 @@ class Auto_main:
         Для проверки готовности выйти
         :return:
         """
-        self.dialog = yesno(self.master)
+        self.dialog = YesNo(self.master)
         self.returnValue = self.dialog.go('Вопрос:', 'Вы хотите выйти?')
         if self.returnValue:
             self.master.destroy()

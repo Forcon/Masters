@@ -7780,3 +7780,64 @@ JavaScript warning: https://www.livemaster.ru/lib/livemasterjs.js?050920181040, 
 1536329046503	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/set-bs
 1536329120694	Marionette	DEBUG	[4294967323] Frame script loaded
 1536329120782	Marionette	DEBUG	[4294967323] Frame script registered
+1536330073368	geckodriver	INFO	geckodriver 0.20.1
+1536330073464	geckodriver	INFO	Listening on 127.0.0.1:65128
+1536330074436	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.00c5Hp4D4qO0"
+2018-09-07 17:21:17.461 plugin-container[43248:9783325] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x8f3b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-07 17:21:17.978 plugin-container[43249:9783385] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9b37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1536330078252	Marionette	INFO	Listening on port 65145
+1536330078316	Marionette	WARN	TLS certificate errors will be ignored for this session
+1536330078366	Marionette	DEBUG	[4294967297] Frame script loaded
+1536330078371	Marionette	DEBUG	[4294967297] Frame script registered
+1536330078389	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for about:blank
+1536330078677	Marionette	DEBUG	[4294967297] Received DOM event pagehide for about:blank
+2018-09-07 17:21:18.712 plugin-container[43250:9783499] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x923b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript warning: https://www.livemaster.ru/lib/livemasterjs.js?050920181040, line 7: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+1536330081048	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/set-bs
+1536330089772	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967305
+1536330090013	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967316
+1536330090129	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967319
+1536330090758	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/set-bs
+1536330091130	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for https://www.livemaster.ru/set-bs
+1536330091484	Marionette	DEBUG	[4294967297] Received DOM event pagehide for https://www.livemaster.ru/set-bs
+1536330091484	Marionette	DEBUG	[4294967297] Received DOM event unload for https://www.livemaster.ru/set-bs
+JavaScript warning: https://www.livemaster.ru/lib/livemasterjs.js?050920181040, line 7: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+1536330091751	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967301
+1536330091751	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967302
+1536330091752	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967308
+1536330091752	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967310
+1536330091752	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967312
+1536330091753	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967322
+1536330092144	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/set-bs?v=0&sortitems=0&cat=0&cid=0
+1536330093336	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967335
+1536330093533	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967341
+1536330093661	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967344
+1536330168601	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/set-bs?v=0&sortitems=0&cat=0&cid=0
+1536330169299	geckodriver	INFO	geckodriver 0.20.1
+1536330169390	geckodriver	INFO	Listening on 127.0.0.1:65331
+1536330170343	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.po3Ar5vUfm4v"
+2018-09-07 17:22:53.559 plugin-container[43266:9784677] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9d37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-07 17:22:53.846 plugin-container[43267:9784704] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9a33, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1536330174199	Marionette	INFO	Listening on port 65343
+1536330174215	Marionette	WARN	TLS certificate errors will be ignored for this session
+1536330174268	Marionette	DEBUG	[4294967297] Frame script loaded
+1536330174269	Marionette	DEBUG	[4294967297] Frame script registered
+1536330174296	Marionette	INFO	Stopped listening on port 65145
+1536330174319	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for about:blank
+1536330174730	Marionette	DEBUG	[4294967297] Received DOM event pagehide for about:blank
+JavaScript warning: https://www.livemaster.ru/lib/livemasterjs.js?050920181040, line 7: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+2018-09-07 17:22:55.060 plugin-container[43268:9784848] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x933b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1536330177522	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/set-bs
+1536330181773	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967313
+1536330181887	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967318
+1536330182266	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/set-bs
+JavaScript warning: https://www.livemaster.ru/lib/livemasterjs.js?050920181040, line 7: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+2018-09-07 17:29:11.960 plugin-container[43305:9788664] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9633, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1536346391198	Marionette	INFO	Stopped listening on port 65343

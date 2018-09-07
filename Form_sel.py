@@ -12,7 +12,7 @@ import sqlite3
 from myRoot_text import *
 
 """
-Предварительная версия программы для записи данных в коллекцию (?)
+Предварительная версия программы для записи данных в коллекцию на моей странице(?)
 """
 
 ssl._create_default_https_context = ssl._create_unverified_context # Использование ssl
