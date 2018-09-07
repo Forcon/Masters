@@ -6,14 +6,14 @@ from tkinter import *
 import tkinter as tk
 
 """
-Диалоговре окно выхода
+Диалоговое окно типа да/нет
 """
 
 # класс диалогового окна выхода
-class yesno:
+class YesNo:
     def __init__(self, master):
         self.slave = Toplevel(master)
-        self.frame = Frame(self.slave)
+        self.frame = Frame(self.slave)#, bg = 'LightGray')
 
         self.frame.pack(side = BOTTOM)
         self.yes_button = Button(self.frame, text='Да', command = self.yes, width=5, height=2)
@@ -21,14 +21,13 @@ class yesno:
         self.no_button = Button(self.frame, text='Нет', command = self.no, width=5, height=2)
         self.no_button.pack(side = RIGHT, pady = 5)
 
-        self.message = Message(self.slave, bg = 'LightGray')
-        self.message.pack(side = TOP, fill = BOTH, expand = TRUE)
+        self.message = Message(self.slave, aspect = 400)
+        self.message.pack(side = TOP, fill = BOTH, expand = YES)
         self.slave.protocol('WM_DELETE_WINDOW', self.no)
 
     def go(self, title='Question', message = '[question goes here]', width = 200, height = 80):#, geometry='200x70+300+265'):
         self.slave.title(title)
         self.slave.geometry(Center_widows(width, height))
-        # self.slave.geometry(geometry)
         self.message.configure(text = message)
         self.booleanValue = TRUE
         self.slave.grab_set()
@@ -64,7 +63,7 @@ if __name__ == '__main__':
     root = Tk()
     root.overrideredirect(1)
     root.withdraw()
-    myTest = yesno(root)
+    myTest = YesNo(root)
     if myTest.go(message = 'Is it working?'):
       print('Yes')
     else:
