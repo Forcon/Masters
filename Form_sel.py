@@ -9,7 +9,7 @@ from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
 import sqlite3
-from Root_text import *
+from myRoot_text import *
 
 """
 Предварительная версия программы для записи данных в коллекцию (?)

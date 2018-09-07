@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 import ssl
 import sqlite3
 from tkinter import *
-from Root_text import *
+from myRoot_text import *
 
 """
 Авторизуется на сайте и заполняет коллекцию работами из базы + добавляет список тегов
