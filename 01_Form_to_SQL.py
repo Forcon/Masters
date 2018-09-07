@@ -1,93 +1,25 @@
-import requests
-from urllib.request import urlopen
+# import requests
+# from urllib.request import urlopen
+# from selenium.webdriver.support.ui import Select
+# from bs4 import BeautifulSoup
+# import ssl
+# import re
+# import sqlite3
+# import urllib
+# import datetime
+# from tkinter import *
+# from tkinter import messagebox
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
 from selenium import webdriver
-from bs4 import BeautifulSoup
-import ssl
-import re
 import time
-import sqlite3
-import urllib
-import datetime
-from tkinter import *
-from tkinter import messagebox
 from myRoot_text import *
 from myOneSheet import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
 
-Основная программа v 2.2 (с окном ввода)
+Основная программа v 2.3 (с окном ввода)
  """
-#
-# def one_list(text, name_url, i, len_mas = 1):
-#     """
-#
-#     :param str text:
-#     :param str name_url:
-#     :param int i:
-#     :param int len_mas:
-#     Считывает данные про работу (автор, цена, материал и т.д.) с одной страницы
-#
-#     (надо сделать в виде отдельного файла для простоты отладки)
-#     """
-#     item = []
-#     html = urlopen(name_url).read()  # .decode('cp1251')
-#     bs = BeautifulSoup(html, "html.parser")
-#
-#     if 'Работа продана или удалена мастером' in bs.find("li", {"class": "item-info__item"}).text:
-#         print('Работа продана или удалена мастером')
-#
-#     else:
-#         img_url = bs.find("a", {"class": "photo-switcher__slide--active"}).img  # Cохраняем картинку для коллекции
-#         img_url = str(img_url).split('src="')[1].split('"')[0]
-#         now_img = 'img/' + str(datetime.datetime.now()) + '.jpg'
-#         urllib.request.urlretrieve(img_url, now_img)
-#
-#         try:
-#             price = bs.find("span", {"class": "price"}).text
-#             price = ''.join(str(re.search(r'.*', price).group(0)).split(' ')[:-1])
-#         except AttributeError:
-#             price = 0
-#             pass
-#
-#         name = bs.find("a", {"class": "master__name"}).text
-#         name_url = bs.find("a", {"class": "master__name"})
-#         counter = bs.find("span", {"class": "item-social-actions__counter"}).text[1:-1]
-#         list_item = bs.findAll("li", {"class": "tag-list__item"})
-#         gallery_all = bs.findAll("span", {"class": "item-social-actions__text"})
-#         link = bs.find("link", {"rel": "canonical"})
-#         materyal = bs.find("span", {"class": "js-translate-item-materials"}).text
-#         materyal = "".join([i for i in materyal if i.isalnum() or i == ' ' or i == ','])
-#         materyal = materyal.replace(', ', ',')
-#         size = bs.find("span", {"class": "js-translate-item-size"}).text
-#         location = bs.find("div", {"class": "master__location"}).text
-#
-#         for el in list_item:
-#             item.append(el.text[1:-1])
-#         name_url = 'https://www.livemaster.ru/' + str(name_url).split('href="')[1].split('">')[0]
-#         url = str(link).split('"')[1]
-#
-#         for el in gallery_all:
-#             if not el.text.find('Галерея коллекций с работой'):
-#                 gallery = str(el.text).split('(')[1][:-1]
-#
-#         try:
-#             cursor.execute("""INSERT INTO 'Items' (
-#             'Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 'Tags', 'Word_Search', 'Price', 'Name_Img', 'Material', 'Size', 'Location')
-#                 VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:s}', '{:}', '{:s}', '{:s}', '{:s}', '{:s}')
-#                 """.format(name, name_url, url, counter, gallery, ','.join(item).lower(), text, price, now_img,
-#                            materyal.lower(), size, location))
-#
-#             SQL_Connect.commit()  # Применение изменений к базе данных
-#             print('{0:} из {1:} ---> {2:.2%}'.format((i + 1), len_mas, (i + 1) / len_mas))
-#         except sqlite3.Error as e:
-#             print(e, '----------> ?', name)
-
-"""
-Основная программа для сбора картинок и информации про работу в базу
-"""
 # text = 'птичка сердолик'
 # text = "ведьма украшение"
 
@@ -177,22 +109,9 @@ for k, el in enumerate(item_url):
                        baze[9], baze[10], baze[11]))
 
         SQL_Connect.commit()  # Применение изменений к базе данных
-        print('{0:} : {1:} из {2:} ---> {3:.2%}'.format(baze[0], (k + 1), len(item_url), (k + 1) / len(item_url)))
+        print(f"{baze[0]}: {k + 1} из {len(item_url)} ---> {k + 1 / len(item_url):.2%}")
     except sqlite3.Error as e:
         print(e, '----------> ?', baze[0])
-
-    #
-    # try:
-    #     cursor.execute("""INSERT INTO 'Items' (
-    #     'Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 'Tags', 'Word_Search', 'Price', 'Name_Img', 'Material', 'Size', 'Location')
-    #         VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:s}', '{:}', '{:s}', '{:s}', '{:s}', '{:s}')
-    #         """.format(name, name_url, url, counter, gallery, ','.join(item).lower(), text, price, now_img,
-    #                    materyal.lower(), size, location))
-    #
-    #     SQL_Connect.commit()  # Применение изменений к базе данных
-    #     print('{0:} : {1:} из {2:} ---> {3:.2%}'.format(name, (i + 1), len_mas, (i + 1) / len_mas))
-    # except sqlite3.Error as e:
-    #     print(e, '----------> ?', name)
 
 cursor.close()
 SQL_Connect.close()

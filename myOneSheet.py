@@ -8,13 +8,10 @@ import sqlite3
 
 def one_list(text, name_url):
     """
-    Считывает данные про работу (автор, цена, материал и т.д.) с одной страницы
+    Считывает данные про работу (автор, цена, материал и т.д.) с одной страницы,
     :param str text:
     :param str name_url:
     """
-    # SQL_Connect = sqlite3.connect('Masters.db')
-    # cursor = SQL_Connect.cursor()
-
     item = []
     html = urlopen(name_url).read()  # .decode('cp1251')
     bs = BeautifulSoup(html, "html.parser")
@@ -58,21 +55,6 @@ def one_list(text, name_url):
 
         return (name, name_url, url, counter, gallery, ','.join(item).lower(), text, price, now_img, materyal.lower(), size, location)
 
-        # try:
-        #     cursor.execute("""INSERT INTO 'Items' (
-        #     'Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 'Tags', 'Word_Search', 'Price', 'Name_Img', 'Material', 'Size', 'Location')
-        #         VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:s}', '{:}', '{:s}', '{:s}', '{:s}', '{:s}')
-        #         """.format(name, name_url, url, counter, gallery, ','.join(item).lower(), text, price, now_img,
-        #                    materyal.lower(), size, location))
-        #
-        #     SQL_Connect.commit()  # Применение изменений к базе данных
-        #     print('{0:} : {1:} из {2:} ---> {3:.2%}'.format(name, (i + 1), len_mas, (i + 1) / len_mas))
-        # except sqlite3.Error as e:
-        #     print(e, '----------> ?', name)
-
-        # cursor.close()
-        # SQL_Connect.close()
-
 # тестовая команда
 if __name__ == '__main__':
     ssl._create_default_https_context = ssl._create_unverified_context
@@ -89,6 +71,7 @@ if __name__ == '__main__':
     bs = BeautifulSoup(html, "html.parser")
 
     baze = one_list(text, name_url) # ------- Сама программа -----------
+    k = 0
 
     try:
         cursor.execute("""INSERT INTO 'Items' (
@@ -98,8 +81,10 @@ if __name__ == '__main__':
                        baze[9], baze[10], baze[11]))
 
         SQL_Connect.commit()  # Применение изменений к базе данных
-        print('{0:} : {1:} из {2:} ---> {3:.2%}'.format(baze[0], (0 + 1), 1, (0 + 1) / 1))
+        print(f"{baze[0]}: {k + 1} из {1} ---> {k + 1 / 1:.2%}")
+        # print('{0:} : {1:} из {2:} ---> {3:.2%}'.format(baze[0], (0 + 1), 1, (0 + 1) / 1))
     except sqlite3.Error as e:
         print(e, '----------> ?', baze[0])
+
     cursor.close()
     SQL_Connect.close()

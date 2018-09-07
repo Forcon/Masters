@@ -7614,3 +7614,7 @@ See /usr/include/servers/bootstrap_defs.h for the error codes.
 JavaScript warning: https://www.livemaster.ru/dist/vendor.6743435c.js, line 1: Error: WebGL warning: Disallowing antialiased backbuffers due to blacklisting.
 JavaScript warning: https://www.livemaster.ru/dist/vendor.6743435c.js, line 1: Error: WebGL warning: Disallowing antialiased backbuffers due to blacklisting.
 JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+
+###!!! [Child][RunMessage] Error: Channel closing: too late to send/recv, messages will be lost
+
+1536316884496	Marionette	INFO	Stopped listening on port 60015
