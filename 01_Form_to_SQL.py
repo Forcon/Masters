@@ -83,8 +83,8 @@ def reseach_item(text_seach):  # ----- Для данных по ключевым
         messagebox.showinfo("GUI Python", "По этому запросу ничего не найдено, попробуйте его переформулировать")
         exit()
 
-    kol_znach = int(re.search(r'\s\d+\s', str(re.search(r'По Вашему запросу.+', bs.text)), flags=0).group())
-    print(f"По Вашему запросу найдено {kol_znach} работ")
+    # kol_znach = int(re.search(r'\s\d+\s', str(re.search(r'По Вашему запросу.+', bs.text)), flags=0).group())
+    # print(f"По Вашему запросу найдено работ: {kol_znach}")
 
     iteration = True
     while iteration:
@@ -117,30 +117,45 @@ ssl._create_default_https_context = ssl._create_unverified_context
 driver = webdriver.Firefox()
 
 item_url_spisok = []
+autor_name = 'forcon'
 
 root = Tk()
 rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
-text_seach = rez_vibor[1] if rez_vibor[1] != '' else reseach_item(rez_vibor[0])
+text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
 item_url_spisok = autor_item(text_seach) if rez_vibor[1] != '' else reseach_item(text_seach)
 
+# text_seach = 'Птичка сердолик'
+# item_url_spisok = reseach_item(text_seach)
+
 # ----- Проходим по каждой странице, собраем данные, записываем в базу
-print(f"В базу будет внесено {len(item_url_spisok)} работ\n")
+kol_rab = len(item_url_spisok)
+rab_autor = 0
+print(f"Обрабатываются работы для внесения в базу: {kol_rab}\n")
+
 for k, el in enumerate(item_url_spisok):
     name_url = URL_JM + el
-    baze = one_list(text_seach, name_url)
+    baze = one_list(name_url, autor_name) # Сбор данных со страницы с работой
 
-    try:
-        cursor.execute("""INSERT INTO 'Items' (
-            'Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 'Tags', 'Word_Search', 'Price', 'Name_Img', 'Material', 'Size', 'Location') 
-            VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:s}', '{:}', '{:s}', '{:s}', '{:s}', '{:s}')
-            """.format(baze[0], baze[1], baze[2], baze[3], baze[4], baze[5], baze[6], baze[7], baze[8],
-                       baze[9], baze[10], baze[11]))
+    if baze[0]:
+        try:
+            cursor.execute("""INSERT INTO 'Items' ('Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 
+                'Tags', 'Price', 'Name_Img', 'Material', 'Size', 'Location', 'Word_Search') 
+                VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:s}', '{:s}')
+                """.format(baze[1], baze[2], baze[3], baze[4], baze[5], baze[6], baze[7], baze[8], baze[9],
+                           baze[10], baze[11], text_seach))
 
-        SQL_Connect.commit()  # Применение изменений к базе данных
-        print(f"{baze[0]}: {k + 1} из {len(item_url_spisok)} ---> {k + 1 / len(item_url_spisok):.2%}")
-    except sqlite3.Error as e:
-        print(e, '----------> ?', baze[0])
+            SQL_Connect.commit()  # Применение изменений к базе данных
+            print(f"{baze[0]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
+        except sqlite3.Error as e:
+            print(e, '----------> ?', baze[0])
+    elif baze[1] == 'Ваша работа':
+        rab_autor += 1
+        print(f"===> Вашу работу не записываем, будет сохранено работ: {kol_rab - rab_autor}")
+    elif baze[1] == 'Работа удалена':
+        rab_autor += 1
+        print(f"===> Работа {baze[2]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
 
+print(f"Всего в базу внесено: {kol_rab - rab_autor} работ")
 cursor.close()
 SQL_Connect.close()
 
