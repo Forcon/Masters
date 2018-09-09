@@ -211,7 +211,8 @@ class Auto_main:
         """
         Создает пару: подпись и поле для заполнения
         """
-        def __init__(self, message='[имя поля]', pi_y=10, show = '', url = ''):
+
+        def __init__(self, message='[имя поля]', pi_y=10, show='', url=''):
             """
             :param str message:
             :param int pi_y:
@@ -219,13 +220,13 @@ class Auto_main:
             :param str url:
             """
             self.name_label = Label(text = message)
-            self.name_label.place(relx=.05, y = pi_y, anchor="w")
+            self.name_label.place(relx=.05, y=pi_y, anchor="w")
 
             self.x = StringVar()
-            self.text_entry = Entry(textvariable = self.x , show = show)
+            self.text_entry = Entry(textvariable=self.x, show=show)
             self.url = url
             self.text_entry.insert(END, self.url)
-            self.text_entry.place(relx=.5, y = pi_y, anchor="c", width=300)
+            self.text_entry.place(relx=.5, y=pi_y, anchor="c", width=300)
 
         def __str__(self):
             return self.x.get()[len(self.url):]
@@ -235,13 +236,14 @@ class dialog:
     """
     Создает дополнительное окно с обратной связью
     """
-    def __init__(self, master, text = ''):
+
+    def __init__(self, master, text=''):
         self.top = Toplevel(master)
         self.top.title('Проверка пароля')
         self.top.geometry(Center_widows(390, 100))  # Располагает по центру страницы
         # self.frame = Frame(self.top)
         # self.frame.pack(side=BOTTOM)
-        self.label = Label(self.top, text = text)
+        self.label = Label(self.top, text=text)
         self.label.place(relx=.5, y=20, anchor="c")
 
         self.yes_button = Button(self.top, text='Подтвердить', command = self.cancel)
@@ -249,7 +251,7 @@ class dialog:
 
         self.x = StringVar()
         self.text_entry = Entry(self.top, textvariable = self.x, show='*')
-        self.text_entry.place(x = 15, y = 50, anchor="w", width=250)
+        self.text_entry.place(x=15, y=50, anchor="w", width=250)
 
         self.top.protocol('WM_DELETE_WINDOW', self.cancel)
 
