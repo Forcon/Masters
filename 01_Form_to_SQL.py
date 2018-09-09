@@ -13,7 +13,8 @@ from selenium.webdriver.support.ui import Select
 from selenium import webdriver
 import time
 from myRoot_text import *
-from myOneSheet import *
+from defOneSheet_1 import *
+from defBlackAutor_1 import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
@@ -118,23 +119,25 @@ driver = webdriver.Firefox()
 
 item_url_spisok = []
 autor_name = 'forcon'
+#
+# root = Tk()
+# rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
+# text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
+# item_url_spisok = autor_item(text_seach) if rez_vibor[1] != '' else reseach_item(text_seach)
 
-root = Tk()
-rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
-text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
-item_url_spisok = autor_item(text_seach) if rez_vibor[1] != '' else reseach_item(text_seach)
-
-# text_seach = 'Птичка сердолик'
-# item_url_spisok = reseach_item(text_seach)
+text_seach = 'Птичка сердолик'
+item_url_spisok = reseach_item(text_seach)
 
 # ----- Проходим по каждой странице, собраем данные, записываем в базу
 kol_rab = len(item_url_spisok)
 rab_autor = 0
 print(f"Обрабатываются работы для внесения в базу: {kol_rab}\n")
+autor_black = []
+autor_black = black_url(autor_name)
 
 for k, el in enumerate(item_url_spisok):
     name_url = URL_JM + el
-    baze = one_list(name_url, autor_name) # Сбор данных со страницы с работой
+    baze = one_list(name_url, autor_name, autor_black) # Сбор данных со страницы с работой
 
     if baze[0]:
         try:
@@ -145,12 +148,15 @@ for k, el in enumerate(item_url_spisok):
                            baze[10], baze[11], text_seach))
 
             SQL_Connect.commit()  # Применение изменений к базе данных
-            print(f"{baze[0]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
+            print(f"{baze[1]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
         except sqlite3.Error as e:
             print(e, '----------> ?', baze[0])
     elif baze[1] == 'Ваша работа':
         rab_autor += 1
         print(f"===> Вашу работу не записываем, будет сохранено работ: {kol_rab - rab_autor}")
+    elif baze[1] == 'Черный список':
+        rab_autor += 1
+        print(f"===> Автор {baze[2]} в исключениях, будет сохранено работ: {kol_rab - rab_autor}")
     elif baze[1] == 'Работа удалена':
         rab_autor += 1
         print(f"===> Работа {baze[2]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
