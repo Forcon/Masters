@@ -13,8 +13,8 @@ from selenium.webdriver.support.ui import Select
 from selenium import webdriver
 import time
 from myRoot_text import *
-from defOneSheet_1 import *
-from defBlackAutor_1 import *
+from def_01_OneSheet import *
+from def_01_BlackAutor import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
@@ -140,17 +140,34 @@ for k, el in enumerate(item_url_spisok):
     baze = one_list(name_url, autor_name, autor_black) # Сбор данных со страницы с работой
 
     if baze[0]:
-        try:
+        try: # ---- Записываем данные со страницы
             cursor.execute("""INSERT INTO 'Items' ('Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 
                 'Tags', 'Price', 'Name_Img', 'Material', 'Size', 'Location', 'Word_Search') 
                 VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:s}', '{:s}')
                 """.format(baze[1], baze[2], baze[3], baze[4], baze[5], baze[6], baze[7], baze[8], baze[9],
                            baze[10], baze[11], text_seach))
-
             SQL_Connect.commit()  # Применение изменений к базе данных
+
             print(f"{baze[1]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
         except sqlite3.Error as e:
             print(e, '----------> ?', baze[0])
+
+        try: # ---- Для этой вещи получаем данные про то, какие пользователи эту картинку уже использовали
+            cursor.execute("""SELECT Coll_User FROM Items WHERE Url_Item = '{:s}'""".format(baze[3]))
+            autor_list = str(cursor.fetchall()[0][0])
+        except sqlite3.Error as e:
+            print(e, '----------> ?')
+
+        if not autor_name in autor_list:
+            # ---- Записываем обновленные данные о том, что и этот пользователь отобрал вещь в коллекцию
+            new_list = ('' if (autor_list == '' or autor_list == 'None') else autor_list + ',') + autor_name
+            try:
+                cursor.execute("""UPDATE Items set Coll_User = '{:s}' 
+                               WHERE (Url_Item = '{:s}')""".format(new_list, baze[3]))
+                SQL_Connect.commit()  # Применение изменений к базе данных
+            except sqlite3.Error as e:
+                print(e, '----------> ?')
+
     elif baze[1] == 'Ваша работа':
         rab_autor += 1
         print(f"===> Вашу работу не записываем, будет сохранено работ: {kol_rab - rab_autor}")
@@ -167,4 +184,6 @@ SQL_Connect.close()
 
 # Вы можете прочитать атрибут innerHTML, чтобы получить источник содержимого элемента или outerHTML для источника с текущим элементом.
 # element.get_attribute('innerHTML')
+
+#
 
