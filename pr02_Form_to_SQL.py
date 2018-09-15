@@ -12,9 +12,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 from selenium import webdriver
 import time
-from myRoot_text import *
-from def_01_OneSheet import *
-from def_01_BlackAutor import *
+from my_02_TextSeach import *
+from def_02_OneSheet import *
+from def_02_BlackAutor import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
@@ -120,10 +120,10 @@ driver = webdriver.Firefox()
 item_url_spisok = []
 autor_name = 'forcon'
 #
-# root = Tk()
-# rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
-# text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
-# item_url_spisok = autor_item(text_seach) if rez_vibor[1] != '' else reseach_item(text_seach)
+root = Tk()
+rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
+text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
+item_url_spisok = autor_item(text_seach) if rez_vibor[1] != '' else reseach_item(text_seach)
 
 text_seach = 'Птичка сердолик'
 item_url_spisok = reseach_item(text_seach)
