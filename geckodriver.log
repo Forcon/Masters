@@ -9397,3 +9397,112 @@ See /usr/include/servers/bootstrap_defs.h for the error codes.
 1537190993780	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967323
 1537190993947	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
 1537190995680	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+1537196467842	geckodriver	INFO	geckodriver 0.20.1
+1537196467963	geckodriver	INFO	Listening on 127.0.0.1:64171
+1537196468770	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.WJ2t5tLyw6Ym"
+2018-09-17 18:01:11.726 plugin-container[20834:1797988] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9b37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 18:01:12.092 plugin-container[20835:1798036] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9a37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537196472607	Marionette	INFO	Listening on port 64182
+1537196472648	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537196472711	Marionette	DEBUG	[4294967297] Frame script loaded
+1537196472712	Marionette	DEBUG	[4294967297] Frame script registered
+2018-09-17 18:01:12.860 plugin-container[20836:1798136] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x922f, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537196472903	Marionette	INFO	Stopped listening on port 62719
+1537196472944	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for about:blank
+1537196473341	Marionette	DEBUG	[4294967297] Received DOM event pagehide for about:blank
+1537196475199	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/
+1537196478465	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967311
+1537196478777	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/
+1537196482578	Marionette	DEBUG	[4294967297] Canceled page load listener because no navigation has been detected
+1537196482909	Marionette	DEBUG	[4294967297] Canceled page load listener because no navigation has been detected
+1537196484311	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537196484974	Marionette	DEBUG	[4294967297] Received DOM event pagehide for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537196484975	Marionette	DEBUG	[4294967297] Received DOM event unload for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537196485147	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967318
+1537196485147	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967320
+1537196485148	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967322
+1537196485148	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967323
+1537196485331	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
+1537196487458	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
+1537196681319	Marionette	INFO	Stopped listening on port 64182
+1537197115426	geckodriver	INFO	geckodriver 0.20.1
+1537197115505	geckodriver	INFO	Listening on 127.0.0.1:64557
+1537197116502	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.hdFPewaaiYeR"
+2018-09-17 18:11:58.742 plugin-container[20988:1804394] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9d37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 18:11:59.010 plugin-container[20989:1804430] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x992f, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537197119258	Marionette	INFO	Listening on port 64568
+1537197119313	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537197119361	Marionette	DEBUG	[4294967297] Frame script loaded
+1537197119363	Marionette	DEBUG	[4294967297] Frame script registered
+1537197119382	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for about:blank
+2018-09-17 18:11:59.719 plugin-container[20990:1804532] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9333, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537197119825	Marionette	DEBUG	[4294967297] Received DOM event pagehide for about:blank
+1537197121581	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/
+1537197130019	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967309
+1537197130133	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967311
+1537197132288	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/
+1537197136869	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967326
+1537197136924	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967328
+1537197137050	Marionette	DEBUG	[4294967297] Canceled page load listener because no navigation has been detected
+1537197137390	Marionette	DEBUG	[4294967297] Canceled page load listener because no navigation has been detected
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+1537197381469	geckodriver	INFO	geckodriver 0.20.1
+1537197381547	geckodriver	INFO	Listening on 127.0.0.1:64858
+1537197382579	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.K1TmEIlT4v7P"
+2018-09-17 18:16:27.295 plugin-container[21019:1806729] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9d33, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 18:16:27.658 plugin-container[21020:1806775] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x932b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537197388709	Marionette	INFO	Listening on port 64869
+2018-09-17 18:16:28.764 plugin-container[21022:1806870] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9433, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537197388813	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537197388864	Marionette	DEBUG	[4294967297] Frame script loaded
+1537197388995	Marionette	DEBUG	[4294967297] Frame script registered
+1537197389015	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for about:blank
+1537197389291	Marionette	DEBUG	[4294967297] Received DOM event pagehide for about:blank
+1537197391150	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/
+1537197397487	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/
+1537197401800	Marionette	DEBUG	[4294967297] Canceled page load listener because no navigation has been detected
+1537197403113	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537197403690	Marionette	DEBUG	[4294967297] Received DOM event pagehide for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537197403691	Marionette	DEBUG	[4294967297] Received DOM event unload for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537197403856	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967318
+1537197403856	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967320
+1537197403857	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967321
+1537197403857	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967324
+1537197404006	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=40
+1537197405365	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=40
+1537197406116	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=40
+1537197406493	Marionette	DEBUG	[4294967297] Received DOM event pagehide for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=40
+1537197406494	Marionette	DEBUG	[4294967297] Received DOM event unload for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=40
+1537197406665	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967333
+1537197406665	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967335
+1537197406665	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967337
+1537197406665	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967339
+1537197406914	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=80
+1537197407815	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=80
+1537197408608	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=80
+1537197408914	Marionette	DEBUG	[4294967297] Received DOM event pagehide for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=80
+1537197408915	Marionette	DEBUG	[4294967297] Received DOM event unload for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=80
+1537197409083	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967348
+1537197409083	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967350
+1537197409083	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967352
+1537197409084	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967354
+1537197409316	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
+1537197410213	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+JavaScript warning: https://www.livemaster.ru/lib/livemasterjs.js?140920181040, line 7: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+1537199012318	Marionette	INFO	Stopped listening on port 64869
+1537199014670	Marionette	INFO	Stopped listening on port 64568

@@ -8,13 +8,15 @@
 # import datetime
 # from tkinter import *
 # from tkinter import messagebox
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.ui import Select
-from selenium import webdriver
+import os
 import time
-from my_02_TextSeach import *
-from def_02_OneSheet import *
+
+from selenium import webdriver
+from selenium.webdriver.support.ui import Select
+
 from def_02_BlackAutor import *
+from def_02_OneSheet import *
+from my_02_TextSeach import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
@@ -118,7 +120,7 @@ def read_JM(autor_name):
     ssl._create_default_https_context = ssl._create_unverified_context
 
 
-    item_url_spisok = []
+
     # autor_name = 'forcon'
     #
     app = TextSearсh()
@@ -129,6 +131,7 @@ def read_JM(autor_name):
     # rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
     text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
     driver = webdriver.Firefox()
+    # item_url_spisok = []
     item_url_spisok = autor_item(driver, text_seach) if rez_vibor[1] != '' else reseach_item(driver, text_seach)
 
     # text_seach = 'Птичка сердолик'
@@ -146,6 +149,18 @@ def read_JM(autor_name):
         baze = one_list(name_url, autor_name, autor_black) # Сбор данных со страницы с работой
 
         if baze[0]:
+            try: # Проверяем наличие этой раюоты у нас в базе
+                cursor.execute("""SELECT Name_Img FROM Items WHERE Url_Item = '{:s}'""".format(baze[3]))
+                img_name = cursor.fetchall()
+                if img_name == []:
+                    pass
+                else:
+                    try:
+                        os.remove(str(os.getcwd() + '/' + img_name[0][0]))
+                    except:
+                        pass
+            except sqlite3.Error as e:
+                print(e, '----------> ?', baze[0])
             try: # ---- Записываем данные со страницы
                 cursor.execute("""INSERT INTO 'Items' ('Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 
                     'Tags', 'Price', 'Name_Img', 'Material', 'Size', 'Location', 'Word_Search') 
@@ -182,7 +197,8 @@ def read_JM(autor_name):
             print(f"===> Автор {baze[2]} в исключениях, будет сохранено работ: {kol_rab - rab_autor}")
         elif baze[1] == 'Работа удалена':
             rab_autor += 1
-            print(f"===> Работа {baze[2]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
+            print(f"===> Работа {baze[3]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
+            # надо добавить проверку наличия такой раюоты у нас в базе и ее удаление, если есть
 
     print(f"Всего в базу внесено работ: {kol_rab - rab_autor}")
     cursor.close()

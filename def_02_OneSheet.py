@@ -1,10 +1,11 @@
-from bs4 import BeautifulSoup
-from urllib.request import urlopen
-import urllib
 import datetime
 import re
-import ssl
 import sqlite3
+import ssl
+import urllib
+from urllib.request import urlopen
+
+from bs4 import BeautifulSoup
 
 URL_JM = 'https://www.livemaster.ru/'
 
@@ -30,13 +31,13 @@ def one_list(name_url, autor_name, black_autor):
 
     if 'Работа продана или удалена мастером' in bs.find("li", {"class": "item-info__item"}).text:
         print('Работа продана или удалена мастером')
-        return (False, 'Работа удалена', name)
+        return (False, 'Работа удалена', name_url, name)
 
     else:
         img_url = bs.find("a", {"class": "photo-switcher__slide--active"}).img  # Cохраняем картинку для коллекции
         img_url = str(img_url).split('src="')[1].split('"')[0]
-        now_img = 'img/' + str(datetime.datetime.now()) + '.jpg'
-        urllib.request.urlretrieve(img_url, now_img)
+        now_img = 'img/' + str(datetime.datetime.now()).replace('.', '_').replace(':', '_') + '.jpg'
+        urllib.request.urlretrieve(img_url, now_img) # Записали на диск
 
         try:
             price = bs.find("span", {"class": "price"}).text
