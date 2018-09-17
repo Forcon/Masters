@@ -12,7 +12,10 @@ import tkinter as tk
 
 class InformWin:
     def __init__(self, title='Сообщение', message='', fg='black', width=250, height=80):
-        self.inform = Toplevel()
+        root = Tk() # ---- Можно ли без открытия окна?
+        root.withdraw()
+
+        self.inform = Toplevel(root)
         self.inform.title(title)
         if (7 * len(message)) > width: width = 7 * len(message)
         self.inform.geometry(Center_widows(width, height))
@@ -33,9 +36,11 @@ class InformWin:
         # self.inform.focus_set()
         self.button.focus_set()
         self.inform.wait_window()
+        root.destroy()
 
     def close(self):
         self.inform.destroy()
+        #
 
 """
 Диалоговое окно типа да/нет

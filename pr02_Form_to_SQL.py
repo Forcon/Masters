@@ -22,7 +22,7 @@ from def_02_BlackAutor import *
  """
 URL_JM = 'https://www.livemaster.ru/'
 
-def autor_item(url_autor):  # --- Для данных по работам автора
+def autor_item(driver, url_autor):  # --- Для данных по работам автора
     item_url = []
     driver.get(URL_JM + url_autor)
 
@@ -53,7 +53,7 @@ def autor_item(url_autor):  # --- Для данных по работам авт
     return item_url
 
 
-def reseach_item(text_seach):  # ----- Для данных по ключевым словам
+def reseach_item(driver, text_seach):  # ----- Для данных по ключевым словам
     item_url = []
     driver.get(URL_JM)
     # ---- Авторизация на сайте (если нужна) ------
@@ -109,78 +109,90 @@ def reseach_item(text_seach):  # ----- Для данных по ключевым
 
 
 # ==================== Главная программа ===================
+def read_JM(autor_name):
 
-SQL_Connect = sqlite3.connect('Masters.db')
-cursor = SQL_Connect.cursor()
+    SQL_Connect = sqlite3.connect('Masters.db')
+    cursor = SQL_Connect.cursor()
 
-# --------- Запуск Firefox
-ssl._create_default_https_context = ssl._create_unverified_context
-driver = webdriver.Firefox()
+    # --------- Запуск Firefox
+    ssl._create_default_https_context = ssl._create_unverified_context
 
-item_url_spisok = []
-autor_name = 'forcon'
-#
-root = Tk()
-rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
-text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
-item_url_spisok = autor_item(text_seach) if rez_vibor[1] != '' else reseach_item(text_seach)
 
-text_seach = 'Птичка сердолик'
-item_url_spisok = reseach_item(text_seach)
+    item_url_spisok = []
+    # autor_name = 'forcon'
+    #
+    app = TextSearсh()
+    app.mainloop()
+    rez_vibor = app.sendValue# Получаем текст для дальнейшего поиска на ЯМ
 
-# ----- Проходим по каждой странице, собраем данные, записываем в базу
-kol_rab = len(item_url_spisok)
-rab_autor = 0
-print(f"Обрабатываются работы для внесения в базу: {kol_rab}\n")
-autor_black = []
-autor_black = black_url(autor_name)
+    # root = Tk()
+    # rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
+    text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
+    driver = webdriver.Firefox()
+    item_url_spisok = autor_item(driver, text_seach) if rez_vibor[1] != '' else reseach_item(driver, text_seach)
 
-for k, el in enumerate(item_url_spisok):
-    name_url = URL_JM + el
-    baze = one_list(name_url, autor_name, autor_black) # Сбор данных со страницы с работой
+    # text_seach = 'Птичка сердолик'
+    # item_url_spisok = reseach_item(text_seach)
 
-    if baze[0]:
-        try: # ---- Записываем данные со страницы
-            cursor.execute("""INSERT INTO 'Items' ('Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 
-                'Tags', 'Price', 'Name_Img', 'Material', 'Size', 'Location', 'Word_Search') 
-                VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:s}', '{:s}')
-                """.format(baze[1], baze[2], baze[3], baze[4], baze[5], baze[6], baze[7], baze[8], baze[9],
-                           baze[10], baze[11], text_seach))
-            SQL_Connect.commit()  # Применение изменений к базе данных
+    # ----- Проходим по каждой странице, собраем данные, записываем в базу
+    kol_rab = len(item_url_spisok)
+    rab_autor = 0
+    print(f"Обрабатываются работы для внесения в базу: {kol_rab}\n")
+    autor_black = []
+    autor_black = black_url(autor_name)
 
-            print(f"{baze[1]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
-        except sqlite3.Error as e:
-            print(e, '----------> ?', baze[0])
+    for k, el in enumerate(item_url_spisok):
+        name_url = URL_JM + el
+        baze = one_list(name_url, autor_name, autor_black) # Сбор данных со страницы с работой
 
-        try: # ---- Для этой вещи получаем данные про то, какие пользователи эту картинку уже использовали
-            cursor.execute("""SELECT Coll_User FROM Items WHERE Url_Item = '{:s}'""".format(baze[3]))
-            autor_list = str(cursor.fetchall()[0][0])
-        except sqlite3.Error as e:
-            print(e, '----------> ?')
-
-        if not autor_name in autor_list:
-            # ---- Записываем обновленные данные о том, что и этот пользователь отобрал вещь в коллекцию
-            new_list = ('' if (autor_list == '' or autor_list == 'None') else autor_list + ',') + autor_name
-            try:
-                cursor.execute("""UPDATE Items set Coll_User = '{:s}' 
-                               WHERE (Url_Item = '{:s}')""".format(new_list, baze[3]))
+        if baze[0]:
+            try: # ---- Записываем данные со страницы
+                cursor.execute("""INSERT INTO 'Items' ('Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 
+                    'Tags', 'Price', 'Name_Img', 'Material', 'Size', 'Location', 'Word_Search') 
+                    VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:s}', '{:s}')
+                    """.format(baze[1], baze[2], baze[3], baze[4], baze[5], baze[6], baze[7], baze[8], baze[9],
+                               baze[10], baze[11], text_seach))
                 SQL_Connect.commit()  # Применение изменений к базе данных
+
+                print(f"{baze[1]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
+            except sqlite3.Error as e:
+                print(e, '----------> ?', baze[0])
+
+            try: # ---- Для этой вещи получаем данные про то, какие пользователи эту картинку уже использовали
+                cursor.execute("""SELECT Coll_User FROM Items WHERE Url_Item = '{:s}'""".format(baze[3]))
+                autor_list = str(cursor.fetchall()[0][0])
             except sqlite3.Error as e:
                 print(e, '----------> ?')
 
-    elif baze[1] == 'Ваша работа':
-        rab_autor += 1
-        print(f"===> Вашу работу не записываем, будет сохранено работ: {kol_rab - rab_autor}")
-    elif baze[1] == 'Черный список':
-        rab_autor += 1
-        print(f"===> Автор {baze[2]} в исключениях, будет сохранено работ: {kol_rab - rab_autor}")
-    elif baze[1] == 'Работа удалена':
-        rab_autor += 1
-        print(f"===> Работа {baze[2]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
+            if not autor_name in autor_list:
+                # ---- Записываем обновленные данные о том, что и этот пользователь отобрал вещь в коллекцию
+                new_list = ('' if (autor_list == '' or autor_list == 'None') else autor_list + ',') + autor_name
+                try:
+                    cursor.execute("""UPDATE Items set Coll_User = '{:s}' 
+                                   WHERE (Url_Item = '{:s}')""".format(new_list, baze[3]))
+                    SQL_Connect.commit()  # Применение изменений к базе данных
+                except sqlite3.Error as e:
+                    print(e, '----------> ?')
 
-print(f"Всего в базу внесено: {kol_rab - rab_autor} работ")
-cursor.close()
-SQL_Connect.close()
+        elif baze[1] == 'Ваша работа':
+            rab_autor += 1
+            print(f"===> Вашу работу не записываем, будет сохранено работ: {kol_rab - rab_autor}")
+        elif baze[1] == 'Черный список':
+            rab_autor += 1
+            print(f"===> Автор {baze[2]} в исключениях, будет сохранено работ: {kol_rab - rab_autor}")
+        elif baze[1] == 'Работа удалена':
+            rab_autor += 1
+            print(f"===> Работа {baze[2]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
+
+    print(f"Всего в базу внесено работ: {kol_rab - rab_autor}")
+    cursor.close()
+    SQL_Connect.close()
+
+
+if __name__ == '__main__':
+    autor_name = 'forcon'
+    read_JM(autor_name)
+
 
 # Вы можете прочитать атрибут innerHTML, чтобы получить источник содержимого элемента или outerHTML для источника с текущим элементом.
 # element.get_attribute('innerHTML')

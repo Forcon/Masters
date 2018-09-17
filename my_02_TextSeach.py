@@ -13,7 +13,6 @@ class Text_Entry_Button:
     """
     Создает: надпись, поле для заполнения и кнопку
     """
-
     def __init__(self, master, message='[имя поля]', text='[надпись]', pi_l_y=0, pi_y=0, var=0, url=''):
         self.url = url
         self.name_label = Label(master, text=message)

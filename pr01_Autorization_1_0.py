@@ -4,7 +4,7 @@ from tkinter import messagebox
 
 from myBoolean import *  # Дополнительные окна
 
-# import pr02_Form_to_SQL
+from pr02_Form_to_SQL import *
 
 # from myDialog import *
 """
@@ -12,9 +12,6 @@ from myBoolean import *  # Дополнительные окна
 Нужно, чтобы использовтаь свои наработки в базе + не подтягивать собственные работы в выборку
 """
 URL_JM = 'https://www.livemaster.ru/'
-
-SQL_Connect = sqlite3.connect('Masters.db')
-cursor = SQL_Connect.cursor()
 
 
 class Text_Entry:
@@ -81,7 +78,7 @@ class Auto_main(Tk):
 
         Btn(self, "Авторизоваться*", 'auto', .35, fg='green')
         Btn(self, "Новый автор", 'new', .75)
-        # self.master.protocol('WM_DELETE_WINDOW', self.exitMethod)
+        self.protocol('WM_DELETE_WINDOW', self.exitMethod)
 
     def focus_ini(self, step=0):
         """
@@ -172,7 +169,7 @@ class Auto_main(Tk):
                 # btn = 'auto'
                 self.obnovlDan(self.name_sql, self.adress_sql)
             else:
-                self.master.destroy()
+                self.destroy()
         elif btn == 'new':
             password_new = self.openDialog(text='Введите пароль еще раз...')
             if password_new != self.Password.get():
@@ -181,14 +178,14 @@ class Auto_main(Tk):
                 self.focus_ini(2)
             else:
                 self.ReturnDisc(btn)
-                self.destroy()
+                # self.destroy()
 
         elif btn == 'auto' and (self.FIO.get() != '' or self.Adress.get() != ''):
             self.obnovlDan(self.name_sql, self.adress_sql)
 
         else:  # В финале возвращаем значения из корректно заполненных полей
             self.ReturnDisc(btn)
-            self.destroy()
+            # self.destroy()
 
     def obnovlDan(self, name_sql, adress_sql):
         """
@@ -296,6 +293,9 @@ if __name__ == '__main__':
     # root = Tk()
     # baze_to_sql = Auto_main(root).ReturnValue
 
+    SQL_Connect = sqlite3.connect('Masters.db')
+    cursor = SQL_Connect.cursor()
+
     app = Auto_main()
     app.mainloop()
     base_to_sql = app.ReturnValue
@@ -330,8 +330,10 @@ if __name__ == '__main__':
         InformWin(message=base_to_sql['Name'] + ', Вы успешно авторизовались', fg='green')
         pass
 
+    cursor.close()
+    SQL_Connect.close()
+
     user_name = base_to_sql['User']  # В дальнейшем это значение должно передаваться в следующую программу
     print(user_name)
+    read_JM(user_name)
 
-cursor.close()
-SQL_Connect.close()

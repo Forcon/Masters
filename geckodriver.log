@@ -9291,3 +9291,109 @@ See /usr/include/servers/bootstrap_defs.h for the error codes.
 2018-09-15 13:58:45.207 plugin-container[14165:1094254] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x923b, name = 'com.apple.tsm.portname'
 See /usr/include/servers/bootstrap_defs.h for the error codes.
 1537009128763	Marionette	INFO	Stopped listening on port 60610
+1537186168164	geckodriver	INFO	geckodriver 0.20.1
+1537186168298	geckodriver	INFO	Listening on 127.0.0.1:61619
+1537186169203	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.Z6FeXScYbnqq"
+2018-09-17 15:09:32.198 plugin-container[19759:1717952] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9b33, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 15:09:32.601 plugin-container[19760:1717998] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9a0b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537186172809	Marionette	INFO	Listening on port 61630
+1537186172951	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537186173004	Marionette	DEBUG	[4294967297] Frame script loaded
+1537186173005	Marionette	DEBUG	[4294967297] Frame script registered
+2018-09-17 15:09:33.662 plugin-container[19761:1718109] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9337, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1537189684268	geckodriver	INFO	geckodriver 0.20.1
+1537189684380	geckodriver	INFO	Listening on 127.0.0.1:62148
+1537189685407	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.TZyOKisX3Yyb"
+2018-09-17 16:08:08.002 plugin-container[19947:1743388] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9c33, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 16:08:08.299 plugin-container[19948:1743428] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9b2f, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537189688561	Marionette	INFO	Listening on port 62159
+1537189688633	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537189688688	Marionette	DEBUG	[4294967297] Frame script loaded
+1537189688690	Marionette	DEBUG	[4294967297] Frame script registered
+2018-09-17 16:08:09.264 plugin-container[19950:1743537] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x932f, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+1537189753907	Marionette	INFO	Stopped listening on port 62159
+1537190025062	geckodriver	INFO	geckodriver 0.20.1
+1537190025146	geckodriver	INFO	Listening on 127.0.0.1:62329
+1537190026110	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.q5a51STBsHgr"
+2018-09-17 16:13:47.644 plugin-container[20007:1746568] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9c37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 16:13:47.864 plugin-container[20008:1746599] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9c37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190028085	Marionette	INFO	Listening on port 62340
+1537190028108	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537190028159	Marionette	DEBUG	[4294967297] Frame script loaded
+1537190028164	Marionette	DEBUG	[4294967297] Frame script registered
+2018-09-17 16:13:48.570 plugin-container[20009:1746736] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x922f, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190087649	geckodriver	INFO	geckodriver 0.20.1
+1537190087733	geckodriver	INFO	Listening on 127.0.0.1:62403
+1537190088680	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.3i07wyfCgOsf"
+2018-09-17 16:14:50.178 plugin-container[20023:1747350] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9d33, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 16:14:50.394 plugin-container[20024:1747383] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9933, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190090622	Marionette	INFO	Listening on port 62415
+1537190090681	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537190090731	Marionette	DEBUG	[4294967297] Frame script loaded
+1537190090738	Marionette	DEBUG	[4294967297] Frame script registered
+2018-09-17 16:14:51.142 plugin-container[20025:1747487] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x932f, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190151035	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for about:blank
+1537190151393	Marionette	DEBUG	[4294967297] Received DOM event pagehide for about:blank
+1537190152634	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/
+1537190157654	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967313
+1537190157713	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[Child 20024, Chrome_ChildThread] WARNING: pipe error: Broken pipe: file /builds/worker/workspace/build/src/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 726
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1537190364470	geckodriver	INFO	geckodriver 0.20.1
+1537190364548	geckodriver	INFO	Listening on 127.0.0.1:62572
+1537190365518	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.znIgUqmTCxly"
+2018-09-17 16:19:26.996 plugin-container[20067:1750885] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9b37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 16:19:27.210 plugin-container[20068:1750916] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9c37, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190367520	Marionette	INFO	Listening on port 62583
+1537190367599	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537190367647	Marionette	DEBUG	[4294967297] Frame script loaded
+1537190367647	Marionette	DEBUG	[4294967297] Frame script registered
+2018-09-17 16:19:27.990 plugin-container[20069:1751043] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x933b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190979314	geckodriver	INFO	geckodriver 0.20.1
+1537190979392	geckodriver	INFO	Listening on 127.0.0.1:62708
+1537190980333	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.kfImYUQT4QJb"
+2018-09-17 16:29:41.908 plugin-container[20214:1756781] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9c3b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+2018-09-17 16:29:42.108 plugin-container[20215:1756811] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x9937, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190982305	Marionette	INFO	Listening on port 62719
+1537190982329	Marionette	WARN	TLS certificate errors will be ignored for this session
+1537190982379	Marionette	DEBUG	[4294967297] Frame script loaded
+1537190982380	Marionette	DEBUG	[4294967297] Frame script registered
+1537190982407	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for about:blank
+1537190982714	Marionette	DEBUG	[4294967297] Received DOM event pagehide for about:blank
+2018-09-17 16:29:42.828 plugin-container[20216:1756925] *** CFMessagePort: bootstrap_register(): failed 1100 (0x44c) 'Permission denied', port = 0x930b, name = 'com.apple.tsm.portname'
+See /usr/include/servers/bootstrap_defs.h for the error codes.
+1537190985322	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/
+1537190987912	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/
+1537190991578	Marionette	DEBUG	[4294967297] Canceled page load listener because no navigation has been detected
+1537190991918	Marionette	DEBUG	[4294967297] Canceled page load listener because no navigation has been detected
+1537190993093	Marionette	DEBUG	[4294967297] Received DOM event beforeunload for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537190993623	Marionette	DEBUG	[4294967297] Received DOM event pagehide for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537190993624	Marionette	DEBUG	[4294967297] Received DOM event unload for https://www.livemaster.ru/search.php?vr=0&searchtype=1&search=%D0%B2%D1%8B%D0%B4%D1%80%D0%B0
+1537190993779	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967318
+1537190993780	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967320
+1537190993780	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967322
+1537190993780	Marionette	DEBUG	[4294967297] Received observer notification outer-window-destroyed for 4294967323
+1537190993947	Marionette	DEBUG	[4294967297] Received DOM event DOMContentLoaded for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
+1537190995680	Marionette	DEBUG	[4294967297] Received DOM event pageshow for https://www.livemaster.ru/search.php?action=paging&searchtype=1&thw=0&from=120
