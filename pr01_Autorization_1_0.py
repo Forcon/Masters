@@ -123,12 +123,22 @@ class Auto_main(Tk):
             else:
                 return mail_sql[0][0], mail_sql[0][1], mail_sql[0][2], mail_sql[0][3]
         except sqlite3.Error as e:
-            print("GUI Python", "Ошибка при чтении из базы: '{:s}'".format(e))
+            print(f"Ошибка при чтении из базы: {e}")
+
+    def ReturnDisc(self, action='auto'):
+        """
+        Программа возвращает словарь со значениями
+        :param str action:
+        """
+        self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
+                            'Adress': self.Adress.get(), 'User': self.adress_sql, 'Name': self.name_sql,
+                            'Action': action}
+        self.destroy()
 
     def check_entry(self, btn):  # ----- Смотрит, введен ли нужный текст и выдает предупреждение
         """
         Подпрограмма проверяет все возможные типы ошибок при введении текста в поля,
-        :param int btn:
+        :param str btn:
         """
         # Плучаем данные пользователя из базы
         self.mail_sql, self.password_sql, self.name_sql, self.adress_sql = self.base_read(self.Mail.get())
@@ -137,23 +147,24 @@ class Auto_main(Tk):
             pass
         elif btn == 'new' and (self.FIO.get() == '' or self.Mail.get() == ''
                                or self.Password.get() == '' or self.Adress.get() == ''):
-            messagebox.showinfo("GUI Python", "Надо заполнить все поля")
+            # InformWin("Подсказка:", "Надо заполнить все поля")
+            messagebox.showinfo("Подсказка:", "Надо заполнить все поля")
             self.focus_ini()
         elif btn == 'auto' and (self.Mail.get() == '' or self.Password.get() == ''):
-            messagebox.showinfo("GUI Python", "Надо ввести е-мейл и пароль")
+            messagebox.showinfo("Подсказка:", "Надо ввести е-мейл и пароль")
             self.focus_ini()
         elif not re.fullmatch(r"[\w'._+-]+@[\w'._+-]+[.][\w'._+-]+", self.Mail.get()):
-            messagebox.showinfo("GUI Python", "Формат е-мейла неверный.")
+            messagebox.showinfo("Подсказка:", "Формат е-мейла неверный.")
             self.focus_ini(1)
         elif btn == 'auto' and self.mail_sql == '':
-            messagebox.showinfo("GUI Python", "Пользователя с адресом '{:s}' нет в базе. "
+            messagebox.showinfo("Подсказка:", "Пользователя с адресом '{:s}' нет в базе. "
                                               "Вы можете создать нового пользователя.".format(self.Mail.get()))
             self.focus_ini(1)
         elif btn == 'new' and re.search(r"[а-яА-ЯёЁ]", self.Adress.get()):
-            messagebox.showinfo("GUI Python", "В адресе не может быть русских букв")
+            messagebox.showinfo("Подсказка:", "В адресе не может быть русских букв")
             self.focus_ini(4)
         elif btn == 'auto' and self.password_sql != self.Password.get():
-            messagebox.showinfo("GUI Python", "Пароль для данного адреса другой")
+            messagebox.showinfo("Подсказка:", "Пароль для данного адреса другой")
             self.Password.text_entry.delete('0', END)
             self.focus_ini(2)
         elif btn == 'new' and self.mail_sql != '' and self.password_sql == self.Password.get():
@@ -165,20 +176,18 @@ class Auto_main(Tk):
         elif btn == 'new':
             password_new = self.openDialog(text='Введите пароль еще раз...')
             if password_new != self.Password.get():
-                messagebox.showinfo("GUI Python", "Пароли не совпадают, введите их еще раз, пожалуйста")
+                messagebox.showinfo("Подсказка:", "Пароли не совпадают, введите их еще раз, пожалуйста")
                 self.Password.text_entry.delete('0', END)
                 self.focus_ini(2)
             else:
-                self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                                    'Adress': self.Adress.get(), 'New': btn, 'User': self.adress_sql}
+                self.ReturnDisc(btn)
                 self.destroy()
 
         elif btn == 'auto' and (self.FIO.get() != '' or self.Adress.get() != ''):
             self.obnovlDan(self.name_sql, self.adress_sql)
 
         else:  # В финале возвращаем значения из корректно заполненных полей
-            self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                                'Adress': self.Adress.get(), 'New': btn, 'User': self.adress_sql}
+            self.ReturnDisc(btn)
             self.destroy()
 
     def obnovlDan(self, name_sql, adress_sql):
@@ -188,10 +197,11 @@ class Auto_main(Tk):
         :param str adress_sql:
         :return:
         """
-        if name_sql == '' and adress_sql == '':
-            self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                                'Adress': self.Adress.get(), 'New': 'auto', 'User': self.adress_sql}
-        elif (name_sql != self.FIO.get() or adress_sql != self.Adress.get()):
+        if (self.FIO.get() == '' or name_sql == self.FIO.get()) and (
+                self.Adress.get() == '' or adress_sql == self.Adress.get()):
+            self.ReturnDisc('auto')
+        else:
+            # elif (name_sql != self.FIO.get() or adress_sql != self.Adress.get()):
             question = 'Хотите обновить профиль, изменив'
             if self.FIO.get() != '' and name_sql != self.FIO.get():
                 question += ' Ваше имя'
@@ -200,16 +210,12 @@ class Auto_main(Tk):
             if not self.dopParam(question + "?"):
                 if name_sql != self.FIO.get(): self.FIO.text_entry.delete('0', END)
                 if adress_sql != self.Adress.get(): self.Adress.text_entry.delete(len(URL_JM), END)
-                self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                                    'Adress': self.Adress.get(), 'New': 'auto', 'User': self.adress_sql}
-            else:
-                # Необходимость перезаписать данные в бвзе
-                self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                                    'Adress': self.Adress.get(), 'New': 'refr', 'User': self.adress_sql}
-        else:
-            self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                                'Adress': self.Adress.get(), 'New': 'auto', 'User': self.adress_sql}
-                # self.destroy()
+                self.ReturnDisc('auto')
+            else:  # Необходимо перезаписать данные в бвзе
+                self.ReturnDisc('refr')
+        # else:
+        #     self.ReturnDisc('auto')
+        #         # self.destroy()
 
     def dopParam(self, text=''):
         """
@@ -296,17 +302,19 @@ if __name__ == '__main__':
 
     print(base_to_sql)
 
-    if base_to_sql['New'] == 'new':
+    if base_to_sql['Action'] == 'new':
         try:
             cursor.execute("""INSERT INTO 'Autor' ('FIO', 'URL_User', 'Mail', 'Pass')
                 VALUES ('{:s}', '{:s}', '{:s}', '{:s}')
                 """.format(base_to_sql['FIO'], base_to_sql['Adress'], base_to_sql['Mail'], base_to_sql['Password']))
 
             SQL_Connect.commit()  # Применение изменений к базе данных
+            InformWin(message=base_to_sql['Name'] + ' Вы успешно создали нового пользователя',
+                      fg='green')
         except sqlite3.Error as e:
             print(e, '----------> ?', base_to_sql['FIO'], ' --> Попытка записать нового пользователя')
 
-    elif base_to_sql['New'] == 'refr':
+    elif base_to_sql['Action'] == 'refr':
         try:
             if base_to_sql['FIO'] != '':
                 cursor.execute("""UPDATE Autor set FIO = '{:s}' 
@@ -315,8 +323,12 @@ if __name__ == '__main__':
                 cursor.execute("""UPDATE Autor set URL_User = '{:s}' 
                                WHERE (Mail = '{:s}')""".format(base_to_sql['Adress'], base_to_sql['Mail']))
             SQL_Connect.commit()  # Применение изменений к базе данных
+            InformWin(message=base_to_sql['Name'] + ', Вы успешно авторизовались и обновили свои данные', fg='green')
         except sqlite3.Error as e:
             print(e, '----------> ? Перезапись данных в базу')
+    else:
+        InformWin(message=base_to_sql['Name'] + ', Вы успешно авторизовались', fg='green')
+        pass
 
     user_name = base_to_sql['User']  # В дальнейшем это значение должно передаваться в следующую программу
     print(user_name)
