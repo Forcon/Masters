@@ -1,4 +1,5 @@
-
+from PIL import Image, ImageGrab, ImageDraw
+from PIL import ImageTk  # $ pip install pillow
 import sqlite3
 
 SQL_Connect = sqlite3.connect('Masters.db')
@@ -8,22 +9,27 @@ def creating_coll(user_name, text_search):
     cursor.execute("""SELECT Name_Img, Autor FROM Items WHERE (Word_Search = '{:s}' AND Coll_User LIKE '{:}') 
                         ORDER BY Autor ASC""".format(text_search, user_name))
     item_list = cursor.fetchall()
-    # print(item_list)
+    print(len(item_list))
 
     base_img = []
     base_autor = []
-    for el in item_list:
-        base_img.append(el[0])
-        base_autor.append(el[1])
+    for i, el in enumerate(item_list):
+        try:
+            Image.open(el[0])
+            base_img.append(el[0])
+            base_autor.append(el[1])
+        except FileNotFoundError:
+            item_list.pop(i)
+            cursor.execute("DELETE FROM Items WHERE (Name_Img = ?)", (el[0],))
+            SQL_Connect.commit()  # Применение изменений к базе данных
+    print(len(item_list))
     # print(base_autor)
 
     koll_autor = []
     for i, el in enumerate(base_autor):
         koll_autor.append(base_autor.count(el))
-        m = koll_autor[-1]
-        if m > 1:
+        if koll_autor[-1] > 1:
             del base_autor[i:i + koll_autor[-1] - 1]
-
     print(koll_autor)
     # # print(base_img)
     # print(base_autor)
