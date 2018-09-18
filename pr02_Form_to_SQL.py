@@ -149,7 +149,7 @@ def read_JM(autor_name):
         baze = one_list(name_url, autor_name, autor_black) # Сбор данных со страницы с работой
 
         if baze[0]:
-            try: # Проверяем наличие этой раюоты у нас в базе
+            try: # Проверяем наличие этой работы у нас в базе и удаляем старую картинку
                 cursor.execute("""SELECT Name_Img FROM Items WHERE Url_Item = '{:s}'""".format(baze[3]))
                 img_name = cursor.fetchall()
                 if img_name == []:
@@ -161,6 +161,7 @@ def read_JM(autor_name):
                         pass
             except sqlite3.Error as e:
                 print(e, '----------> ?', baze[0])
+
             try: # ---- Записываем данные со страницы
                 cursor.execute("""INSERT INTO 'Items' ('Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 
                     'Tags', 'Price', 'Name_Img', 'Material', 'Size', 'Location', 'Word_Search') 
@@ -198,7 +199,7 @@ def read_JM(autor_name):
         elif baze[1] == 'Работа удалена':
             rab_autor += 1
             print(f"===> Работа {baze[3]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
-            # надо добавить проверку наличия такой раюоты у нас в базе и ее удаление, если есть
+            # надо добавить проверку наличия такой работы у нас в базе и ее удаление, если есть
 
     print(f"Всего в базу внесено работ: {kol_rab - rab_autor}")
     cursor.close()

@@ -2,27 +2,32 @@ from tkinter import *
 # from tkinter.tix import *
 # from tkinter import Tk, Button, Toplevel
 from PIL import ImageTk  # $ pip install pillow
+from pr03_Form_Collection import *
 
 """
 Версия 2.0: Основная программа
 Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию
 (Надо отработать с реальными картинками из базы)
 """
+user_name = 'forcon'
+text_search = 'выдра'
+
+img_url, autor_name, len_mass = creating_coll(user_name, text_search)
 img_in_coll = []
 img_coll = 16 # Количество изображений в коллекции
-len_mass = [5, 3, 4] # Количество изображений в каждом ряду
-img_url = ['img/img_1.jpg',
-'img/img_2.jpg',
-'img/img_3.jpg',
-'img/img_4.jpg',
-'img/img_5.jpg',
-'img/img_6.jpg',
-'img/img_7.jpg',
-'img/img_8.jpg',
-'img/img_9.jpg',
-'img/img_10.jpg',
-'img/img_11.jpg',
-'img/img_12.jpg']
+# len_mass = [5, 3, 4] # Количество изображений в каждом ряду
+# img_url = ['img/img_1.jpg',
+# 'img/img_2.jpg',
+# 'img/img_3.jpg',
+# 'img/img_4.jpg',
+# 'img/img_5.jpg',
+# 'img/img_6.jpg',
+# 'img/img_7.jpg',
+# 'img/img_8.jpg',
+# 'img/img_9.jpg',
+# 'img/img_10.jpg',
+# 'img/img_11.jpg',
+# 'img/img_12.jpg']
 
 def rez_col(img_coll): # Вставляет в "готовую коллекцию" пустые кнопки
     for i in range(img_coll):
@@ -99,7 +104,7 @@ def click_button(event): # Обработка нажатия на кнопку �
 
 root = Tk()
 root.title("Выбор картинок в коллекцию")
-root.geometry("600x450")
+root.geometry("800x550")
 
 for i, el in enumerate(img_url):
     if i > 0: break
