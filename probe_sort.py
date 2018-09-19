@@ -9,20 +9,17 @@ mas_sql = {'1': 'Masya',
 
 len_user = {'Masya': 1, 'Forcon': 3, 'Alex': 1, 'Tupsya': 2}
 
+
 def dict_to_mass_value(dict_autor):
     massiv_rez = []
     for key, value in dict_autor.items():
-        massiv_rez.append(value)
+        massiv_rez.extend(value)
 
     return massiv_rez
-
+    # return massiv_rez.extend([value for value in list(dict_autor.values())])
 
 def toomass_to_mass(dict_autor, elem=None):
-    massiv_rez = []
-    for el in dict_autor:
-        massiv_rez.append(el[elem])
-
-    return massiv_rez
+    return [el[elem] for el in dict_autor]
 
 
 def sort_massiv(mas_sql, len_user):

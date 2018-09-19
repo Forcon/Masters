@@ -2,6 +2,8 @@ from PIL import Image, ImageGrab, ImageDraw
 from PIL import ImageTk  # $ pip install pillow
 import sqlite3
 from probe_sort import *
+import os.path
+
 
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
@@ -16,19 +18,19 @@ def creating_coll(user_name, text_search):
     base_autor = []
     dict_img_autor = {}
     for i, el in enumerate(item_list):
-        try:
-            Image.open(el[0])
+        if os.path.isfile(el[0]):
             dict_img_autor[el[0]] = el[1]
-
             # base_img.append(el[0])
             base_autor.append(el[1])
-        except FileNotFoundError:
-            item_list.pop(i)
-            cursor.execute("DELETE FROM Items WHERE (Name_Img = ?)", (el[0],))
-            SQL_Connect.commit()  # Применение изменений к базе данных
+        else:
+            # item_list.pop(i)
+            # cursor.execute("DELETE FROM Items WHERE (Name_Img = ?)", (el[0],))
+            # SQL_Connect.commit()  # Применение изменений к базе данных
+            print(f'{i} ---> {el[0]}')
     # print(len(item_list))
     # print('\n')
-    # print(base_autor)
+    print(item_list)
+    print(base_autor)
     # print('\n')
 
 
@@ -54,7 +56,7 @@ def creating_coll(user_name, text_search):
     print(base_autor)
     print(koll_autor)
 
-    return base_img, base_autor, koll_autor[:6]
+    return base_img, base_autor, koll_autor
 
 if __name__ == '__main__':
     autor_name = 'forcon'
