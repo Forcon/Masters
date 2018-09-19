@@ -1,7 +1,7 @@
 from PIL import Image, ImageGrab, ImageDraw
 from PIL import ImageTk  # $ pip install pillow
 import sqlite3
-from probe_sort import *
+from def03_Sort_Collection import *
 import os.path
 
 
@@ -9,7 +9,8 @@ SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
 
 def creating_coll(user_name, text_search):
-    cursor.execute("""SELECT Name_Img, Autor FROM Items WHERE (Word_Search = '{:s}' AND Coll_User LIKE '{:}') 
+    cursor.execute("""SELECT Name_Img, Autor FROM Items WHERE (Word_Search = '{:s}' 
+                        AND (Coll_User LIKE '{:}' or Coll_User is NULL)) 
                         ORDER BY Autor ASC""".format(text_search, user_name))
     item_list = cursor.fetchall()
     # print(item_list)
@@ -23,15 +24,15 @@ def creating_coll(user_name, text_search):
             # base_img.append(el[0])
             base_autor.append(el[1])
         else:
-            # item_list.pop(i)
-            # cursor.execute("DELETE FROM Items WHERE (Name_Img = ?)", (el[0],))
-            # SQL_Connect.commit()  # Применение изменений к базе данных
+            item_list.pop(i) # Удаляет из списка и из базы записи, если нет файла на диске.
+            cursor.execute("DELETE FROM Items WHERE (Name_Img = ?)", (el[0],))
+            SQL_Connect.commit()  # Применение изменений к базе данных
             print(f'{i} ---> {el[0]}')
     # print(len(item_list))
     # print('\n')
-    print(item_list)
-    print(base_autor)
-    # print('\n')
+    # print(item_list)
+    # print(base_autor)
+    # # print('\n')
 
 
     koll_autor = []
@@ -60,5 +61,5 @@ def creating_coll(user_name, text_search):
 
 if __name__ == '__main__':
     autor_name = 'forcon'
-    t_search = 'выдра'
+    t_search = 'Птичка сердолик'
     creating_coll(autor_name, t_search)

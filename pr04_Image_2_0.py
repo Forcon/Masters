@@ -10,7 +10,7 @@ from pr03_Form_Collection import *
 (Надо отработать с реальными картинками из базы)
 """
 user_name = 'forcon'
-text_search = 'выдра'
+text_search = 'Птичка сердолик'
 
 img_url, autor_name, len_mass = creating_coll(user_name, text_search)
 img_in_coll = []
