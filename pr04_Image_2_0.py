@@ -1,4 +1,6 @@
+# coding=utf-8
 from tkinter import *
+
 # from tkinter.tix import *
 # from tkinter import Tk, Button, Toplevel
 from PIL import ImageTk  # $ pip install pillow
@@ -57,7 +59,7 @@ def cl_coll(event):  # Какая из кнопок нажата на панел
     name = event.widget._name
     try:
         number = int(name.split('!button')[1])
-    except:
+    except:  # TODO: Нужно указание на правильную ошибку
         number = 1
 
     if len(img_in_coll) >= number:  # Если коллекция не пуста
@@ -88,14 +90,14 @@ def give_img(name, number):  # Устaнавливает размер карти
     if img_url[number - 1] in img_in_coll:
         img_in_coll.remove(img_url[number - 1])
         for i, el in enumerate(root.children):
-            if i >= start_fin(0, int_znach) and i < start_fin(1, int_znach):
+            if start_fin(0, int_znach) <= i < start_fin(1, int_znach):
                 root.children[el].config(height="{:}".format(80))
     else:
         for i, el in enumerate(root.children):
-            if i >= start_fin(0, int_znach) and i < start_fin(1, int_znach):
+            if start_fin(0, int_znach) <= i < start_fin(1, int_znach):
                 try:
                     img_in_coll.remove(img_url[i])
-                except:
+                except:  # TODO: Нужно указание на правильную ошибку
                     pass
                 if el != name:
                     root.children[el].config(height="{:}".format(40))
@@ -109,8 +111,8 @@ def click_button(event):  # Обработка нажатия на кнопку 
     name = event.widget._name
     try:
         number = int(name.split('!button')[1])
-    except:
-        number = 1
+    except:  # TODO: Нужно указание на правильную ошибку
+        number = 1  # TODO: qase
 
     give_img(name, number)  # Размер картинки
     new_img()  # Обновление коллекции
@@ -126,6 +128,7 @@ for i, el in enumerate(img_url):
     for y in range(1, len(len_mass) + 1):
         for x in range(1, (len_mass[y - 1] + 1)):
             if not os.path.isfile(img_url[i]):
+                # noinspection PyCompatibility
                 breakpoint()
             image = ImageTk.PhotoImage(file=img_url[i])  # Открываем изображение.
             btn = Button(root, image=image)

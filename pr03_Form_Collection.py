@@ -1,20 +1,24 @@
-from PIL import Image, ImageGrab, ImageDraw
-from PIL import ImageTk  # $ pip install pillow
-import sqlite3
-from def03_Sort_Collection import *
+# coding=utf-8
 import os.path
+import sqlite3
+
 import numpy as np
 
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
 
-def sort_all(img, autor, score, len_user):
+
+def sort_all(img, autor, score, len_user: list(int)):
+    """
+    Сортировка массивов взаимовлияющая -
+    """
+
     # img = ('img_1', 'img_2', 'img_3', 'img_4', 'img_5', 'img_6', 'img_7')
     # autor = ('Masya', 'Forcon', 'Forcon', 'Forcon', 'Alex', 'Tupsya', 'Tupsya')
     # score = (1, 5, 2, 3, 7, 4, 6)
     # len_user = (1, 3, 3, 3, 1, 2, 2)
 
-    ind = np.lexsort((img, autor, score, len_user))
+    ind = np.lexsort((img, autor, score, len_user))  # Сначала самый правый и т.д.
 
     image = list(reversed([(img[i]) for i in ind]))
     aut = list(reversed([(autor[i]) for i in ind]))
@@ -26,7 +30,15 @@ def sort_all(img, autor, score, len_user):
 
     return image, aut
 
+
 def creating_coll(user_name, text_search):
+    """
+    Получает данные из базы и разбирает их на отдельные массивы (а затем они сортируются)
+    :param str user_name:
+    :param str text_search:
+    :return:
+    """
+    # TODO: Эксперимент со сборкой запроса из базы "из кусочков"
     cursor.execute("""SELECT Name_Img, Autor, Favor FROM Items WHERE (Word_Search = '{:s}' 
                         AND (Coll_User LIKE '{:}' or Coll_User is NULL)) 
                         ORDER BY Autor ASC""".format(text_search, user_name))
@@ -35,16 +47,16 @@ def creating_coll(user_name, text_search):
 
     img_base = []
     autor_base = []
-    favor_base =[]
+    favor_base = []
     koll_base = []
-    for i, el in enumerate(item_list):# Делает отдельные массивы
+    for i, el in enumerate(item_list):  # Делает отдельные массивы
         if os.path.isfile(el[0]):
             img_base.append(el[0])
             autor_base.append(el[1])
-            favor_base.append(0 if el[2] =='' else el[2])
+            favor_base.append(0 if el[2] == '' else el[2])
             # koll_base.append(item_list[1].count(el[1]))
         else:
-            item_list.pop(i) # Удаляет из списка и из базы записи, если нет файла на диске.
+            item_list.pop(i)  # Удаляет из списка и из базы записи, если нет файла на диске.
             cursor.execute("DELETE FROM Items WHERE (Name_Img = ?)", (el[0],))
             SQL_Connect.commit()  # Применение изменений к базе данных
             print(f'{i} ---> {el[0]}')
@@ -76,6 +88,7 @@ def creating_coll(user_name, text_search):
     # print(koll_autor)
 
     return img_base, autor_base_copy, koll_autor
+
 
 if __name__ == '__main__':
     autor_name = 'forcon'

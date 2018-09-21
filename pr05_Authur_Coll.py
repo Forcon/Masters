@@ -1,16 +1,18 @@
-import unittest
+# coding=utf-8
+# import unittest
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver import Firefox
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver import Firefox
+# from selenium.common.exceptions import NoSuchElementException
 import time
-from urllib.request import urlopen
+# from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
 import sqlite3
-from tkinter import *
-from my_02_TextSeach import *
+
+# from tkinter import *
+# from my_02_TextSeach import *
 
 """
 Авторизуется на сайте и заполняет коллекцию работами из базы + добавляет список тегов
@@ -18,7 +20,7 @@ from my_02_TextSeach import *
 (Доработки: надо будет увязать с собранными коллекциями)
 """
 
-ssl._create_default_https_context = ssl._create_unverified_context # Использование ssl
+ssl._create_default_https_context = ssl._create_unverified_context  # Использование ssl
 headers = {'user-agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_6) '
                          'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'}
 
@@ -48,23 +50,23 @@ driver.get(url_collect)
 
 try:
     driver.find_element_by_id("more-items-button-show").click()
-except:
+except:  # TODO: Нужно указание на правильную ошибку
     pass
-bs = BeautifulSoup(driver.find_element_by_id("caption").get_attribute('outerHTML'), "html.parser", headers = headers)
+bs = BeautifulSoup(driver.find_element_by_id("caption").get_attribute('outerHTML'), "html.parser", headers=headers)
 name_coll = str(bs).split('value="')[1].split('"')[0]
 
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
 
 autor_list = []
-for i, el in enumerate(driver.find_elements_by_class_name('author')): # ---- Вытащили имена авторов
+for i, el in enumerate(driver.find_elements_by_class_name('author')):  # ---- Вытащили имена авторов
     bs = BeautifulSoup(el.get_attribute('outerHTML'), "html.parser").text
     autor_list.append(bs)
 
 # ----- Берем из базы 30 лучших
 cursor.execute("""SELECT Autor, Url_Item, Tags, Favor FROM Items
             WHERE (Word_Search = '{:s}') AND (Use_in_Coll <> '{:s}' OR Use_in_Coll IS NULL) 
-            ORDER BY Favor DESC LIMIT 100""".format (text_seach, name_coll)) # Извлечение при сортировке
+            ORDER BY Favor DESC LIMIT 100""".format(text_seach, name_coll))  # Извлечение при сортировке
 adress_list = cursor.fetchall()
 
 url_list = []
@@ -77,10 +79,12 @@ for el in adress_list:
 
 tag_summ = {}
 for el in srt_item:
-    if el not in tag_summ: tag_summ[el] = 1
-    else: tag_summ[el] += 1
+    if el not in tag_summ:
+        tag_summ[el] = 1
+    else:
+        tag_summ[el] += 1
 
-srt_tag = [] # -------- Самые популярны тэги
+srt_tag = []  # -------- Самые популярны тэги
 for i, el in enumerate(sorted(tag_summ.items(), key=lambda x: x[1], reverse=True)):
     if i < 20: srt_tag.append(el[0])
 
@@ -98,7 +102,7 @@ SQL_Connect.close()
 
 # ---- Теги не подгружаются, если уже есть 20 штук...
 
-for el in srt_tag:# ---- Теги - в поле с ними
+for el in srt_tag:  # ---- Теги - в поле с ними
     if len(driver.find_elements_by_class_name('item')) < 20:
         driver.find_element_by_id("tags-selectized").send_keys(el)
         driver.find_element_by_id("tags-selectized").send_keys(Keys.ENTER)

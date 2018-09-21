@@ -1,3 +1,4 @@
+# coding=utf-8
 # import requests
 # from urllib.request import urlopen
 # from bs4 import BeautifulSoup
@@ -11,7 +12,7 @@
 import os
 import time
 
-from selenium import webdriver
+from selenium import webdriver, common
 from selenium.webdriver.support.ui import Select
 
 from def_02_BlackAutor import *
@@ -24,13 +25,20 @@ from my_02_TextSeach import *
  """
 URL_JM = 'https://www.livemaster.ru/'
 
-def autor_item(driver, url_autor):  # --- Для данных по работам автора
+
+def autor_item(driver, url_autor):
+    """
+    # --- Для данных по работам автора
+    :param driver:
+    :param url_autor:
+    :return:
+    """
     item_url = []
     driver.get(URL_JM + url_autor)
 
     try:  # -------- Показываем по 120 картинок на странице
         Select(driver.find_element_by_name('cnt')).select_by_visible_text('120')
-    except:
+    except:  # TODO: Нужно указание на правильную ошибку
         pass
 
     iteration = True
@@ -49,13 +57,19 @@ def autor_item(driver, url_autor):  # --- Для данных по работа�
         try:  # ------- Пролистываем страницу и если это не удается -- завершаем цикл
             driver.find_element_by_link_text(str(ver)).click()
             ver += 1
-        except:# =====> Как правильно задать (NoSuchElementException) ?
+        except:  # TODO: Как правильно задать (NoSuchElementException) ?
             iteration = False
 
     return item_url
 
 
-def reseach_item(driver, text_seach):  # ----- Для данных по ключевым словам
+def reseach_item(driver, text_seach):
+    """
+    # ----- Для данных по ключевым словам
+    :param driver:
+    :param text_seach:
+    :return:
+    """
     item_url = []
     driver.get(URL_JM)
     # ---- Авторизация на сайте (если нужна) ------
@@ -76,7 +90,7 @@ def reseach_item(driver, text_seach):  # ----- Для данных по ключ
         for option in select:
             if option.get_attribute('data-value') == '6':
                 option.click()
-    except:
+    except:  # TODO: Нужно указание на правильную ошибку
         pass
 
     pagesours = driver.page_source
@@ -103,29 +117,29 @@ def reseach_item(driver, text_seach):  # ----- Для данных по ключ
 
         try:  # ------- Пролистываем страницу и если это не удается -- завершаем цикл
             driver.find_element_by_class_name("pagebar__arrow--right").click()
-        except: # =====> Как правильно задать (NoSuchElementException) ?
+        except common.exceptions.NoSuchElementException:  #
             iteration = False
-            pass
 
     return item_url
 
 
 # ==================== Главная программа ===================
 def read_JM(autor_name):
+    """
 
+    :param autor_name:
+    """
     SQL_Connect = sqlite3.connect('Masters.db')
     cursor = SQL_Connect.cursor()
 
     # --------- Запуск Firefox
     ssl._create_default_https_context = ssl._create_unverified_context
 
-
-
     # autor_name = 'forcon'
     #
     app = TextSearсh()
     app.mainloop()
-    rez_vibor = app.sendValue# Получаем текст для дальнейшего поиска на ЯМ
+    rez_vibor = app.sendValue  # Получаем текст для дальнейшего поиска на ЯМ
 
     # root = Tk()
     # rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
@@ -141,41 +155,43 @@ def read_JM(autor_name):
     kol_rab = len(item_url_spisok)
     rab_autor = 0
     print(f"Обрабатываются работы для внесения в базу: {kol_rab}\n")
-    autor_black = []
-    autor_black = black_url(autor_name)
+
+    autor_black = black_url(autor_name)  # TODO: найти ошибку
 
     for k, el in enumerate(item_url_spisok):
         name_url = URL_JM + el
-        baze = one_list(name_url, autor_name, autor_black) # Сбор данных со страницы с работой
+        base_one_list = one_list(name_url, autor_name, autor_black)  # Сбор данных со страницы с работой
 
-        if baze[0]:
-            try: # Проверяем наличие этой работы у нас в базе и удаляем старую картинку
-                cursor.execute("""SELECT Name_Img FROM Items WHERE Url_Item = '{:s}'""".format(baze[3]))
+        if base_one_list[0]:
+            try:  # Проверяем наличие этой работы у нас в базе и удаляем старую картинку
+                cursor.execute("""SELECT Name_Img FROM Items WHERE Url_Item = '{:s}'""".format(base_one_list[3]))
                 img_name = cursor.fetchall()
-                if img_name == []:
+                # noinspection PySimplifyBooleanCheck,PySimplifyBooleanCheck
+                if not img_name:
                     pass
                 else:
                     try:
                         os.remove(str(os.getcwd() + '/' + img_name[0][0]))
-                    except:
+                    except:  # TODO: Нужно указание на правильную ошибку
                         pass
             except sqlite3.Error as e:
-                print(e, '----------> ?', baze[0])
+                print(e, '----------> ?', base_one_list[0])
 
-            try: # ---- Записываем данные со страницы
+            try:  # ---- Записываем данные со страницы
                 cursor.execute("""INSERT INTO 'Items' ('Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 
                     'Tags', 'Price', 'Name_Img', 'Material', 'Size', 'Location', 'Word_Search') 
                     VALUES ('{:s}', '{:s}', '{:s}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:}', '{:s}', '{:s}')
-                    """.format(baze[1], baze[2], baze[3], baze[4], baze[5], baze[6], baze[7], baze[8], baze[9],
-                               baze[10], baze[11], text_seach))
+                    """.format(base_one_list[1], base_one_list[2], base_one_list[3], base_one_list[4], base_one_list[5],
+                               base_one_list[6], base_one_list[7], base_one_list[8], base_one_list[9],
+                               base_one_list[10], base_one_list[11], text_seach))
                 SQL_Connect.commit()  # Применение изменений к базе данных
 
-                print(f"{baze[1]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
+                print(f"{base_one_list[1]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
             except sqlite3.Error as e:
-                print(e, '----------> ?', baze[0])
+                print(e, '----------> ?', base_one_list[0])
 
-            try: # ---- Для этой вещи получаем данные про то, какие пользователи эту картинку уже использовали
-                cursor.execute("""SELECT Coll_User FROM Items WHERE Url_Item = '{:s}'""".format(baze[3]))
+            try:  # ---- Для этой вещи получаем данные про то, какие пользователи эту картинку уже использовали
+                cursor.execute("""SELECT Coll_User FROM Items WHERE Url_Item = '{:s}'""".format(base_one_list[3]))
                 autor_list = str(cursor.fetchall()[0][0])
             except sqlite3.Error as e:
                 print(e, '----------> ?')
@@ -185,20 +201,20 @@ def read_JM(autor_name):
                 new_list = ('' if (autor_list == '' or autor_list == 'None') else autor_list + ',') + autor_name
                 try:
                     cursor.execute("""UPDATE Items set Coll_User = '{:s}' 
-                                   WHERE (Url_Item = '{:s}')""".format(new_list, baze[3]))
+                                   WHERE (Url_Item = '{:s}')""".format(new_list, base_one_list[3]))
                     SQL_Connect.commit()  # Применение изменений к базе данных
                 except sqlite3.Error as e:
                     print(e, '----------> ?')
 
-        elif baze[1] == 'Ваша работа':
+        elif base_one_list[1] == 'Ваша работа':
             rab_autor += 1
             print(f"===> Вашу работу не записываем, будет сохранено работ: {kol_rab - rab_autor}")
-        elif baze[1] == 'Черный список':
+        elif base_one_list[1] == 'Черный список':
             rab_autor += 1
-            print(f"===> Автор {baze[2]} в исключениях, будет сохранено работ: {kol_rab - rab_autor}")
-        elif baze[1] == 'Работа удалена':
+            print(f"===> Автор {base_one_list[2]} в исключениях, будет сохранено работ: {kol_rab - rab_autor}")
+        elif base_one_list[1] == 'Работа удалена':
             rab_autor += 1
-            print(f"===> Работа {baze[3]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
+            print(f"===> Работа {base_one_list[3]} удалена автором, будет сохранено работ: {kol_rab - rab_autor}")
             # надо добавить проверку наличия такой работы у нас в базе и ее удаление, если есть
 
     print(f"Всего в базу внесено работ: {kol_rab - rab_autor}")
@@ -210,9 +226,7 @@ if __name__ == '__main__':
     autor_name = 'forcon'
     read_JM(autor_name)
 
-
 # Вы можете прочитать атрибут innerHTML, чтобы получить источник содержимого элемента или outerHTML для источника с текущим элементом.
 # element.get_attribute('innerHTML')
 
 #
-

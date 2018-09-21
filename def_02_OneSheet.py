@@ -1,3 +1,4 @@
+# coding=utf-8
 import datetime
 import re
 import sqlite3
@@ -9,35 +10,37 @@ from bs4 import BeautifulSoup
 
 URL_JM = 'https://www.livemaster.ru/'
 
-def one_list(name_url, autor_name, black_autor):
+
+def one_list(url_name, name_autor, black_author):
     """
     Считывает данные про работу (автор, цена, материал и т.д.) с одной страницы,
-    :param str autor_name:
-    :param str name_url:
+    :param str black_author:
+    :param str name_autor:
+    :param str url_name:
     """
     item = []
-    html = urlopen(name_url).read()  # .decode('cp1251')
+    html = urlopen(url_name).read()  # .decode('cp1251')
     bs = BeautifulSoup(html, "html.parser")
 
-    name_url = bs.find("a", {"class": "master__name"})
-    name_url = str(name_url).split('href="')[1].split('">')[0]
+    url_name = bs.find("a", {"class": "master__name"})
+    url_name = str(url_name).split('href="')[1].split('">')[0]
     name = bs.find("a", {"class": "master__name"}).text
 
-    if name_url == autor_name:
-        return (False, 'Ваша работа')
+    if url_name == name_autor:
+        return False, 'Ваша работа'
 
-    if name_url in black_autor:
-        return (False, 'Черный список', name_url)
+    if url_name in black_author:
+        return False, 'Черный список', url_name
 
     if 'Работа продана или удалена мастером' in bs.find("li", {"class": "item-info__item"}).text:
         print('Работа продана или удалена мастером')
-        return (False, 'Работа удалена', name_url, name)
+        return False, 'Работа удалена', url_name, name
 
     else:
         img_url = bs.find("a", {"class": "photo-switcher__slide--active"}).img  # Cохраняем картинку для коллекции
         img_url = str(img_url).split('src="')[1].split('"')[0]
         now_img = 'img/' + str(datetime.datetime.now()).replace('.', '_').replace(':', '_') + '.jpg'
-        urllib.request.urlretrieve(img_url, now_img) # Записали на диск
+        urllib.request.urlretrieve(img_url, now_img)  # Записали на диск
 
         try:
             price = bs.find("span", {"class": "price"}).text
@@ -52,12 +55,12 @@ def one_list(name_url, autor_name, black_autor):
         link = bs.find("link", {"rel": "canonical"})
         url = str(link).split('"')[1][len(URL_JM):]
         try:
-            materyal = bs.find("span", {"class": "js-translate-item-materials"}).text
-            materyal = "".join([i for i in materyal if i.isalnum() or i == ' ' or i == ','])
-            materyal = materyal.replace(', ', ',')
+            material = bs.find("span", {"class": "js-translate-item-materials"}).text
+            material = "".join([i for i in material if i.isalnum() or i == ' ' or i == ','])
+            material = material.replace(', ', ',')
             size = bs.find("span", {"class": "js-translate-item-size"}).text
         except AttributeError:
-            materyal = 'не указано'
+            material = 'не указано'
             size = 'не указано'
         location = bs.find("div", {"class": "master__location"}).text
 
@@ -66,10 +69,11 @@ def one_list(name_url, autor_name, black_autor):
 
         for el in gallery_all:
             if not el.text.find('Галерея коллекций с работой'):
-                gallery = str(el.text).split('(')[1][:-1]
+                in_collection = str(el.text).split('(')[1][:-1]
 
-        return (True, name, name_url, url, counter, gallery, ','.join(item).lower(),
-                price, now_img, materyal.lower(), size, location)
+        return (True, name, url_name, url, counter, in_collection, ','.join(item).lower(),
+                price, now_img, material.lower(), size, location)
+
 
 # тестовая команда
 if __name__ == '__main__':
@@ -83,15 +87,15 @@ if __name__ == '__main__':
     name_url = 'https://www.livemaster.ru/item/18831117-ukrasheniya-tryapichnaya-ptichka-s-podveskoj'
 
     text = 'брошь'
-    autor_name = 'forcon'
+    author_name = 'forcon'
     html = urlopen(name_url).read()  # .decode('cp1251')
     bs = BeautifulSoup(html, "html.parser")
 
-    baze = one_list(name_url, autor_name, [(''),('')]) # ------- Сама программа -----------
+    base = one_list(name_url, author_name, ['', ''])  # ------- Сама программа -----------
     k = 0
 
-    if baze[0]:
-        print(baze)
+    if base[0]:
+        print(base)
         # try:
         #     cursor.execute("""INSERT INTO 'Items' (
         #     'Autor', 'Url_Autor', 'Url_Item', 'Favor', 'Gallery', 'Tags', 'Word_Search', 'Price', 'Name_Img', 'Material', 'Size', 'Location')

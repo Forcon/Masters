@@ -1,8 +1,9 @@
+# coding=utf-8
 # from tkinter import *
-import sqlite3
-from tkinter import messagebox
-
-from myBoolean import *  # Дополнительные окна
+# import sqlite3
+# from tkinter import messagebox
+#
+# from myBoolean import *  # Дополнительные окна
 
 from pr02_Form_to_SQL import *
 
@@ -18,6 +19,7 @@ class Text_Entry:
     """
     Создает пару: подпись и поле для заполнения
     """
+
     def __init__(self, master, message='[имя поля]', pi_y=10, show='', url=''):
         """
         :param str message:
@@ -41,15 +43,16 @@ class Btn:
     """
     Создает кнопку
     """
+
     def __init__(self, master, text='[надпись]', ver=0, r_y=0, fg='black'):
-        '''
+        """
         Создает кнопку
         :param master:
         :param str text:
         :param str ver:
         :param float r_y:
         :param str fg:
-        '''
+        """
         self.button_name = Button(master, text=text, command=lambda: master.check_entry(ver),
                                   width=14, height=3, fg=fg)
         self.button_name.place(relx=.87, rely=r_y, anchor="c")
@@ -73,7 +76,7 @@ class Auto_main(Tk):
         self.Mail = Text_Entry(self.master, 'E-mail:*', 50)
         self.Password = Text_Entry(self.master, 'Пароль:*', 90, '*')
         self.FIO = Text_Entry(self.master, 'Имя:', 130)
-        self.Adress = Text_Entry(self.master, 'Адрес на ЯМ:', 170, url=URL_JM)
+        self.Address = Text_Entry(self.master, 'Адрес на ЯМ:', 170, url=URL_JM)
         self.focus_ini()
 
         Btn(self, "Авторизоваться*", 'auto', .35, fg='green')
@@ -92,8 +95,8 @@ class Auto_main(Tk):
                 self.Password.text_entry.focus_set()
             elif self.FIO.get() == '':
                 self.FIO.text_entry.focus_set()
-            elif self.Adress.get() == '':
-                self.Adress.text_entry.focus_set()
+            elif self.Address.get() == '':
+                self.Address.text_entry.focus_set()
 
         else:
             if step == 1:
@@ -103,9 +106,10 @@ class Auto_main(Tk):
             elif step == 3:
                 self.FIO.text_entry.focus_set()
             elif step == 4:
-                self.Adress.text_entry.focus_set()
+                self.Address.text_entry.focus_set()
 
-    def base_read(self, mail):
+    @staticmethod
+    def base_read(mail):
         """
         Считывает из базы данные пользователя при авторизации
         :param str mail:
@@ -128,7 +132,7 @@ class Auto_main(Tk):
         :param str action:
         """
         self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                            'Adress': self.Adress.get(), 'User': self.adress_sql, 'Name': self.name_sql,
+                            'Adress': self.Address.get(), 'User': self.adress_sql, 'Name': self.name_sql,
                             'Action': action}
         self.destroy()
 
@@ -143,7 +147,7 @@ class Auto_main(Tk):
         if FALSE:  # Это как раз и есть проверка всех полей на корректность заполнения
             pass
         elif btn == 'new' and (self.FIO.get() == '' or self.Mail.get() == ''
-                               or self.Password.get() == '' or self.Adress.get() == ''):
+                               or self.Password.get() == '' or self.Address.get() == ''):
             # InformWin("Подсказка:", "Надо заполнить все поля")
             messagebox.showinfo("Подсказка:", "Надо заполнить все поля")
             self.focus_ini()
@@ -157,7 +161,7 @@ class Auto_main(Tk):
             messagebox.showinfo("Подсказка:", "Пользователя с адресом '{:s}' нет в базе. "
                                               "Вы можете создать нового пользователя.".format(self.Mail.get()))
             self.focus_ini(1)
-        elif btn == 'new' and re.search(r"[а-яА-ЯёЁ]", self.Adress.get()):
+        elif btn == 'new' and re.search(r"[а-яА-ЯёЁ]", self.Address.get()):
             messagebox.showinfo("Подсказка:", "В адресе не может быть русских букв")
             self.focus_ini(4)
         elif btn == 'auto' and self.password_sql != self.Password.get():
@@ -180,34 +184,34 @@ class Auto_main(Tk):
                 self.ReturnDisc(btn)
                 # self.destroy()
 
-        elif btn == 'auto' and (self.FIO.get() != '' or self.Adress.get() != ''):
+        elif btn == 'auto' and (self.FIO.get() != '' or self.Address.get() != ''):
             self.obnovlDan(self.name_sql, self.adress_sql)
 
         else:  # В финале возвращаем значения из корректно заполненных полей
             self.ReturnDisc(btn)
             # self.destroy()
 
-    def obnovlDan(self, name_sql, adress_sql):
+    def obnovlDan(self, name_sql, address_sql):
         """
         Вместо создания нового пользователя производит авторизацию, возможно с перезаписью значений в поля
         :param str name_sql:
-        :param str adress_sql:
+        :param str address_sql:
         :return:
         """
         if (self.FIO.get() == '' or name_sql == self.FIO.get()) and (
-                self.Adress.get() == '' or adress_sql == self.Adress.get()):
-            self.ReturnDisc('auto')
+                self.Address.get() == '' or address_sql == self.Address.get()):
+            self.ReturnDisc()
         else:
             # elif (name_sql != self.FIO.get() or adress_sql != self.Adress.get()):
             question = 'Хотите обновить профиль, изменив'
             if self.FIO.get() != '' and name_sql != self.FIO.get():
                 question += ' Ваше имя'
-                if self.Adress.get() != '' and adress_sql != self.Adress.get(): question += ' и'
-            if self.Adress.get() != '' and adress_sql != self.Adress.get(): question += ' адрес на Ярмарке мастеров'
+                if self.Address.get() != '' and address_sql != self.Address.get(): question += ' и'
+            if self.Address.get() != '' and address_sql != self.Address.get(): question += ' адрес на Ярмарке мастеров'
             if not self.dopParam(question + "?"):
                 if name_sql != self.FIO.get(): self.FIO.text_entry.delete('0', END)
-                if adress_sql != self.Adress.get(): self.Adress.text_entry.delete(len(URL_JM), END)
-                self.ReturnDisc('auto')
+                if address_sql != self.Address.get(): self.Address.text_entry.delete(len(URL_JM), END)
+                self.ReturnDisc()
             else:  # Необходимо перезаписать данные в бвзе
                 self.ReturnDisc('refr')
         # else:
@@ -336,4 +340,3 @@ if __name__ == '__main__':
     user_name = base_to_sql['User']  # В дальнейшем это значение должно передаваться в следующую программу
     print(user_name)
     read_JM(user_name)
-

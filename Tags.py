@@ -1,6 +1,9 @@
+# coding=utf-8
 import sqlite3
-import re
-import numpy as np
+
+# import re
+# import numpy as np
+
 """
 Программа для вытаскивания списка тегов из базы и отбора самых популярныхйф
 """
@@ -12,7 +15,8 @@ text_seach = 'кот серебряная подвеска'
 name_coll = 'Все в зеленом'
 
 cursor.execute("""SELECT Autor, Url_Item, Tags, Favor, id FROM Items
-            WHERE (Word_Search = '{:s}') AND (Use_in_Coll <> '{:s}' OR Use_in_Coll IS NULL) ORDER BY Favor DESC LIMIT 30""".format (text_seach, name_coll)) # Извлечение при сортировке
+            WHERE (Word_Search = '{:s}') AND (Use_in_Coll <> '{:s}' OR Use_in_Coll IS NULL) ORDER BY Favor DESC LIMIT 30""".format(
+    text_seach, name_coll))  # Извлечение при сортировке
 # cursor.execute("""SELECT Autor, Url_Item, Tags, Favor, id FROM Items
 #                     WHERE Use_in_Coll IS NULL ORDER BY Favor DESC LIMIT 30""" .format(name_coll)) # Извлечение при сортировке
 
@@ -43,10 +47,12 @@ SQL_Connect.close()
 
 tag_summ = {}
 for el in srt_item:
-    if el not in tag_summ: tag_summ[el] = 1
-    else: tag_summ[el] += 1
+    if el not in tag_summ:
+        tag_summ[el] = 1
+    else:
+        tag_summ[el] += 1
 
-srt_tag = [] # -------- Самые популярны тэги
+srt_tag = []  # -------- Самые популярны тэги
 for i, el in enumerate(sorted(tag_summ.items(), key=lambda x: x[1], reverse=True)):
     if i < 20: srt_tag.append(el[0])
 

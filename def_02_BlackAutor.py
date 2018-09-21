@@ -1,4 +1,6 @@
+# coding=utf-8
 import sqlite3
+
 
 def black_url(my_name=''):
     """
@@ -20,8 +22,9 @@ def black_url(my_name=''):
     cursor.close()
     SQL_Connect.close()
 
+    # noinspection PyShadowingBuiltins
     list = []
-    for el in black_list: # ? =======> Можно ли как-то избежать такого преобразования, а сразу брать из базы?
+    for el in black_list:  # TODO: =======> Можно ли как-то избежать такого преобразования, а сразу брать из базы?
         list.extend(el[0].split(','))
 
     return list
@@ -29,7 +32,6 @@ def black_url(my_name=''):
 
 # тестовая команда
 if __name__ == '__main__':
-
     name = 'masya'
     black_name = black_url(name)
     print(black_name)

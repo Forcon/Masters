@@ -1,21 +1,23 @@
-import unittest
+# coding=utf-8
+# import unittest
 from selenium.webdriver.common.keys import Keys
 from selenium import webdriver
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver import Firefox
-from selenium.common.exceptions import NoSuchElementException
+# from selenium.webdriver.firefox.options import Options
+# from selenium.webdriver import Firefox
+# from selenium.common.exceptions import NoSuchElementException
 import time
-from urllib.request import urlopen
+# from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import ssl
 import sqlite3
-from my_02_TextSeach import *
+
+# from my_02_TextSeach import *
 
 """
 Предварительная версия программы для записи данных в коллекцию на моей странице(?)
 """
 
-ssl._create_default_https_context = ssl._create_unverified_context # Использование ssl
+ssl._create_default_https_context = ssl._create_unverified_context  # Использование ssl
 
 url_collect = 'https://www.livemaster.ru/gallery/876453/edit&wf=general&pos=2'
 
@@ -28,7 +30,6 @@ url_collect = 'https://www.livemaster.ru/gallery/876453/edit&wf=general&pos=2'
 
 
 text_seach = 'кот серебряная подвеска'
-
 
 # --------- Запуск Firefox
 driver = webdriver.Firefox()
@@ -45,7 +46,7 @@ driver.get(url_collect)
 
 try:
     driver.find_element_by_id("more-items-button-show").click()
-except:
+except:  # TODO: Нужно указание на правильную ошибку
     pass
 bs = BeautifulSoup(driver.find_element_by_id("caption").get_attribute('outerHTML'), "html.parser")
 name_coll = str(bs).split('value="')[1].split('"')[0]
@@ -56,16 +57,16 @@ cursor = SQL_Connect.cursor()
 # ----- Берем из базы 30 лучших
 cursor.execute("""SELECT Autor, Url_Item, Tags, Favor, id FROM Items
             WHERE (Word_Search = '{:s}') AND (Use_in_Coll <> '{:s}' OR Use_in_Coll IS NULL) 
-            ORDER BY Favor DESC LIMIT 30""".format (text_seach, name_coll)) # Извлечение при сортировке
-adress_list = cursor.fetchall()
+            ORDER BY Favor DESC LIMIT 30""".format(text_seach, name_coll))  # Извлечение при сортировке
+address_list = cursor.fetchall()
 
 url_list = []
-autor_list = []
+author_list = []
 srt_item = []
 id_list = []
-for el in adress_list:
-    if el[0] not in autor_list:
-        autor_list.extend(el[0].split(','))
+for el in address_list:
+    if el[0] not in author_list:
+        author_list.extend(el[0].split(','))
         url_list.extend(el[1].split(','))
         srt_item.extend(el[2].split(','))
         id_list.append(el[4])
@@ -79,10 +80,14 @@ SQL_Connect.close()
 
 tag_summ = {}
 for el in srt_item:
-    if el not in tag_summ: tag_summ[el] = 1
-    else: tag_summ[el] += 1
+    tag_summ[el] = 1 if (el not in tag_summ) else +1
+    #
+    # if el not in tag_summ:
+    #     tag_summ[el] = 1
+    # else:
+    #     tag_summ[el] += 1
 
-srt_tag = [] # -------- Самые популярные тэги
+srt_tag = []  # -------- Самые популярные тэги
 for i, el in enumerate(sorted(tag_summ.items(), key=lambda x: x[1], reverse=True)):
     if i < 20: srt_tag.append(el[0])
 
@@ -100,14 +105,13 @@ for i, el in enumerate(driver.find_elements_by_class_name('uriInput')):
 driver.find_element_by_id("savebtn").click()
 
 # <button class="btn btn--large" id="savebtn" onclick="DoAction('save'); return false;">Сохранить</button>
-# print(elem)<input autocomplete="off" tabindex="" id="tags-selectized" style="width: 4px; opacity: 1; position: relative; left: 0px;" type="text">
-
+# print(elem)<input autocomplete="off" tabindex="" id="tags-selectized" style="width: 4px; opacity: 1;
+# position: relative; left: 0px;" type="text">
 
 
 # for i, el in enumerate(driver.find_elements_by_class_name('list-no-item')):
-    # print(BeautifulSoup(el.get_attribute('outerHTML'), "html.parser"))
-    # # if el.text == '  OK':
-    #     # elem = driver.find_element_by_name("itemUrl_" + str(i + 1))
+# print(BeautifulSoup(el.get_attribute('outerHTML'), "html.parser"))
+# # if el.text == '  OK':
+#     # elem = driver.find_element_by_name("itemUrl_" + str(i + 1))
 
-#<input class="itemMasterId" value="48062" type="hidden">
-
+# <input class="itemMasterId" value="48062" type="hidden">
