@@ -11,41 +11,35 @@ from tkinter import *
 """
 
 
-class InformWin:
+class InformWin(Toplevel):
     """
-    Создание сообщения
+    Создание окна с сообщением
     """
 
     def __init__(self, title='Сообщение', message='', fg='black', width=250, height=80):
-        root = Tk()  # ---- Можно ли без открытия окна?
-        root.withdraw()
+        super().__init__()
+        self.title(title)
 
-        self.inform = Toplevel(root)
-        self.inform.title(title)
         if (7 * len(message)) > width: width = 7 * len(message)
-        self.inform.geometry(Center_widows(width, height))
+        self.geometry(Center_widows(width, height))
 
         # bk_image = tk.PhotoImage('img/Logo_LJ.jpg')
         # frame = Frame(self, image=bk_image)
         # frame.place()
-        self.message = Message(self.inform, aspect=800)
+        self.message = Message(self, aspect=800)
         self.message.place(relx=.5, y=20, anchor="c")
         self.message.configure(text=message, fg=fg)
 
-        self.button = Button(self.inform, text='Закрыть', command=self.close)
+        self.button = Button(self, text='Закрыть', command=self.close)
         position = width - 80 - 12
         self.button.place(x=position, y=40, anchor="nw", width=80, height=28)
-        # print(dir(self.button))
 
-        self.inform.grab_set()
-        # self.inform.focus_set()
+        self.grab_set()
         self.button.focus_set()
-        self.inform.wait_window()
-        root.destroy()
+        self.wait_window()
 
     def close(self):
-        self.inform.destroy()
-        #
+        self.destroy()
 
 
 """
@@ -54,10 +48,11 @@ class InformWin:
 
 
 # класс диалогового окна выхода
-class YesNo:
+class YesNo(Toplevel):
     def __init__(self, master):
-        self.slave = Toplevel(master)
-        self.frame = Frame(self.slave)  # , bg = 'LightGray')
+        super().__init__()
+        # self.slave = Toplevel(master)
+        self.frame = Frame(self)  # , bg = 'LightGray')
 
         self.frame.pack(side=BOTTOM)
         self.yes_button = Button(self.frame, text='Да', command=self.yes, width=5, height=2)
@@ -65,28 +60,27 @@ class YesNo:
         self.no_button = Button(self.frame, text='Нет', command=self.no, width=5, height=2)
         self.no_button.pack(side=RIGHT, pady=5)
 
-        self.message = Message(self.slave, aspect=400)
+        self.message = Message(self, aspect=400)
         self.message.pack(side=TOP, fill=BOTH, expand=YES)
-        self.slave.protocol('WM_DELETE_WINDOW', self.no)
+        self.protocol('WM_DELETE_WINDOW', self.no)
 
-    def go(self, title='Question', message='[question goes here]', width=200,
-           height=80):  # , geometry='200x70+300+265'):
-        self.slave.title(title)
-        self.slave.geometry(Center_widows(width, height))
+    def go(self, title='Question', message='[question goes here]', width=200, height=80):
+        self.title(title)
+        self.geometry(Center_widows(width, height))
         self.message.configure(text=message)
         self.booleanValue = TRUE
-        self.slave.grab_set()
-        self.slave.focus_set()
-        self.slave.wait_window()
+        self.grab_set()
+        self.focus_set()
+        self.wait_window()
         return self.booleanValue
 
     def yes(self):
         self.booleanValue = TRUE
-        self.slave.destroy()
+        self.destroy()
 
     def no(self):
         self.booleanValue = FALSE
-        self.slave.destroy()
+        self.destroy()
 
 
 # Располагает окно по центру страницы
@@ -94,31 +88,23 @@ class Center_widows(object):  # TODO: Переписать как другой �
     """
     # ----- Располагает окна по центру экрана
     """
-
     def __init__(self, width, height):
-        self.width = width
-        self.height = height
+        self.screen = str(width) + "x" + str(height) + "+" + str(
+            (root.winfo_screenwidth() - width) // 2) + "+" + str((root.winfo_screenheight() - height) // 2)
 
     def __str__(self):
-        root = Tk()  # ---- Можно ли без открытия окна?
-        root.overrideredirect(1)
-        root.withdraw()
-        screen = str(self.width) + "x" + str(self.height) + "+" + str(
-            (root.winfo_screenwidth() - self.width) // 2) + "+" + str((root.winfo_screenheight() - self.height) // 2)
-        root.destroy()
-        return screen
+        return self.screen
 
 
 # тестовая команда
 
 if __name__ == '__main__':
     root = Tk()
-    # root.overrideredirect(1)
     root.withdraw()
     InformWin(message='Вы успешно авторизовались', fg='green')
 
-    # myTest = YesNo(root)
-    # if myTest.go(message = 'Is it working?'):
-    #   print('Yes')
-    # else:
-    #   print('No')
+    myTest = YesNo(root)
+    if myTest.go(message='Is it working?'):
+        print('Yes')
+    else:
+        print('No')
