@@ -12,22 +12,14 @@ def black_url(my_name=''):
     SQL_Connect = sqlite3.connect('Masters.db')
     cursor = SQL_Connect.cursor()
 
-    black_list = []
     try:
         cursor.execute("""SELECT BlackURL FROM BlackAutor WHERE (MyName = '{:s}') OR MyName IS NULL """.format(my_name))
-        black_list = cursor.fetchall()
+        return [el[0] for el in cursor.fetchall()]
     except sqlite3.Error as e:
         print(e, '----------> ?')
 
     cursor.close()
     SQL_Connect.close()
-
-    # noinspection PyShadowingBuiltins
-    list = []
-    for el in black_list:  # TODO: =======> Можно ли как-то избежать такого преобразования, а сразу брать из базы?
-        list.extend(el[0].split(','))
-
-    return list
 
 
 # тестовая команда
