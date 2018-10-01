@@ -8,7 +8,7 @@ SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
 
 
-def sort_all(img, autor, score, len_user: list(int)):
+def sort_all(img, autor, score, len_user):
     """
     Сортировка массивов взаимовлияющая -
     """

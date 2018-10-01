@@ -44,7 +44,7 @@ class VerticalScrolledFrame(Frame):
     # обновите полосы прокрутки в соответствии с размером внутренней рамки
         size = (self.interior.winfo_reqwidth(), self.interior.winfo_reqheight())
         self.canvas.config(scrollregion="0 0 %s %s" % size)
-        print(size)
+    # print(size)
         if self.interior.winfo_reqwidth() != self.canvas.winfo_width():
             # обновите ширину холста, чтобы она соответствовала внутренней рамке
             self.canvas.config(width=self.interior.winfo_reqwidth())
@@ -67,7 +67,7 @@ if __name__ == "__main__":
             root = Tk.__init__(self, *args, **kwargs)
 
             self.geometry("800x550")
-            self.frame = VerticalScrolledFrame()
+            self.frame = VerticalScrolledFrame(self)
             self.frame.pack()
             # self.label = Label(self.frame.interior, text="Можно уменьшить окно, чтобы активировать полосу прокрутки.", width = 1000)
             # self.label.pack()
