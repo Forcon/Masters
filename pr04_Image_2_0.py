@@ -3,6 +3,7 @@ from tkinter import *
 
 # from tkinter.tix import *
 # from tkinter import Tk, Button, Toplevel
+import tkinter as tk
 from PIL import ImageTk  # $ pip install pillow
 from pr03_Form_Collection import *
 from def04_Frame_Scroll import *
@@ -10,7 +11,6 @@ from def04_Frame_Scroll import *
 """
 Версия 2.0: Основная программа
 Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию
-(Надо отработать с реальными картинками из базы)
 """
 # user_name = 'forcon'
 # text_search = 'Птичка сердолик'
@@ -121,17 +121,13 @@ class SampleApp(Toplevel):
             else:
                 int_zn += self.len_mass[i]
 
-    def start_fin(self, row):  # ----- Дает значения с которых начинается (или заканчивается) очередной ряд
+    def start_fin(self, row):  # ----- Дает значения с которых начинается (и заканчивается) очередной ряд
         return sum(self.len_mass[:row]) + 1, sum(self.len_mass[:row]) + self.len_mass[row]
 
 
-    def give_img(self, name, number):  # Устaнавливает размер картинок
+    def give_img(self, name, number):  # ------ Устaнавливает размер картинок
         st, fin = self.start_fin(self.row_img(number))
         row_btn = list(self.frame.interior.children)[st - 1:fin]
-
-        # print(f'{st} <---> {fin}')
-        # print(list(self.frame.interior.children)[st - 1:fin])
-        # print(row_btn)
 
         if img_url[number - 1] in self.img_in_coll:
             self.img_in_coll.remove(img_url[number - 1])
@@ -148,6 +144,7 @@ class SampleApp(Toplevel):
                     self.img_in_coll.append(img_url[number - 1])
         self.new_img()
 
+
     def click_button(self, event):  # Обработка нажатия на кнопку в выборе картинок
         name = event.widget._name
         number = 1 if name == '!button' else int(name.split('!button')[1])
@@ -160,6 +157,10 @@ if __name__ == "__main__":
     root = Tk()  # ---- Открываем основное окно и сразу его прячем
     root.overrideredirect(1)
     root.withdraw()
+    # Выводит значок программы в нижнюю панель
+    img = tk.PhotoImage(file='img/Logo_JM.gif')
+    root.tk.call('wm', 'iconphoto', root._w, img)
+
 
     user_name = 'forcon'
     text_search = 'Птичка сердолик'

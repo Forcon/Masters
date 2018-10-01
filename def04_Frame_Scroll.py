@@ -44,7 +44,7 @@ class VerticalScrolledFrame(Frame):
     # обновите полосы прокрутки в соответствии с размером внутренней рамки
         size = (self.interior.winfo_reqwidth(), self.interior.winfo_reqheight())
         self.canvas.config(scrollregion="0 0 %s %s" % size)
-    # print(size)
+        print(size)
         if self.interior.winfo_reqwidth() != self.canvas.winfo_width():
             # обновите ширину холста, чтобы она соответствовала внутренней рамке
             self.canvas.config(width=self.interior.winfo_reqwidth())

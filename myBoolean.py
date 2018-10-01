@@ -3,8 +3,7 @@
 
 # импортирование модулей python
 from tkinter import *
-
-# import tkinter as tk
+import tkinter as tk
 
 """
 Информационное окно
@@ -22,10 +21,14 @@ class InformWin(Toplevel):
 
         if (7 * len(message)) > width: width = 7 * len(message)
         self.geometry(Center_widows(width, height))
+        # self.wm_iconbitmap(bitmap = 'img/Logo_JM.ico')
+
+
 
         # bk_image = tk.PhotoImage('img/Logo_LJ.jpg')
         # frame = Frame(self, image=bk_image)
         # frame.place()
+
         self.message = Message(self, aspect=800)
         self.message.place(relx=.5, y=20, anchor="c")
         self.message.configure(text=message, fg=fg)
@@ -103,8 +106,12 @@ if __name__ == '__main__':
     root.withdraw()
     InformWin(message='Вы успешно авторизовались', fg='green')
 
-    myTest = YesNo(root)
-    if myTest.go(message='Is it working?'):
-        print('Yes')
-    else:
-        print('No')
+    # Выводит значок программы в нижнюю панель
+    img = tk.PhotoImage(file='img/Logo_JM.gif')
+    root.tk.call('wm', 'iconphoto', root._w, img)
+
+    # myTest = YesNo(root)
+    # if myTest.go(message='Is it working?'):
+    #     print('Yes')
+    # else:
+    #     print('No')
