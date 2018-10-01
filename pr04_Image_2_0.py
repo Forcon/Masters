@@ -121,37 +121,31 @@ class SampleApp(Toplevel):
             else:
                 int_zn += self.len_mass[i]
 
-    def start_fin(self, n, row):  # ----- Дает количество начала (или конца) по списку, где есть значения
-
-        f = sum(self.len_mass[:row]) + (self.len_mass[row] if n else 1)
-        return f
-        # return sum(self.len_mass[:row]) + self.len_mass[row] if n else sum(self.len_mass[:row]) + 1
+    def start_fin(self, row):  # ----- Дает значения с которых начинается (или заканчивается) очередной ряд
+        return sum(self.len_mass[:row]) + 1, sum(self.len_mass[:row]) + self.len_mass[row]
 
 
     def give_img(self, name, number):  # Устaнавливает размер картинок
-        n_row = self.row_img(number)
-        print(self.start_fin(0, n_row))
-        print(self.start_fin(1, n_row))
+        st, fin = self.start_fin(self.row_img(number))
+        row_btn = list(self.frame.interior.children)[st - 1:fin]
+
+        # print(f'{st} <---> {fin}')
+        # print(list(self.frame.interior.children)[st - 1:fin])
+        # print(row_btn)
 
         if img_url[number - 1] in self.img_in_coll:
             self.img_in_coll.remove(img_url[number - 1])
-            for i, el in enumerate(self.coll.children, 1):
-                if self.start_fin(0, n_row) <= i <= self.start_fin(1, n_row):
-                    self.frame.interior.children[el].config(height="{:}".format(80))
+            for i, el in enumerate(row_btn, st - 1):
+                self.frame.interior.children[el].config(height="{:}".format(80))
         else:
-            for i, el in enumerate(self.frame.interior.children):
-                if self.start_fin(0, n_row) <= i + 1 <= self.start_fin(1, n_row):
-                    if img_url[i] in self.img_in_coll:
-                        self.img_in_coll.remove(img_url[i])
-                    # try:
-                    #     self.img_in_coll.remove(img_url[i])
-                    # except:  # TODO: Нужно указание на правильную ошибку - ValueError: list.remove(x):
-                    #     pass
-                    if el != name:  # Уменьшает картинки которые не совпадают с номером кнопки
-                        self.frame.interior.children[el].config(height="{:}".format(40))
-                    else:
-                        self.frame.interior.children[name].config(height="{:}".format(80))
-                        self.img_in_coll.append(img_url[number - 1])
+            for i, el in enumerate(row_btn, st - 1):
+                if img_url[i] in self.img_in_coll:  #
+                    self.img_in_coll.remove(img_url[i])
+                if el != name:  # Уменьшает картинки которые не совпадают с номером кнопки
+                    self.frame.interior.children[el].config(height="{:}".format(40))
+                else:
+                    self.frame.interior.children[name].config(height="{:}".format(80))
+                    self.img_in_coll.append(img_url[number - 1])
         self.new_img()
 
     def click_button(self, event):  # Обработка нажатия на кнопку в выборе картинок
