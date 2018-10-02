@@ -1,10 +1,10 @@
 # coding=utf-8
 # from tkinter import *
 from tkinter import messagebox
-from myBoolean import *
+from form_Boolean import *
 
 """ 
------- Создает окно с выбором: либо для поиска по всем картинкамБ лиюо для конкретного автора -------
+------ Создает окно с выбором: либо для поиска по всем картинкам, лиюо для конкретного автора -------
 для сбора картинок и информации про работу в базу
 """
 URL_JM = 'https://www.livemaster.ru/'
@@ -32,11 +32,10 @@ class Text_Entry_Button:
 
 
 # класс главного окна
-class TextSearсh(Tk):
+class TextSearch(Toplevel):
     """
     # ----- Создает плашку для ввода текста для поиска
     """
-
     def __init__(self):
         super().__init__()
         self.sendValue = ''
@@ -69,10 +68,10 @@ class TextSearсh(Tk):
                     self.sendValue = (self.Item.get(), self.Autor.get())
                     self.destroy()
                 else:
-                    # self.Item.text_entry.delete('0', END)
+                    self.Item.text_entry.delete('0', END)
                     #  ------ Проблема: после очистки поля фокус (и возможность выбрать поле для записи) блокируется.
-                    self.destroy()  # Временное решение проблемы с блокировкой
-                    self.__init__()
+                    # self.destroy()  # Временное решение проблемы с блокировкой
+                    # self.__init__()
                     self.Item.text_entry.focus_set()
             else:
                 self.sendValue = (self.Item.get(), self.Autor.get())
@@ -83,9 +82,9 @@ class TextSearсh(Tk):
                 self.Autor.text_entry.focus_set()
             elif re.search(r"[а-яА-ЯёЁ]", self.Autor.get()):
                 messagebox.showinfo("GUI Python", "В адресе не может быть русских букв")
-                # self.Autor.text_entry.delete(len(URL_JM), END)
-                self.destroy()  # Временное решение проблемы с блокировкой
-                self.__init__()
+                self.Autor.text_entry.delete(len(URL_JM), END)
+                # self.destroy()  # Временное решение проблемы с блокировкой
+                # self.__init__()
                 self.Autor.text_entry.focus_set()
             else:
                 self.sendValue = (self.Item.get(), self.Autor.get())
@@ -99,8 +98,12 @@ class TextSearсh(Tk):
 
 
 if __name__ == '__main__':
+    root = Tk()  # ---- Открываем основное окно и сразу его прячем
+    root.overrideredirect(1)
+    root.withdraw()
+
     try:
-        app = TextSearсh()
+        app = TextSearch()
         app.mainloop()
         text = app.sendValue
         # root = Tk

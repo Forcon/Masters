@@ -1,45 +1,16 @@
 # coding=utf-8
 from tkinter import *
-
 # from tkinter.tix import *
 # from tkinter import Tk, Button, Toplevel
 import tkinter as tk
 from PIL import ImageTk  # $ pip install pillow
 from pr03_Form_Collection import *
-from def04_Frame_Scroll import *
+from def_04_Frame_Scroll import *
 
 """
-Версия 2.0: Основная программа
+Версия 2.5: Основная программа
 Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию
 """
-# user_name = 'forcon'
-# text_search = 'Птичка сердолик'
-#
-# img_url, autor_name, len_mass = creating_coll(user_name, text_search)
-# img_in_coll = []
-# img_coll = 16  # Количество изображений в коллекции
-
-# len_mass = [5, 3, 4] # Количество изображений в каждом ряду
-# img_url = ['img/img_1.jpg',
-# 'img/img_2.jpg',
-# 'img/img_3.jpg',
-# 'img/img_4.jpg',
-# 'img/img_5.jpg',
-# 'img/img_6.jpg',
-# 'img/img_7.jpg',
-# 'img/img_8.jpg',
-# 'img/img_9.jpg',
-# 'img/img_10.jpg',
-# 'img/img_11.jpg',
-# 'img/img_12.jpg']
-
-
-
-
-
-    # root = Tk()
-    # root.title("Выбор картинок в коллекцию")
-    # root.geometry("800x550")
 
 class SampleApp(Toplevel):
     def __init__(self, img_url, len_mass, img_coll, *args, **kwargs):
@@ -52,7 +23,7 @@ class SampleApp(Toplevel):
         # self = Toplevel()
         self.title("Выбор картинок в коллекцию")
         self.geometry("800x550")
-        self.frame = VerticalScrolledFrame(self)
+        self.frame = VerticalScrolledFrame(self, 800)
 
         for i, el in enumerate(self.img_url):
             if i > 0: break
@@ -157,10 +128,10 @@ if __name__ == "__main__":
     root = Tk()  # ---- Открываем основное окно и сразу его прячем
     root.overrideredirect(1)
     root.withdraw()
+
     # Выводит значок программы в нижнюю панель
     img = tk.PhotoImage(file='img/Logo_JM.gif')
     root.tk.call('wm', 'iconphoto', root._w, img)
-
 
     user_name = 'forcon'
     text_search = 'Птичка сердолик'

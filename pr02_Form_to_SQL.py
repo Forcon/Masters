@@ -17,7 +17,7 @@ from selenium.webdriver.support.ui import Select
 
 from def_02_BlackAutor import *
 from def_02_OneSheet import *
-from my_02_TextSeach import *
+from form_02_TextSeach import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
@@ -137,7 +137,7 @@ def read_JM(autor_name):
 
     # autor_name = 'forcon'
     #
-    app = TextSearсh()
+    app = TextSearch()
     app.mainloop()
     rez_vibor = app.sendValue  # Получаем текст для дальнейшего поиска на ЯМ
 

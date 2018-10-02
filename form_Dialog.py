@@ -3,32 +3,33 @@
 
 # импортирование модулей python
 # from tkinter import *
-from myBoolean import *
+from form_Boolean import *
 
 """
 Диалоговое окно проверки пароля - импортируемый модуль
 """
 
-
 # класс дочернего окна
-class dialog:
+class Dialog(Toplevel):
     def __init__(self, master):
-        self.top = Toplevel(master)
-        self.top.title('Проверка пароля')
-        self.top.geometry(Center_widows(390, 100))  # Располагает по центру страницы
-        # self.frame = Frame(self.top)
+        super().__init__()
+        # self = Toplevel(master)
+        self.maser = master
+        self.title('Проверка пароля')
+        self.geometry(Center_widows(master, 390, 100))  # Располагает по центру страницы
+        # self.frame = Frame(self)
         # self.frame.pack(side=BOTTOM)
-        self.label = Label(self.top, text='Введите пароль еще раз...')
+        self.label = Label(self, text='Введите пароль еще раз...')
         self.label.place(relx=.5, y=20, anchor="c")
 
-        self.yes_button = Button(self.top, text='Подтвердить', command=self.cancel)
+        self.yes_button = Button(self, text='Подтвердить', command=self.cancel)
         self.yes_button.place(x=275, y=50, anchor="w", width=100, height=30)
 
         self.x = StringVar()
-        self.text_entry = Entry(self.top, textvariable=self.x, show='*')
+        self.text_entry = Entry(self, textvariable=self.x, show='*')
         self.text_entry.place(x=15, y=50, anchor="w", width=250)
 
-        self.top.protocol('WM_DELETE_WINDOW', self.cancel)
+        self.protocol('WM_DELETE_WINDOW', self.cancel)
 
     def __str__(self):
         return self.x.get()
@@ -36,23 +37,23 @@ class dialog:
     def go(self, myText='', ):
         self.text_entry.insert('0', myText)
         self.newValue = None
-        self.top.grab_set()
-        self.top.focus_set()
-        self.top.wait_window()
+        self.grab_set()
+        self.focus_set()
+        self.wait_window()
         return self.newValue
 
     def accept(self):
         self.newValue = self.text_entry.get()
-        self.top.destroy()
+        self.destroy()
         pass
 
     def cancel(self):
-        self.top.destroy()
+        self.destroy()
 
 
 # тестовая команда
 if __name__ == '__main__':
     root = Tk()
     root.withdraw()
-    myTest = dialog(root)
+    myTest = Dialog(root)
     print(myTest.go('Hello World!'))
