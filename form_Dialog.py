@@ -52,7 +52,9 @@ class Dialog(Toplevel):
 
 # тестовая команда
 if __name__ == '__main__':
-    # root = Tk()
-    # root.withdraw()
+    root = Tk()
+    root.withdraw()
+    center_window = Screen_Size(root)
+
     myTest = Dialog()
     print(myTest.go('Hello World!'))

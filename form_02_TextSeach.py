@@ -40,7 +40,7 @@ class TextSearch(Toplevel):
         super().__init__()
         self.sendValue = ''
         self.title("Отбор картинок в базу")
-        self.geometry(Screen_Size(650, 145))  # Располагает по центру страницы
+        self.geometry(center_window(650, 145))  # Располагает по центру страницы
 
         self.Item = Text_Entry_Button(self, 'Введите текст для поиска работ по "Ярмарке Мастеров":',
                                       "Работы по запросу", 20, 45, 1)
@@ -62,7 +62,7 @@ class TextSearch(Toplevel):
                 messagebox.showinfo("GUI Python", "Надо ввести текст для поиска")
                 self.Item.text_entry.focus_set()
             elif re.search(r"[a-zA-Z]", self.Item.get()):
-                self.dialog = YesNo(self)
+                self.dialog = YesNo()
                 self.returnValue = self.dialog.go('Вопрос:', 'В запросе латинские буквы. Вы уверены?')
                 if self.returnValue:
                     self.sendValue = (self.Item.get(), self.Autor.get())
@@ -91,16 +91,16 @@ class TextSearch(Toplevel):
                 self.destroy()
 
     def exitMethod(self):
-        self.dialog = YesNo(self)
+        self.dialog = YesNo()
         self.returnValue = self.dialog.go('Вопрос:', 'Вы хотите выйти?')
         if self.returnValue:
             self.destroy()
 
 
 if __name__ == '__main__':
-    root = Tk()  # ---- Открываем основное окно и сразу его прячем
-    root.overrideredirect(1)
+    root = Tk()
     root.withdraw()
+    center_window = Screen_Size(root)
 
     try:
         app = TextSearch()

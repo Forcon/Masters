@@ -127,7 +127,8 @@ def reseach_item(driver, text_seach):
 def read_JM(autor_name):
     """
 
-    :param autor_name:
+    :param str autor_name:
+    :return:
     """
     SQL_Connect = sqlite3.connect('Masters.db')
     cursor = SQL_Connect.cursor()
@@ -141,7 +142,6 @@ def read_JM(autor_name):
     app.mainloop()
     rez_vibor = app.sendValue  # Получаем текст для дальнейшего поиска на ЯМ
 
-    # root = Tk()
     # rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
     text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
     driver = webdriver.Firefox()
@@ -166,14 +166,13 @@ def read_JM(autor_name):
             try:  # Проверяем наличие этой работы у нас в базе и удаляем старую картинку
                 cursor.execute("""SELECT Name_Img FROM Items WHERE Url_Item = '{:s}'""".format(base_one_list[3]))
                 img_name = cursor.fetchall()
-                # noinspection PySimplifyBooleanCheck,PySimplifyBooleanCheck
                 if not img_name:
                     pass
                 else:
-                    try:
-                        os.remove(str(os.getcwd() + '/' + img_name[0][0]))
-                    except:  # TODO: Нужно указание на правильную ошибку
-                        pass
+                    # try:
+                    os.remove(str(os.getcwd() + '/' + img_name[0][0]))
+                    # except:  # TODO: Нужно указание на правильную ошибку
+                    #     pass
             except sqlite3.Error as e:
                 print(e, '----------> ?', base_one_list[0])
 
@@ -223,6 +222,10 @@ def read_JM(autor_name):
 
 
 if __name__ == '__main__':
+    root = Tk()
+    root.withdraw()
+    center_window = Screen_Size(root)
+
     autor_name = 'forcon'
     read_JM(autor_name)
 

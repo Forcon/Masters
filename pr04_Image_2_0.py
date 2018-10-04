@@ -126,7 +126,6 @@ class SampleApp(Toplevel):
 
 if __name__ == "__main__":
     root = Tk()  # ---- Открываем основное окно и сразу его прячем
-    root.overrideredirect(1)
     root.withdraw()
 
     # Выводит значок программы в нижнюю панель

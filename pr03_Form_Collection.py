@@ -91,6 +91,7 @@ def creating_coll(user_name, text_search):
 
 
 if __name__ == '__main__':
+
     autor_name = 'forcon'
     t_search = 'Птичка сердолик'
     creating_coll(autor_name, t_search)

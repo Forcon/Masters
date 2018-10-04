@@ -44,7 +44,7 @@ class InformWin(Toplevel):
 Диалоговое окно типа да/нет
 """
 class YesNo(Toplevel): # класс диалогового окна выхода
-    def __init__(self, master):
+    def __init__(self):
         super().__init__()
         self.frame = Frame(self)  # , bg = 'LightGray')
 
@@ -92,19 +92,19 @@ class Screen_Size:  #
         return self.screen
 
 
-root = Tk() # Создаем одно коневое окно Tk, остальные от него TopLevel
-root.withdraw()
-center_window = Screen_Size(root)
-
 # тестовая команда
 if __name__ == '__main__':
+    root = Tk()  # Создаем одно коневое окно Tk, остальные от него TopLevel
+    root.withdraw()
+    center_window = Screen_Size(root)
+
     InformWin(message='Вы успешно авторизовались', fg='green')
 
     # Выводит значок программы в нижнюю панель
     img = tk.PhotoImage(file='img/Logo_JM.gif')
     root.tk.call('wm', 'iconphoto', root._w, img)
 
-    myTest = YesNo(root)
+    myTest = YesNo()
     if myTest.go(message='Is it working?'):
         print('Yes')
     else:
