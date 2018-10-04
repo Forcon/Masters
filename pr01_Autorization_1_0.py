@@ -75,7 +75,7 @@ class Auto_Main(Toplevel):
         # self.master = master
         self.sendValue = ''
         self.title("Авторизация в программе")
-        self.geometry(Center_widows(600, 200))  # Располагает по центру страницы
+        self.geometry(Screen_Size(600, 200))  # Располагает по центру страницы
         # self.message = StringVar()
         self.name_label = Label(text='Введите необходимые данные ниже:')
         self.name_label.place(relx=.5, y=20, anchor="c")
@@ -277,7 +277,7 @@ class Passv_Verify(Toplevel):
         super().__init__()
         # self = Toplevel(master)
         self.title('Проверка пароля')
-        self.geometry(Center_widows(390, 100))  # Располагает по центру страницы
+        self.geometry(Screen_Size(390, 100))  # Располагает по центру страницы
 
         self.label = Label(self, text=text)
         self.label.place(relx=.5, y=20, anchor="c")

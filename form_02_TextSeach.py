@@ -40,7 +40,7 @@ class TextSearch(Toplevel):
         super().__init__()
         self.sendValue = ''
         self.title("Отбор картинок в базу")
-        self.geometry(Center_widows(650, 145))  # Располагает по центру страницы
+        self.geometry(Screen_Size(650, 145))  # Располагает по центру страницы
 
         self.Item = Text_Entry_Button(self, 'Введите текст для поиска работ по "Ярмарке Мастеров":',
                                       "Работы по запросу", 20, 45, 1)

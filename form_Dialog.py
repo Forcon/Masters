@@ -11,12 +11,11 @@ from form_Boolean import *
 
 # класс дочернего окна
 class Dialog(Toplevel):
-    def __init__(self, master):
+    def __init__(self):
         super().__init__()
-        # self = Toplevel(master)
-        self.maser = master
+
         self.title('Проверка пароля')
-        self.geometry(Center_widows(self, 390, 100))  # Располагает по центру страницы
+        self.geometry(center_window(390, 100))  # Располагает по центру страницы
         # self.frame = Frame(self)
         # self.frame.pack(side=BOTTOM)
         self.label = Label(self, text='Введите пароль еще раз...')
@@ -53,7 +52,7 @@ class Dialog(Toplevel):
 
 # тестовая команда
 if __name__ == '__main__':
-    root = Tk()
-    root.withdraw()
-    myTest = Dialog(root)
+    # root = Tk()
+    # root.withdraw()
+    myTest = Dialog()
     print(myTest.go('Hello World!'))

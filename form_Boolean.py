@@ -13,12 +13,12 @@ class InformWin(Toplevel):
     """
     Создание окна с сообщением
     """
-    def __init__(self, master, title='Сообщение', message='', fg='black', width=250, height=80):
+    def __init__(self, title='Сообщение', message='', fg='black', width=250, height=80):
         super().__init__()
         self.title(title)
 
         if (7 * len(message)) > width: width = 7 * len(message)
-        self.geometry(Center_widows(self, width, height))
+        self.geometry(center_window(width, height))
         # self.wm_iconbitmap(bitmap = 'img/Logo_JM.ico')
         # bk_image = tk.PhotoImage('img/Logo_LJ.jpg')
         # frame = Frame(self, image=bk_image)
@@ -46,8 +46,6 @@ class InformWin(Toplevel):
 class YesNo(Toplevel): # класс диалогового окна выхода
     def __init__(self, master):
         super().__init__()
-        self.master = master
-        # self.slave = Toplevel(master)
         self.frame = Frame(self)  # , bg = 'LightGray')
 
         self.frame.pack(side=BOTTOM)
@@ -62,7 +60,7 @@ class YesNo(Toplevel): # класс диалогового окна выхода
 
     def go(self, title='Question', message='[question goes here]', width=200, height=80):
         self.title(title)
-        self.geometry(Center_widows(self.master, width, height))
+        self.geometry(center_window(width, height))
         self.message.configure(text=message)
         self.booleanValue = TRUE
         self.grab_set()
@@ -80,24 +78,27 @@ class YesNo(Toplevel): # класс диалогового окна выхода
 
 
 # Располагает окно по центру страницы
-class Center_widows(object):  #
+class Screen_Size:  #
     """
     # ----- Располагает окна по центру экрана
     """
-    def __init__(self, master, width, height):
-        self.screen = str(width) + "x" + str(height) + "+" + str(
-            (master.winfo_screenwidth() - width) // 2) + "+" + str((master.winfo_screenheight() - height) // 2)
+    def __init__(self, master):
+        self.scr_w = master.winfo_screenwidth()
+        self.scr_h = master.winfo_screenheight()
 
-    def __str__(self):
+    def __call__(self, width=0, height=0):
+        self.screen = str(width) + "x" + str(height) + "+" + str(
+            (self.scr_w - width) // 2) + "+" + str((self.scr_h - height) // 2)
         return self.screen
 
 
-# тестовая команда
+root = Tk() # Создаем одно коневое окно Tk, остальные от него TopLevel
+root.withdraw()
+center_window = Screen_Size(root)
 
+# тестовая команда
 if __name__ == '__main__':
-    root = Tk()
-    root.withdraw()
-    InformWin(root, message='Вы успешно авторизовались', fg='green')
+    InformWin(message='Вы успешно авторизовались', fg='green')
 
     # Выводит значок программы в нижнюю панель
     img = tk.PhotoImage(file='img/Logo_JM.gif')
