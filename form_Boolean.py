@@ -18,7 +18,7 @@ class InformWin(Toplevel):
         self.title(title)
 
         if (7 * len(message)) > width: width = 7 * len(message)
-        self.geometry(Center_widows(master, width, height))
+        self.geometry(Center_widows(self, width, height))
         # self.wm_iconbitmap(bitmap = 'img/Logo_JM.ico')
         # bk_image = tk.PhotoImage('img/Logo_LJ.jpg')
         # frame = Frame(self, image=bk_image)

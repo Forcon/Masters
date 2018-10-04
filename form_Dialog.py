@@ -16,7 +16,7 @@ class Dialog(Toplevel):
         # self = Toplevel(master)
         self.maser = master
         self.title('Проверка пароля')
-        self.geometry(Center_widows(master, 390, 100))  # Располагает по центру страницы
+        self.geometry(Center_widows(self, 390, 100))  # Располагает по центру страницы
         # self.frame = Frame(self)
         # self.frame.pack(side=BOTTOM)
         self.label = Label(self, text='Введите пароль еще раз...')
