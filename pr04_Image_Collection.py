@@ -1,7 +1,7 @@
 # coding=utf-8
-from tkinter import *
+# from tkinter import *
 # from tkinter.tix import *
-# from tkinter import Tk, Button, Toplevel
+from tkinter import Tk, Button, Toplevel
 import tkinter as tk
 from PIL import ImageTk  # $ pip install pillow
 from pr03_Form_Collection import *
@@ -51,8 +51,9 @@ class SampleApp(Toplevel):
 
     def cancel(self):
         self._root().destroy()
+        print(self.img_in_coll)
 
-    def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки (ок!)
+    def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки
         for i in range(self.img_coll):
             image_1 = ImageTk.PhotoImage(file='img/img_0.jpg')
             buttn = Button(self.coll, image=image_1)
