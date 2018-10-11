@@ -6,6 +6,7 @@ import tkinter as tk
 from PIL import ImageTk  # $ pip install pillow
 from pr03_Form_Collection import *
 from def_04_Frame_Scroll import *
+from def_05_Save_Collection import *
 
 """
 Версия 2.5: Основная программа
@@ -13,12 +14,13 @@ from def_04_Frame_Scroll import *
 """
 
 class SampleApp(Toplevel):
-    def __init__(self, img_url, len_mass, img_coll, *args, **kwargs):
+    def __init__(self, img_url, len_mass, img_coll, name_coll, *args, **kwargs):
         super().__init__()
         self.img_url = img_url
         self.len_mass = len_mass
         self.img_coll = img_coll  # Количество изображений в коллекции
         self.img_in_coll = []
+        self.name_coll = name_coll
 
         # self = Toplevel()
         self.title("Выбор картинок в коллекцию")
@@ -42,24 +44,34 @@ class SampleApp(Toplevel):
 
         self.coll = Toplevel()
         self.coll.title("Картинки, включенные в коллекцию")
-        self.coll.geometry("336x336+0+700")
+        self.coll.geometry("336x360+0+650")
+        self.coll.minsize(336, 360)
 
         self.rez_col()  # Делает пустые кнопки
 
         self.protocol('WM_DELETE_WINDOW', self.cancel)
         self.coll.protocol('WM_DELETE_WINDOW', self.cancel)
 
+
     def cancel(self):
         self._root().destroy()
-        print(self.img_in_coll)
+        # print(self.img_in_coll)
+        id_name = open_coll(self.name_coll)
+        url_coll = url_name(self.img_in_coll, img_coll)
+        save_collection(url_coll, user_name, id_name)
+
 
     def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки
+        self.label = Label(self.coll)
+        self.label.grid(column=0, columnspan=4, pady=1, sticky='s')
+        self.label.configure(text='Коллекция: "' +self.name_coll + '"', relief=GROOVE, fg='blue')#, bg='lightgrey')
+
         for i in range(self.img_coll):
             image_1 = ImageTk.PhotoImage(file='img/img_0.jpg')
             buttn = Button(self.coll, image=image_1)
             buttn.image = image_1
             y = i // 4
-            buttn.grid(row=y + 1, column=i - (y * 4))
+            buttn.grid(row = y + 2, column = i - (y * 4))
             buttn.bind('<Button-1>', self.cl_coll)
 
 
@@ -93,11 +105,18 @@ class SampleApp(Toplevel):
             else:
                 int_zn += self.len_mass[i]
 
+
     def start_fin(self, row):  # ----- Дает значения с которых начинается (и заканчивается) очередной ряд
         return sum(self.len_mass[:row]) + 1, sum(self.len_mass[:row]) + self.len_mass[row]
 
 
-    def give_img(self, name, number):  # ------ Устaнавливает размер картинок
+    def give_img(self, name, number):
+        """
+        Устaнавливает размер картинок, для того чтобы обозначить, какая из картинок изпользуется в коллекции
+        :param str name:
+        :param int number:
+        :return:
+        """
         st, fin = self.start_fin(self.row_img(number))
         row_btn = list(self.frame.interior.children)[st - 1:fin]
 
@@ -134,12 +153,14 @@ if __name__ == "__main__":
     root.tk.call('wm', 'iconphoto', root._w, img)
 
     user_name = 'forcon'
+    user_mail = 'forcon@mail.ru'
     text_search = 'Птичка сердолик'
+    name_coll = 'Выдры, птицы и ондатры'
 
     img_url, autor_name, len_mass = creating_coll(user_name, text_search)
     img_coll = 16  # Количество изображений в коллекции
 
-    app = SampleApp(img_url, len_mass, img_coll)
+    app = SampleApp(img_url, len_mass, img_coll, name_coll)
     app.mainloop()
 
     # root.destroy()
