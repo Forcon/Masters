@@ -7,14 +7,14 @@ from collections import Counter
 """
 Сохраняет промежуточные результаты создания коллекции в базу и извлекает из нее (незаконченную) коллекцию
 """
-def open_coll(name_coll):
+def open_coll(name_coll, cursor):
     """
     Ищем в базе название коллекции, если нет -- создаем запись
     :param str name_coll: Название коллекции
     :return:
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    # SQL_Connect = sqlite3.connect('Masters.db')
+    # cursor = SQL_Connect.cursor()
     cursor.execute("""SELECT id FROM Collection WHERE Name = '{:}' """.format(name_coll))
     id_znach = cursor.fetchall()
 
@@ -24,21 +24,18 @@ def open_coll(name_coll):
         cursor.execute("""SELECT id FROM Collection WHERE Name = '{:}' """.format(name_coll))
         id_znach = cursor.fetchall()
 
-    cursor.close()
-    SQL_Connect.close()
-
     return id_znach[0][0]
 
 
-def url_name(img_coll, n_znach):
+def url_name(img_coll, n_znach, cursor):
     """
     Ищет в базе картинки и ставит им в соответствие url работ, дополняет коллекцию до нужного размера пустыми значениями
     :param img_coll: Передаваемая коллекция (названия картинок)
     :param img n_znach: Количество картинок в коллекции (16 или 12)
     :return:
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    # SQL_Connect = sqlite3.connect('Masters.db')
+    # cursor = SQL_Connect.cursor()
 
     url_coll = []
     n_img = len(img_coll)
@@ -52,16 +49,16 @@ def url_name(img_coll, n_znach):
     for i in range(n_znach - n_img):
         url_coll.append('')
     # print(url_coll)
-
-    cursor.close()
-    SQL_Connect.close()
+    #
+    # cursor.close()
+    # SQL_Connect.close()
 
     return url_coll
 
 
-def save_collection(mass_url, u_name, id_coll):
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+def save_collection(mass_url, u_name, id_coll, cursor, SQL_Connect):
+    # SQL_Connect = sqlite3.connect('Masters.db')
+    # cursor = SQL_Connect.cursor()
 
     f_text = """UPDATE Collection set """
     next_text = ''
@@ -79,18 +76,18 @@ def save_collection(mass_url, u_name, id_coll):
     cursor.execute(select.format(*mass_url, id_coll))
 
     SQL_Connect.commit()  # Применение изменений к базе данных
-    cursor.close()
-    SQL_Connect.close()
+    # cursor.close()
+    # SQL_Connect.close()
 
 
-def open_colection(id, n_znach):
+def open_colection(id, n_znach, cursor):
     """
     Забирает из базы сохраненную ранее коллекцию
     :param str id: Значение идентифкатора, по которому ишем сохраненную коллекцию
     :return:
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    # SQL_Connect = sqlite3.connect('Masters.db')
+    # cursor = SQL_Connect.cursor()
 
     f_text = """SELECT"""
     next_text = ''
@@ -102,19 +99,19 @@ def open_colection(id, n_znach):
     cursor.execute(select.format(id))
     url_coll = [el for el in cursor.fetchall()[0]]
 
-    cursor.close()
-    SQL_Connect.close()
+    # cursor.close()
+    # SQL_Connect.close()
     return url_coll
 
 
-def convert_coll(coll_url, n_znach):
+def convert_coll(coll_url, n_znach, cursor):
     """
     Делает из коллекции ссылок коллекцицию картинок
     :param coll_url:
     :return:
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    # SQL_Connect = sqlite3.connect('Masters.db')
+    # cursor = SQL_Connect.cursor()
 
     yes_znach = n_znach - Counter(coll_url)[''] # Считает количество непустых значений
     f_text = """SELECT Name_Img FROM Items WHERE Url_Item = '{:}'"""
@@ -123,13 +120,13 @@ def convert_coll(coll_url, n_znach):
     cursor.execute((f_text + next_text).format(*coll_url))
     url_coll = [el[0] for el in cursor.fetchall()]
     # print(select)
-
-    cursor.close()
-    SQL_Connect.close()
+    #
+    # cursor.close()
+    # SQL_Connect.close()
     return url_coll
 
 
-if __name__ == "__main__":
+if __name__ == "__main__": # TODO: Сделать передачу cursor'a
     # root = Tk()  # ---- Открываем основное окно и сразу его прячем
     # root.withdraw()
 
@@ -142,10 +139,16 @@ if __name__ == "__main__":
     user_mail = 'forcon@mail.ru'
     name_coll = 'Выдры, птицы и ондатры'
 
-    id_coll = open_coll(name_coll)
-    # url_coll = url_name(img_in_coll, img_coll)
-    # save_collection(url_coll, user_name, id_coll)
-    collection_url = open_colection(id_coll, img_coll)
+    SQL_Connect = sqlite3.connect('Masters.db')
+    cursor = SQL_Connect.cursor()
+
+    id_coll = open_coll(name_coll, cursor)
+    # url_coll = url_name(img_in_coll, img_coll, cursor)
+    # save_collection(url_coll, user_name, id_coll, cursor)
+    collection_url = open_colection(id_coll, img_coll, cursor)
     print(collection_url)
-    coll_img = convert_coll(collection_url, img_coll)
+    coll_img = convert_coll(collection_url, img_coll, cursor)
     print(coll_img)
+
+    cursor.close()
+    SQL_Connect.close()

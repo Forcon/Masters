@@ -55,19 +55,40 @@ class SampleApp(Toplevel):
 
     def cancel(self):
         self._root().destroy()
-        # print(self.img_in_coll)
-        id_name = open_coll(self.name_coll)
-        url_coll = url_name(self.img_in_coll, img_coll)
-        save_collection(url_coll, user_name, id_name)
+        SQL_Connect = sqlite3.connect('Masters.db')
+        cursor = SQL_Connect.cursor()
 
+        id_coll = open_coll(self.name_coll, cursor) # Сохранение коллекции в базу
+        url_coll = url_name(self.img_in_coll, img_coll, cursor)
+        save_collection(url_coll, user_name, id_coll, cursor, SQL_Connect)
+
+        cursor.close()
+        SQL_Connect.close()
 
     def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки
         self.label = Label(self.coll)
         self.label.grid(column=0, columnspan=4, pady=1, sticky='s')
         self.label.configure(text='Коллекция: "' +self.name_coll + '"', relief=GROOVE, fg='blue')#, bg='lightgrey')
 
+        SQL_Connect = sqlite3.connect('Masters.db')
+        cursor = SQL_Connect.cursor()
+
+        id_coll = open_coll(name_coll, cursor)  # Получение коллекции из базы
+        collection_url = open_colection(id_coll, img_coll, cursor)
+        self.img_in_coll = convert_coll(collection_url, img_coll, cursor)
+        print(self.img_in_coll[0])
+
+        cursor.close()
+        SQL_Connect.close()
+
         for i in range(self.img_coll):
-            image_1 = ImageTk.PhotoImage(file='img/img_0.jpg')
+            if self.img_in_coll[i]:
+                f = self.img_in_coll[i]
+                print(f)
+                image_1 = ImageTk.PhotoImage(file=f)
+            else:
+                image_1 = ImageTk.PhotoImage(file='img/img_0.jpg')
+
             buttn = Button(self.coll, image=image_1)
             buttn.image = image_1
             y = i // 4
