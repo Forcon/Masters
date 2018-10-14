@@ -2,6 +2,7 @@
 # from tkinter import *
 # from tkinter.tix import *
 from tkinter import Tk, Button, Toplevel
+from functools import partial
 import tkinter as tk
 from PIL import ImageTk  # $ pip install pillow
 from pr03_Form_Collection import *
@@ -27,7 +28,8 @@ class SampleApp(Toplevel):
         self.frame = VerticalScrolledFrame(self, 800)
 
         for i, el in enumerate(self.img_url):
-            if i > 0: break
+            if i > 0:
+                break
             for y in range(1, len(self.len_mass) + 1):
                 for x in range(1, (self.len_mass[y - 1] + 1)):
                     if not os.path.isfile(self.img_url[i]):  # Проверка на наличие картинки в базе
@@ -36,7 +38,8 @@ class SampleApp(Toplevel):
                     btn = Button(self.frame.interior, image=image)
                     btn.image = image
                     btn.grid(row=y, column=x)
-                    btn.bind('<Button-1>', self.click_button)
+                    btn.bind('<Button-1>',
+                             partial(self.click_button, i + 1))  # Через функцию partial мы передаем номер кнопки
                     i += 1
 
         self.frame.pack(anchor=NW, fill=BOTH, expand=YES)
@@ -64,6 +67,7 @@ class SampleApp(Toplevel):
         cursor.close()
         SQL_Connect.close()
 
+
     def insert_coll(self):
         """Считывает данные из базы и помещает в массив"""
         SQL_Connect = sqlite3.connect('Masters.db')
@@ -89,16 +93,15 @@ class SampleApp(Toplevel):
             buttn.image = image
             y = i // 4
             buttn.grid(row = y + 2, column = i - (y * 4))
-            buttn.bind('<Button-1>', self.cl_coll)
-
+            buttn.bind('<Button-1>', partial(self.cl_coll, i + 1))  # Через функцию partial мы передаем номер кнопки
         self.start_collection()
+
 
     def start_collection(self):
         for i in range(len(self.in_coll)):
             number = self.img_url.index(self.in_coll[i]) + 1
-            name = '!button' if number == 0 else '!button' + str(number)
+            self.give_img(number)  # Размер картинки
 
-            self.give_img(name, number)  # Размер картинки
         self.new_img()
 
 
@@ -113,15 +116,11 @@ class SampleApp(Toplevel):
             self.coll.children[name_button].config(image="{:}".format(image_1))
             self.coll.children[name_button].image = image_1
 
-
-    def cl_coll(self, event):  # Какая из кнопок нажата на панели коллекций
-        name = event.widget._name
-        number = 1 if name == '!button' else int(name.split('!button')[1])
-
+    def cl_coll(self, number, event):  # Какая из кнопок нажата на панели коллекций
         if len(self.img_in_coll) >= number:  # Если коллекция не пуста
             number_img = img_url.index(self.img_in_coll[number - 1]) + 1
-            name = '!button' + ('' if number_img == 1 else str(number_img))
-            self.give_img(name, number_img)
+
+            self.give_img(number_img)
             self.new_img()
 
 
@@ -137,14 +136,14 @@ class SampleApp(Toplevel):
     def start_fin(self, row):  # ----- Дает значения с которых начинается (и заканчивается) очередной ряд
         return sum(self.len_mass[:row]) + 1, sum(self.len_mass[:row]) + self.len_mass[row]
 
-
-    def give_img(self, name, number):
+    def give_img(self, number):
         """
         Устaнавливает размер картинок, для того чтобы обозначить, какая из картинок изпользуется в коллекции
         :param str name:
         :param int number:
         :return:
         """
+        name = '!button' + ('' if number == 1 else str(number))
         st, fin = self.start_fin(self.row_img(number))
         row_btn = list(self.frame.interior.children)[st - 1:fin]
 
@@ -162,12 +161,8 @@ class SampleApp(Toplevel):
                     self.frame.interior.children[name].config(height="{:}".format(80))
                     self.img_in_coll.append(img_url[number - 1])
 
-
-    def click_button(self, event):  # Обработка нажатия на кнопку в выборе картинок
-        name = event.widget._name
-        number = 1 if name == '!button' else int(name.split('!button')[1])
-
-        self.give_img(name, number)  # Размер картинки в
+    def click_button(self, number, event):  # Обработка нажатия на кнопку в выборе картинок
+        self.give_img(number)  # Размер картинки в
         self.new_img()  # Обновление коллекции
 
 
