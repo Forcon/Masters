@@ -9,12 +9,12 @@ from def_04_Frame_Scroll import *
 from def_05_Save_Collection import *
 
 """
-Версия 2.5: Основная программа
-Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию
+Версия 2.6: Основная программа
+Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию, с сохранением промежуточных результатов
 """
 
 class SampleApp(Toplevel):
-    def __init__(self, img_url, len_mass, img_coll, name_coll, *args, **kwargs):
+    def __init__(self, img_url, len_mass, img_coll, name_coll):
         super().__init__()
         self.img_url = img_url
         self.len_mass = len_mass
@@ -22,7 +22,6 @@ class SampleApp(Toplevel):
         self.img_in_coll = []
         self.name_coll = name_coll
 
-        # self = Toplevel()
         self.title("Выбор картинок в коллекцию")
         self.geometry("800x550")
         self.frame = VerticalScrolledFrame(self, 800)
@@ -58,42 +57,49 @@ class SampleApp(Toplevel):
         SQL_Connect = sqlite3.connect('Masters.db')
         cursor = SQL_Connect.cursor()
 
-        id_coll = open_coll(self.name_coll, cursor) # Сохранение коллекции в базу
+        id_coll = open_coll(self.name_coll, cursor, SQL_Connect)  # Сохранение коллекции в базу
         url_coll = url_name(self.img_in_coll, img_coll, cursor)
         save_collection(url_coll, user_name, id_coll, cursor, SQL_Connect)
 
         cursor.close()
         SQL_Connect.close()
 
-    def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки
-        self.label = Label(self.coll)
-        self.label.grid(column=0, columnspan=4, pady=1, sticky='s')
-        self.label.configure(text='Коллекция: "' +self.name_coll + '"', relief=GROOVE, fg='blue')#, bg='lightgrey')
-
+    def insert_coll(self):
+        """Считывает данные из базы и помещает в массив"""
         SQL_Connect = sqlite3.connect('Masters.db')
         cursor = SQL_Connect.cursor()
 
-        id_coll = open_coll(name_coll, cursor)  # Получение коллекции из базы
+        id_coll = open_coll(name_coll, cursor, SQL_Connect)  # Получение коллекции из базы
         collection_url = open_colection(id_coll, img_coll, cursor)
-        self.img_in_coll = convert_coll(collection_url, img_coll, cursor)
-        print(self.img_in_coll[0])
+        self.in_coll = convert_coll(collection_url, img_coll, cursor)
 
         cursor.close()
         SQL_Connect.close()
 
-        for i in range(self.img_coll):
-            if self.img_in_coll[i]:
-                f = self.img_in_coll[i]
-                print(f)
-                image_1 = ImageTk.PhotoImage(file=f)
-            else:
-                image_1 = ImageTk.PhotoImage(file='img/img_0.jpg')
 
-            buttn = Button(self.coll, image=image_1)
-            buttn.image = image_1
+    def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки
+        self.label = Label(self.coll)
+        self.label.grid(column=0, columnspan=4, pady=1, sticky='s')
+        self.label.configure(text='Коллекция: "' +self.name_coll + '"', relief=GROOVE, fg='blue')#, bg='lightgrey')
+        self.insert_coll()
+
+        for i in range(self.img_coll):
+            image = ImageTk.PhotoImage(file='img/img_0.jpg')
+            buttn = Button(self.coll, image=image)
+            buttn.image = image
             y = i // 4
             buttn.grid(row = y + 2, column = i - (y * 4))
             buttn.bind('<Button-1>', self.cl_coll)
+
+        self.start_collection()
+
+    def start_collection(self):
+        for i in range(len(self.in_coll)):
+            number = self.img_url.index(self.in_coll[i]) + 1
+            name = '!button' if number == 0 else '!button' + str(number)
+
+            self.give_img(name, number)  # Размер картинки
+        self.new_img()
 
 
     def new_img(self):  # Заливка новых изображений
@@ -116,6 +122,7 @@ class SampleApp(Toplevel):
             number_img = img_url.index(self.img_in_coll[number - 1]) + 1
             name = '!button' + ('' if number_img == 1 else str(number_img))
             self.give_img(name, number_img)
+            self.new_img()
 
 
     def row_img(self, number):  # ----- Дает номер строки в котором находится картинка
@@ -154,14 +161,13 @@ class SampleApp(Toplevel):
                 else:
                     self.frame.interior.children[name].config(height="{:}".format(80))
                     self.img_in_coll.append(img_url[number - 1])
-        self.new_img()
 
 
     def click_button(self, event):  # Обработка нажатия на кнопку в выборе картинок
         name = event.widget._name
         number = 1 if name == '!button' else int(name.split('!button')[1])
 
-        self.give_img(name, number)  # Размер картинки
+        self.give_img(name, number)  # Размер картинки в
         self.new_img()  # Обновление коллекции
 
 

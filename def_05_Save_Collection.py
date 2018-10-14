@@ -7,14 +7,14 @@ from collections import Counter
 """
 Сохраняет промежуточные результаты создания коллекции в базу и извлекает из нее (незаконченную) коллекцию
 """
-def open_coll(name_coll, cursor):
+
+
+def open_coll(name_coll, cursor, SQL_Connect):
     """
     Ищем в базе название коллекции, если нет -- создаем запись
     :param str name_coll: Название коллекции
     :return:
     """
-    # SQL_Connect = sqlite3.connect('Masters.db')
-    # cursor = SQL_Connect.cursor()
     cursor.execute("""SELECT id FROM Collection WHERE Name = '{:}' """.format(name_coll))
     id_znach = cursor.fetchall()
 
@@ -34,9 +34,6 @@ def url_name(img_coll, n_znach, cursor):
     :param img n_znach: Количество картинок в коллекции (16 или 12)
     :return:
     """
-    # SQL_Connect = sqlite3.connect('Masters.db')
-    # cursor = SQL_Connect.cursor()
-
     url_coll = []
     n_img = len(img_coll)
     if n_img:
@@ -48,36 +45,20 @@ def url_name(img_coll, n_znach, cursor):
 
     for i in range(n_znach - n_img):
         url_coll.append('')
-    # print(url_coll)
-    #
-    # cursor.close()
-    # SQL_Connect.close()
 
     return url_coll
 
 
 def save_collection(mass_url, u_name, id_coll, cursor, SQL_Connect):
-    # SQL_Connect = sqlite3.connect('Masters.db')
-    # cursor = SQL_Connect.cursor()
-
     f_text = """UPDATE Collection set """
     next_text = ''
     last_text = """ WHERE id = '{:}'"""
-
     for i, el in enumerate(mass_url, 1):
         next_text += """Url_""" + str(i) + """ = '{:s}', """
-
     select = f_text + next_text[:-2] + last_text
-    # print(select)
-    # cursor.execute("""UPDATE Collection set Url_1 = '{:s}', Url_2 = '{:s}', Url_3 = '{:s}', Url_4 = '{:s}',
-    #             Url_5 = '{:s}', Url_6 = '{:s}', Url_7 = '{:s}', Url_8 = '{:s}', Url_9 = '{:s}', Url_10 = '{:s}',
-    #             Url_11 = '{:s}', Url_12 = '{:s}', Url_13 = '{:s}', Url_14 = '{:s}', Url_15 = '{:s}', Url_16 = '{:s}'
-    #             WHERE id = '{:}'""".format(*mass_url, 1))
-    cursor.execute(select.format(*mass_url, id_coll))
 
+    cursor.execute(select.format(*mass_url, id_coll))
     SQL_Connect.commit()  # Применение изменений к базе данных
-    # cursor.close()
-    # SQL_Connect.close()
 
 
 def open_colection(id, n_znach, cursor):
@@ -86,9 +67,6 @@ def open_colection(id, n_znach, cursor):
     :param str id: Значение идентифкатора, по которому ишем сохраненную коллекцию
     :return:
     """
-    # SQL_Connect = sqlite3.connect('Masters.db')
-    # cursor = SQL_Connect.cursor()
-
     f_text = """SELECT"""
     next_text = ''
     for i in range(1, n_znach+1):
@@ -99,8 +77,6 @@ def open_colection(id, n_znach, cursor):
     cursor.execute(select.format(id))
     url_coll = [el for el in cursor.fetchall()[0]]
 
-    # cursor.close()
-    # SQL_Connect.close()
     return url_coll
 
 
@@ -110,23 +86,20 @@ def convert_coll(coll_url, n_znach, cursor):
     :param coll_url:
     :return:
     """
-    # SQL_Connect = sqlite3.connect('Masters.db')
-    # cursor = SQL_Connect.cursor()
-
     yes_znach = n_znach - Counter(coll_url)[''] # Считает количество непустых значений
     f_text = """SELECT Name_Img FROM Items WHERE Url_Item = '{:}'"""
     next_text = (""" OR Url_Item = '{:}'""") * (yes_znach - 1)
 
     cursor.execute((f_text + next_text).format(*coll_url))
     url_coll = [el[0] for el in cursor.fetchall()]
-    # print(select)
     #
-    # cursor.close()
-    # SQL_Connect.close()
+    # for i in range(Counter(coll_url)['']):
+    #     url_coll.append('')
+
     return url_coll
 
 
-if __name__ == "__main__": # TODO: Сделать передачу cursor'a
+if __name__ == "__main__":
     # root = Tk()  # ---- Открываем основное окно и сразу его прячем
     # root.withdraw()
 
@@ -142,13 +115,13 @@ if __name__ == "__main__": # TODO: Сделать передачу cursor'a
     SQL_Connect = sqlite3.connect('Masters.db')
     cursor = SQL_Connect.cursor()
 
-    id_coll = open_coll(name_coll, cursor)
-    # url_coll = url_name(img_in_coll, img_coll, cursor)
-    # save_collection(url_coll, user_name, id_coll, cursor)
-    collection_url = open_colection(id_coll, img_coll, cursor)
-    print(collection_url)
-    coll_img = convert_coll(collection_url, img_coll, cursor)
-    print(coll_img)
+    id_coll = open_coll(name_coll, cursor, SQL_Connect)
+    url_coll = url_name(img_in_coll, img_coll, cursor)
+    save_collection(url_coll, user_name, id_coll, cursor, SQL_Connect)
+    # collection_url = open_colection(id_coll, img_coll, cursor)
+    # print(collection_url)
+    # coll_img = convert_coll(collection_url, img_coll, cursor)
+    # print(coll_img)
 
     cursor.close()
     SQL_Connect.close()
