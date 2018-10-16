@@ -14,14 +14,59 @@ from def_05_Save_Collection import *
 Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию, с сохранением промежуточных результатов
 """
 
+
+def insert_coll(name_coll, img_coll):
+    """
+    Считывает данные по сохраненной коллекции картинок из базы и помещает img в массив
+    :param str name_coll: Имя коллекции
+    :param int img_coll: Количество картинок в коллекции (16 или 12)
+    :return: Массив картинок которые уже в коллекции
+    """
+    SQL_Connect = sqlite3.connect('Masters.db')
+    cursor = SQL_Connect.cursor()
+
+    id_coll = open_coll(name_coll, cursor, SQL_Connect)  # Получение коллекции из базы
+    collection_url = open_colection(id_coll, img_coll, cursor)
+    mass_img = convert_coll(collection_url, img_coll, cursor)
+
+    cursor.close()
+    SQL_Connect.close()
+
+    return mass_img
+
+
+def save_rez(name_coll, img_in_coll, img_coll, user_name):
+    """
+    Сохранение коллекции в базу
+    :param str name_coll: Имя коллекции
+    :param img_in_coll: Картинки, которые попадут в коллекцию
+    :param int img_coll: Количество картинок в коллекции (16 или 12)
+    :param str user_name: Имя пользователя
+    """
+    SQL_Connect = sqlite3.connect('Masters.db')
+    cursor = SQL_Connect.cursor()
+
+    id_coll = open_coll(name_coll, cursor, SQL_Connect)  #
+    url_coll = url_name(img_in_coll, img_coll, cursor)
+    save_collection(url_coll, user_name, id_coll, cursor, SQL_Connect)
+
+    cursor.close()
+    SQL_Connect.close()
+
+
 class SampleApp(Toplevel):
-    def __init__(self, img_url, len_mass, img_coll, name_coll):
+    """
+    Создает два окна с кнопками для выбора
+    """
+
+    def __init__(self, img_url, len_mass, img_coll, name_coll, user_name):
         super().__init__()
         self.img_url = img_url
         self.len_mass = len_mass
         self.img_coll = img_coll  # Количество изображений в коллекции
         self.img_in_coll = []
         self.name_coll = name_coll
+        self.user_name = user_name
 
         self.title("Выбор картинок в коллекцию")
         self.geometry("800x550")
@@ -38,8 +83,7 @@ class SampleApp(Toplevel):
                     btn = Button(self.frame.interior, image=image)
                     btn.image = image
                     btn.grid(row=y, column=x)
-                    btn.bind('<Button-1>',
-                             partial(self.click_button, i + 1))  # Через функцию partial мы передаем номер кнопки
+                    btn.bind('<Button-1>', partial(self.click_button, i + 1))  # Функ. partial - передаем номер кнопки
                     i += 1
 
         self.frame.pack(anchor=NW, fill=BOTH, expand=YES)
@@ -57,35 +101,14 @@ class SampleApp(Toplevel):
 
     def cancel(self):
         self._root().destroy()
-        SQL_Connect = sqlite3.connect('Masters.db')
-        cursor = SQL_Connect.cursor()
-
-        id_coll = open_coll(self.name_coll, cursor, SQL_Connect)  # Сохранение коллекции в базу
-        url_coll = url_name(self.img_in_coll, img_coll, cursor)
-        save_collection(url_coll, user_name, id_coll, cursor, SQL_Connect)
-
-        cursor.close()
-        SQL_Connect.close()
-
-
-    def insert_coll(self):
-        """Считывает данные из базы и помещает в массив"""
-        SQL_Connect = sqlite3.connect('Masters.db')
-        cursor = SQL_Connect.cursor()
-
-        id_coll = open_coll(name_coll, cursor, SQL_Connect)  # Получение коллекции из базы
-        collection_url = open_colection(id_coll, img_coll, cursor)
-        self.in_coll = convert_coll(collection_url, img_coll, cursor)
-
-        cursor.close()
-        SQL_Connect.close()
+        save_rez(self.name_coll, self.img_in_coll, self.img_coll, self.user_name)
 
 
     def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки
         self.label = Label(self.coll)
         self.label.grid(column=0, columnspan=4, pady=1, sticky='s')
         self.label.configure(text='Коллекция: "' +self.name_coll + '"', relief=GROOVE, fg='blue')#, bg='lightgrey')
-        self.insert_coll()
+        self.in_coll = insert_coll(self.name_coll, self.img_coll)
 
         for i in range(self.img_coll):
             image = ImageTk.PhotoImage(file='img/img_0.jpg')
@@ -101,7 +124,6 @@ class SampleApp(Toplevel):
         for i in range(len(self.in_coll)):
             number = self.img_url.index(self.in_coll[i]) + 1
             self.give_img(number)  # Размер картинки
-
         self.new_img()
 
 
@@ -116,15 +138,20 @@ class SampleApp(Toplevel):
             self.coll.children[name_button].config(image="{:}".format(image_1))
             self.coll.children[name_button].image = image_1
 
-    def cl_coll(self, number, event):  # Какая из кнопок нажата на панели коллекций
+    # TODO: Проверить ситуацию, когда в коллекции картинка есть и мы хотим от нее отказаться, а на панели с выбором картинок ее нет
+    def cl_coll(self, number, event):
+        """Номер кнопоки нажатой на панели коллекций"""
         if len(self.img_in_coll) >= number:  # Если коллекция не пуста
             number_img = img_url.index(self.img_in_coll[number - 1]) + 1
-
             self.give_img(number_img)
             self.new_img()
 
-
-    def row_img(self, number):  # ----- Дает номер строки в котором находится картинка
+    def n_row_img(self, number):
+        """
+        Дает номер строки в котором находится картинка
+        :param int number: Номер картинки / кнопки
+        :return int:
+        """
         int_zn = 0
         for i in range(0, len(self.len_mass)):
             if (int(self.len_mass[i]) + int_zn) >= number:
@@ -132,19 +159,21 @@ class SampleApp(Toplevel):
             else:
                 int_zn += self.len_mass[i]
 
-
-    def start_fin(self, row):  # ----- Дает значения с которых начинается (и заканчивается) очередной ряд
+    def start_fin(self, row):
+        """
+        Дает значения с которых начинается (и заканчивается) очередной ряд
+        :param int row:
+        :return int, int:
+        """
         return sum(self.len_mass[:row]) + 1, sum(self.len_mass[:row]) + self.len_mass[row]
 
     def give_img(self, number):
         """
         Устaнавливает размер картинок, для того чтобы обозначить, какая из картинок изпользуется в коллекции
-        :param str name:
         :param int number:
-        :return:
         """
         name = '!button' + ('' if number == 1 else str(number))
-        st, fin = self.start_fin(self.row_img(number))
+        st, fin = self.start_fin(self.n_row_img(number))
         row_btn = list(self.frame.interior.children)[st - 1:fin]
 
         if img_url[number - 1] in self.img_in_coll:
@@ -182,7 +211,7 @@ if __name__ == "__main__":
     img_url, autor_name, len_mass = creating_coll(user_name, text_search)
     img_coll = 16  # Количество изображений в коллекции
 
-    app = SampleApp(img_url, len_mass, img_coll, name_coll)
+    app = SampleApp(img_url, len_mass, img_coll, name_coll, user_name)
     app.mainloop()
 
     # root.destroy()
