@@ -122,10 +122,12 @@ class SampleApp(Toplevel):
 
     def start_collection(self):
         for i in range(len(self.in_coll)):
-            number = self.img_url.index(self.in_coll[i]) + 1
-            self.give_img(number)  # Размер картинки
+            try:
+                number = self.img_url.index(self.in_coll[i]) + 1
+                self.give_img(number)  # Размер картинки
+            except ValueError:
+                self.img_in_coll.append(self.in_coll[i])
         self.new_img()
-
 
     def new_img(self):  # Заливка новых изображений
         for i in range(self.img_coll):
@@ -138,12 +140,14 @@ class SampleApp(Toplevel):
             self.coll.children[name_button].config(image="{:}".format(image_1))
             self.coll.children[name_button].image = image_1
 
-    # TODO: Проверить ситуацию, когда в коллекции картинка есть и мы хотим от нее отказаться, а на панели с выбором картинок ее нет
     def cl_coll(self, number, event):
-        """Номер кнопоки нажатой на панели коллекций"""
+        """От номера кнопки нажатой на панели коллекций --> номер картинки в общем списке = номеру кнопки в выборе"""
         if len(self.img_in_coll) >= number:  # Если коллекция не пуста
-            number_img = img_url.index(self.img_in_coll[number - 1]) + 1
-            self.give_img(number_img)
+            try:
+                number_img = img_url.index(self.img_in_coll[number - 1]) + 1
+                self.give_img(number_img)
+            except ValueError:
+                self.img_in_coll.pop(number-1)
             self.new_img()
 
     def n_row_img(self, number):
@@ -190,8 +194,13 @@ class SampleApp(Toplevel):
                     self.frame.interior.children[name].config(height="{:}".format(80))
                     self.img_in_coll.append(img_url[number - 1])
 
-    def click_button(self, number, event):  # Обработка нажатия на кнопку в выборе картинок
-        self.give_img(number)  # Размер картинки в
+    def click_button(self, number, event):
+        """
+        Обработка нажатия на кнопку в выборе картинок
+        :param int number:
+        :param event:
+        """
+        self.give_img(number)  # Размер картинки в отборе
         self.new_img()  # Обновление коллекции
 
 
