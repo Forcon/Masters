@@ -12,6 +12,7 @@ from PIL import ImageTk  # $ pip install pillow
 Функция открытия изображения в бинарном режиме (эксперименты)
 """
 
+
 def readImage(filename):
     try:
         fin = open(filename, "rb")

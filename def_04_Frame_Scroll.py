@@ -51,6 +51,11 @@ class VerticalScrolledFrame(Frame):
 
 
     def configure_canvas(self, event):
+        """
+
+        :param self:
+        :param event:
+        """
         if self.interior.winfo_reqwidth() != self.canvas.winfo_width():
             # обновление ширины внутренней рамки для заполнения холста
             self.canvas.itemconfigure(self.interior_id, width=self.canvas.winfo_width())
@@ -59,6 +64,7 @@ class VerticalScrolledFrame(Frame):
 
 if __name__ == "__main__":
 
+    # noinspection PyMissingOrEmptyDocstring
     class SampleApp(Tk):
         """
 

@@ -52,9 +52,10 @@ for el in srt_item:
     else:
         tag_summ[el] += 1
 
-srt_tag = []  # -------- Самые популярны тэги
+srt_tag = []  # -------- Самые популярные тэги
 for i, el in enumerate(sorted(tag_summ.items(), key=lambda x: x[1], reverse=True)):
-    if i < 20: srt_tag.append(el[0])
+    if i < 20:
+        srt_tag.append(el[0])
 
 print(srt_tag)
 

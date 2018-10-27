@@ -9,6 +9,7 @@ import tkinter as tk
 Информационное окно
 """
 
+
 class InformWin(Toplevel):
     """
     Создание окна с сообщением
@@ -40,10 +41,11 @@ class InformWin(Toplevel):
         self.destroy()
 
 
-"""
-Диалоговое окно типа да/нет
-"""
+
 class YesNo(Toplevel): # класс диалогового окна выхода
+    """
+    Диалоговое окно типа да/нет
+    """
     def __init__(self):
         super().__init__()
         self.frame = Frame(self)  # , bg = 'LightGray')
@@ -78,7 +80,7 @@ class YesNo(Toplevel): # класс диалогового окна выхода
 
 
 # Располагает окно по центру страницы
-class Screen_Size:  #
+class ScreenSize:  #
     """
     # ----- Располагает окна по центру экрана
     """
@@ -96,7 +98,7 @@ class Screen_Size:  #
 if __name__ == '__main__':
     root = Tk()  # Создаем одно коневое окно Tk, остальные от него TopLevel
     root.withdraw()
-    center_window = Screen_Size(root)
+    center_window = ScreenSize(root)
 
     InformWin(message='Вы успешно авторизовались', fg='green')
 

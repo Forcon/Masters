@@ -6,12 +6,12 @@ from tkinter import ttk
 class DoubleScrollbarFrame(ttk.Frame):
 
     def __init__(self, master, **kwargs):
-        '''
+        """
           Initialisation. The DoubleScrollbarFrame consist of :
             - an horizontal scrollbar
             - a  vertical   scrollbar
             - a canvas in which the user can place sub-elements
-        '''
+        """
 
         super().__init__(master, **kwargs)
 
@@ -26,22 +26,22 @@ class DoubleScrollbarFrame(ttk.Frame):
         self.hscrollbar.config(command=self.canvas.xview)
 
     def pack(self, **kwargs):
-        '''
+        """
           Pack the scrollbar and canvas correctly in order to recreate the same look as MFC's windows.
-        '''
+        """
 
         self.hscrollbar.pack(side=tk.BOTTOM, fill=tk.X, expand=tk.FALSE)
         self.vscrollbar.pack(side=tk.RIGHT, fill=tk.Y, expand=tk.FALSE)
         self.sizegrip.pack(in_=self.hscrollbar, side=tk.BOTTOM, anchor="se")
 
         self.canvas.pack(side=tk.LEFT, padx=5, pady=5,
-                     fill=tk.BOTH, expand=tk.TRUE)
+                         fill=tk.BOTH, expand=tk.TRUE)
         ttk.Frame.pack(self, **kwargs)
 
     def get_frame(self):
-        '''
+        """
         Return the "frame" useful to place inner controls.
-        '''
+        """
         return self.canvas
 
 

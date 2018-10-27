@@ -11,7 +11,8 @@ from def_05_Save_Collection import *
 
 """
 Версия 2.6: Основная программа
-Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию, с сохранением промежуточных результатов
+Выводит картинки для выбора из них лучших + показывает уже сформированную коллекцию, 
+с сохранением промежуточных результатов
 """
 
 
@@ -22,15 +23,15 @@ def insert_coll(name_coll, img_coll):
     :param int img_coll: Количество картинок в коллекции (16 или 12)
     :return: Массив картинок которые уже в коллекции
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    sql_connect = sqlite3.connect('Masters.db')
+    cursor = sql_connect.cursor()
 
-    id_coll = open_coll(name_coll, cursor, SQL_Connect)  # Получение коллекции из базы
+    id_coll = open_coll(name_coll, cursor, sql_connect)  # Получение коллекции из базы
     collection_url = open_colection(id_coll, img_coll, cursor)
     mass_img = convert_coll(collection_url, img_coll, cursor)
 
     cursor.close()
-    SQL_Connect.close()
+    sql_connect.close()
 
     return mass_img
 
@@ -43,15 +44,15 @@ def save_rez(name_coll, img_in_coll, img_coll, user_name):
     :param int img_coll: Количество картинок в коллекции (16 или 12)
     :param str user_name: Имя пользователя
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    sql_connect = sqlite3.connect('Masters.db')
+    cursor = sql_connect.cursor()
 
-    id_coll = open_coll(name_coll, cursor, SQL_Connect)  #
+    id_coll = open_coll(name_coll, cursor, sql_connect)  #
     url_coll = url_name(img_in_coll, img_coll, cursor)
-    save_collection(url_coll, user_name, id_coll, cursor, SQL_Connect)
+    save_collection(url_coll, user_name, id_coll, cursor, sql_connect)
 
     cursor.close()
-    SQL_Connect.close()
+    sql_connect.close()
 
 
 class SampleApp(Toplevel):
@@ -98,16 +99,14 @@ class SampleApp(Toplevel):
         self.protocol('WM_DELETE_WINDOW', self.cancel)
         self.coll.protocol('WM_DELETE_WINDOW', self.cancel)
 
-
     def cancel(self):
         self._root().destroy()
         save_rez(self.name_coll, self.img_in_coll, self.img_coll, self.user_name)
 
-
     def rez_col(self):  # Вставляет в "готовую коллекцию" пустые кнопки
         self.label = Label(self.coll)
         self.label.grid(column=0, columnspan=4, pady=1, sticky='s')
-        self.label.configure(text='Коллекция: "' +self.name_coll + '"', relief=GROOVE, fg='blue')#, bg='lightgrey')
+        self.label.configure(text='Коллекция: "' + self.name_coll + '"', relief=GROOVE, fg='blue')  # , bg='lightgrey')
         self.in_coll = insert_coll(self.name_coll, self.img_coll)
 
         for i in range(self.img_coll):
@@ -115,10 +114,9 @@ class SampleApp(Toplevel):
             buttn = Button(self.coll, image=image)
             buttn.image = image
             y = i // 4
-            buttn.grid(row = y + 2, column = i - (y * 4))
+            buttn.grid(row=y + 2, column=i - (y * 4))
             buttn.bind('<Button-1>', partial(self.cl_coll, i + 1))  # Через функцию partial мы передаем номер кнопки
         self.start_collection()
-
 
     def start_collection(self):
         for i in range(len(self.in_coll)):
@@ -147,7 +145,7 @@ class SampleApp(Toplevel):
                 number_img = img_url.index(self.img_in_coll[number - 1]) + 1
                 self.give_img(number_img)
             except ValueError:
-                self.img_in_coll.pop(number-1)
+                self.img_in_coll.pop(number - 1)
             self.new_img()
 
     def n_row_img(self, number):

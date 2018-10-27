@@ -47,10 +47,10 @@ driver.find_element_by_name("password").send_keys(Keys.ENTER)
 time.sleep(1)
 driver.get(url_collect)
 
-try:
-    driver.find_element_by_id("more-items-button-show").click()
-except:  # TODO: Нужно указание на правильную ошибку
-    pass
+# try:
+driver.find_element_by_id("more-items-button-show").click()
+# except:  # TODO: Нужно указание на правильную ошибку
+#     pass
 bs = BeautifulSoup(driver.find_element_by_id("caption").get_attribute('outerHTML'), "html.parser", headers=headers)
 name_coll = str(bs).split('value="')[1].split('"')[0]
 
@@ -85,7 +85,8 @@ for el in srt_item:
 
 srt_tag = []  # -------- Самые популярны тэги
 for i, el in enumerate(sorted(tag_summ.items(), key=lambda x: x[1], reverse=True)):
-    if i < 20: srt_tag.append(el[0])
+    if i < 20:
+        srt_tag.append(el[0])
 
 # print(srt_tag)
 

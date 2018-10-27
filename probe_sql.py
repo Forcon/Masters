@@ -1,9 +1,9 @@
 # coding=utf-8
 import sqlite3
 
-
 SQL_Connect = sqlite3.connect('Masters.db')
 cursor = SQL_Connect.cursor()
+
 
 def probe_sql(user_name, text_search):
     """
@@ -23,9 +23,7 @@ def probe_sql(user_name, text_search):
     sql_text = sql_t_first + order_row_coll[2] + sql_t_last
     print(sql_text)
 
-    sql_format = []
-    sql_format.append(text_search)
-    sql_format.append(user_name)
+    sql_format = [text_search, user_name]
 
     cursor.execute(sql_text.format(*sql_format))
     # cursor.execute("""SELECT Name_Img, Autor, Favor FROM Items WHERE (Word_Search = '{:s}'
@@ -34,7 +32,6 @@ def probe_sql(user_name, text_search):
     item_list = cursor.fetchall()
 
     print(item_list)
-
 
     cursor.close()
     SQL_Connect.close()

@@ -33,8 +33,8 @@ class Dialog(Toplevel):
     def __str__(self):
         return self.x.get()
 
-    def go(self, myText='', ):
-        self.text_entry.insert('0', myText)
+    def go(self, my_text='', ):
+        self.text_entry.insert('0', my_text)
         self.newValue = None
         self.grab_set()
         self.focus_set()
@@ -54,7 +54,7 @@ class Dialog(Toplevel):
 if __name__ == '__main__':
     root = Tk()
     root.withdraw()
-    center_window = Screen_Size(root)
+    center_window = ScreenSize(root)
 
     myTest = Dialog()
     print(myTest.go('Hello World!'))

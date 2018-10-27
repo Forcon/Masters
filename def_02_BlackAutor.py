@@ -1,7 +1,6 @@
 # coding=utf-8
 import sqlite3
 
-
 def black_url(my_name=''):
     """
     Забирает из базы данных сведения об авторах, которых конкретный пользователь не хочет включать в свою коллекцию.
@@ -9,8 +8,8 @@ def black_url(my_name=''):
     :param str my_name:
     :return str:
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    sql_connect = sqlite3.connect('Masters.db')
+    cursor = sql_connect.cursor()
 
     try:
         cursor.execute("""SELECT BlackURL FROM BlackAutor WHERE (MyName = '{:s}') OR MyName IS NULL """.format(my_name))
@@ -19,7 +18,7 @@ def black_url(my_name=''):
         print(e, '----------> ?')
 
     cursor.close()
-    SQL_Connect.close()
+    sql_connect.close()
 
 
 # тестовая команда

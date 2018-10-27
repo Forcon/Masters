@@ -21,14 +21,14 @@ if __name__ == '__main__':
 сделать относительный импорт для всех файлов
 """
 
-
 URL_JM = 'https://www.livemaster.ru/'
 
 
-class Text_Entry:
+class TextEntry:
     """
     Создает пару: подпись и поле для заполнения
     """
+
     def __init__(self, master, message='[имя поля]', pi_y=10, show='', url=''):
         """
         :param str message:
@@ -52,6 +52,7 @@ class Btn:
     """
     Создает кнопку
     """
+
     def __init__(self, master, text='[надпись]', ver=0, r_y=0, fg='black'):
         """
         Создает кнопку
@@ -66,30 +67,30 @@ class Btn:
         self.button_name.place(relx=.87, rely=r_y, anchor="c")
 
 
-class Auto_Main(Toplevel):
+class AutoMain(Toplevel):
     """
     Класс главного окна, создает окно авторизации
     """
+
     def __init__(self):  # ----- Создает плашку для ввода текста для поиска
         super().__init__()
         # self.master = master
         self.sendValue = ''
         self.title("Авторизация в программе")
-        self.geometry(Screen_Size(600, 200))  # Располагает по центру страницы
+        self.geometry(ScreenSize(600, 200))  # Располагает по центру страницы
         # self.message = StringVar()
         self.name_label = Label(text='Введите необходимые данные ниже:')
         self.name_label.place(relx=.5, y=20, anchor="c")
 
-        self.Mail = Text_Entry(self.master, 'E-mail:*', 50)
-        self.Password = Text_Entry(self.master, 'Пароль:*', 90, '*')
-        self.FIO = Text_Entry(self.master, 'Имя:', 130)
-        self.Address = Text_Entry(self.master, 'Адрес на ЯМ:', 170, url=URL_JM)
+        self.mail = TextEntry(self.master, 'E-mail:*', 50)
+        self.password = TextEntry(self.master, 'Пароль:*', 90, '*')
+        self.fio = TextEntry(self.master, 'Имя:', 130)
+        self.address = TextEntry(self.master, 'Адрес на ЯМ:', 170, url=URL_JM)
         self.focus_ini()
 
         Btn(self, "Авторизоваться*", 'auto', .35, fg='green')
         Btn(self, "Новый автор", 'new', .75)
         self.protocol('WM_DELETE_WINDOW', self.exit_method)
-
 
     def focus_ini(self, step=0):
         """
@@ -97,25 +98,24 @@ class Auto_Main(Toplevel):
         :param int step:
         """
         if step == 0:
-            if self.Mail.get() == '':
-                self.Mail.text_entry.focus_set()  # Ставит курсор в первое пустое поле
-            elif self.Password.get() == '':
-                self.Password.text_entry.focus_set()
-            elif self.FIO.get() == '':
-                self.FIO.text_entry.focus_set()
-            elif self.Address.get() == '':
-                self.Address.text_entry.focus_set()
+            if self.mail.get() == '':
+                self.mail.text_entry.focus_set()  # Ставит курсор в первое пустое поле
+            elif self.password.get() == '':
+                self.password.text_entry.focus_set()
+            elif self.fio.get() == '':
+                self.fio.text_entry.focus_set()
+            elif self.address.get() == '':
+                self.address.text_entry.focus_set()
 
         else:
             if step == 1:
-                self.Mail.text_entry.focus_set()  # Ставит курсор в указаннное пустое поле
+                self.mail.text_entry.focus_set()  # Ставит курсор в указаннное пустое поле
             elif step == 2:
-                self.Password.text_entry.focus_set()
+                self.password.text_entry.focus_set()
             elif step == 3:
-                self.FIO.text_entry.focus_set()
+                self.fio.text_entry.focus_set()
             elif step == 4:
-                self.Address.text_entry.focus_set()
-
+                self.address.text_entry.focus_set()
 
     @staticmethod
     def base_read(mail):
@@ -128,24 +128,22 @@ class Auto_Main(Toplevel):
             cursor.execute("SELECT Mail, Pass, FIO, URL_User FROM Autor WHERE Mail = '{:s}'".format(mail))
             mail_sql = cursor.fetchall()
             # Если такой мейл есть в базе -- запишем в переменные, иначе - ''
-            if mail_sql == []:
+            if mail_sql:
                 return '', '', '', ''
             else:
                 return mail_sql[0][0], mail_sql[0][1], mail_sql[0][2], mail_sql[0][3]
         except sqlite3.Error as e:
             print(f"Ошибка при чтении из базы: {e}")
 
-
     def return_disc(self, action='auto'):
         """
         Программа возвращает словарь со значениями
         :param str action:
         """
-        self.ReturnValue = {'FIO': self.FIO.get(), 'Mail': self.Mail.get(), 'Password': self.Password.get(),
-                            'Adress': self.Address.get(), 'User': self.adress_sql, 'Name': self.name_sql,
+        self.ReturnValue = {'FIO': self.fio.get(), 'Mail': self.mail.get(), 'Password': self.password.get(),
+                            'Adress': self.address.get(), 'User': self.adress_sql, 'Name': self.name_sql,
                             'Action': action}
         self.destroy()
-
 
     def check_entry(self, btn):  # ----- Смотрит, введен ли нужный текст и выдает предупреждение
         """
@@ -153,33 +151,33 @@ class Auto_Main(Toplevel):
         :param str btn:
         """
         # Плучаем данные пользователя из базы
-        self.mail_sql, self.password_sql, self.name_sql, self.adress_sql = self.base_read(self.Mail.get())
+        self.mail_sql, self.password_sql, self.name_sql, self.adress_sql = self.base_read(self.mail.get())
 
         if FALSE:  # Это как раз и есть проверка всех полей на корректность заполнения
             pass
-        elif btn == 'new' and (self.FIO.get() == '' or self.Mail.get() == ''
-                               or self.Password.get() == '' or self.Address.get() == ''):
+        elif btn == 'new' and (self.fio.get() == '' or self.mail.get() == ''
+                               or self.password.get() == '' or self.address.get() == ''):
             # InformWin("Подсказка:", "Надо заполнить все поля")
             messagebox.showinfo("Подсказка:", "Надо заполнить все поля")
             self.focus_ini()
-        elif btn == 'auto' and (self.Mail.get() == '' or self.Password.get() == ''):
+        elif btn == 'auto' and (self.mail.get() == '' or self.password.get() == ''):
             messagebox.showinfo("Подсказка:", "Надо ввести е-мейл и пароль")
             self.focus_ini()
-        elif not re.fullmatch(r"[\w'._+-]+@[\w'._+-]+[.][\w'._+-]+", self.Mail.get()):
+        elif not re.fullmatch(r"[\w'._+-]+@[\w'._+-]+[.][\w'._+-]+", self.mail.get()):
             messagebox.showinfo("Подсказка:", "Формат е-мейла неверный.")
             self.focus_ini(1)
         elif btn == 'auto' and self.mail_sql == '':
             messagebox.showinfo("Подсказка:", "Пользователя с адресом '{:s}' нет в базе. "
-                                              "Вы можете создать нового пользователя.".format(self.Mail.get()))
+                                              "Вы можете создать нового пользователя.".format(self.mail.get()))
             self.focus_ini(1)
-        elif btn == 'new' and re.search(r"[а-яА-ЯёЁ]", self.Address.get()):
+        elif btn == 'new' and re.search(r"[а-яА-ЯёЁ]", self.address.get()):
             messagebox.showinfo("Подсказка:", "В адресе не может быть русских букв")
             self.focus_ini(4)
-        elif btn == 'auto' and self.password_sql != self.Password.get():
+        elif btn == 'auto' and self.password_sql != self.password.get():
             messagebox.showinfo("Подсказка:", "Пароль для данного адреса другой")
-            self.Password.text_entry.delete('0', END)
+            self.password.text_entry.delete('0', END)
             self.focus_ini(2)
-        elif btn == 'new' and self.mail_sql != '' and self.password_sql == self.Password.get():
+        elif btn == 'new' and self.mail_sql != '' and self.password_sql == self.password.get():
             if self.dop_param('Пользователь с е-мейлом: ' + self.mail_sql + " уже есть в базе. Хотите авторизоваться?"):
                 # btn = 'auto'
                 self.refresh_dan(self.name_sql, self.adress_sql)
@@ -187,21 +185,20 @@ class Auto_Main(Toplevel):
                 self.destroy()
         elif btn == 'new':
             password_new = self.open_dialog(text='Введите пароль еще раз...')
-            if password_new != self.Password.get():
+            if password_new != self.password.get():
                 messagebox.showinfo("Подсказка:", "Пароли не совпадают, введите их еще раз, пожалуйста")
-                self.Password.text_entry.delete('0', END)
+                self.password.text_entry.delete('0', END)
                 self.focus_ini(2)
             else:
                 self.return_disc(btn)
                 # self.destroy()
 
-        elif btn == 'auto' and (self.FIO.get() != '' or self.Address.get() != ''):
+        elif btn == 'auto' and (self.fio.get() != '' or self.address.get() != ''):
             self.refresh_dan(self.name_sql, self.adress_sql)
 
         else:  # В финале возвращаем значения из корректно заполненных полей
             self.return_disc(btn)
             # self.destroy()
-
 
     def refresh_dan(self, name_sql, address_sql):
         """
@@ -210,26 +207,29 @@ class Auto_Main(Toplevel):
         :param str address_sql:
         :return:
         """
-        if (self.FIO.get() == '' or name_sql == self.FIO.get()) and (
-                self.Address.get() == '' or address_sql == self.Address.get()):
+        if (self.fio.get() == '' or name_sql == self.fio.get()) and (
+                self.address.get() == '' or address_sql == self.address.get()):
             self.return_disc()
         else:
             # elif (name_sql != self.FIO.get() or adress_sql != self.Adress.get()):
             question = 'Хотите обновить профиль, изменив'
-            if self.FIO.get() != '' and name_sql != self.FIO.get():
+            if self.fio.get() != '' and name_sql != self.fio.get():
                 question += ' Ваше имя'
-                if self.Address.get() != '' and address_sql != self.Address.get(): question += ' и'
-            if self.Address.get() != '' and address_sql != self.Address.get(): question += ' адрес на Ярмарке мастеров'
+                if self.address.get() != '' and address_sql != self.address.get():
+                    question += ' и'
+            if self.address.get() != '' and address_sql != self.address.get():
+                question += ' адрес на Ярмарке мастеров'
             if not self.dop_param(question + "?"):
-                if name_sql != self.FIO.get(): self.FIO.text_entry.delete('0', END)
-                if address_sql != self.Address.get(): self.Address.text_entry.delete(len(URL_JM), END)
+                if name_sql != self.fio.get():
+                    self.fio.text_entry.delete('0', END)
+                if address_sql != self.address.get():
+                    self.address.text_entry.delete(len(URL_JM), END)
                 self.return_disc()
             else:  # Необходимо перезаписать данные в бвзе
                 self.return_disc('refr')
         # else:
         #     self.ReturnDisc('auto')
         #         # self.destroy()
-
 
     def dop_param(self, text=''):
         """
@@ -244,7 +244,6 @@ class Auto_Main(Toplevel):
             self.destroy()
             return self.returnValue
 
-
     def exit_method(self):
         """
         Для проверки готовности выйти
@@ -255,20 +254,19 @@ class Auto_Main(Toplevel):
         if self.returnValue:
             self.destroy()
 
-
     def open_dialog(self, text):
         """
         ?
         :param str text:
         :return:
         """
-        self.dialog = Passv_Verify(self.master)
+        self.dialog = PassvVerify(self.master)
         self.returnValue = self.dialog.go(text)
         return self.returnValue
 
 
 # класс дочернего окна
-class Passv_Verify(Toplevel):
+class PassvVerify(Toplevel):
     """
     Создает дополнительное окно с обратной связью
     """
@@ -277,7 +275,7 @@ class Passv_Verify(Toplevel):
         super().__init__()
         # self = Toplevel(master)
         self.title('Проверка пароля')
-        self.geometry(Screen_Size(390, 100))  # Располагает по центру страницы
+        self.geometry(ScreenSize(390, 100))  # Располагает по центру страницы
 
         self.label = Label(self, text=text)
         self.label.place(relx=.5, y=20, anchor="c")
@@ -291,19 +289,17 @@ class Passv_Verify(Toplevel):
 
         self.protocol('WM_DELETE_WINDOW', self.cancel)
 
-
-    def go(self, myText=''):
+    def go(self, my_text=''):
         """
-        :param str myText:
+        :param str my_text:
         :return: str
         """
-        self.label['text'] = myText
+        self.label['text'] = my_text
         self.grab_set()
         self.focus_set()
         self.text_entry.focus_set()
         self.wait_window()
         return self.newValue
-
 
     def cancel(self):
         self.newValue = self.text_entry.get()
@@ -318,7 +314,7 @@ if __name__ == '__main__':
     SQL_Connect = sqlite3.connect('Masters.db')
     cursor = SQL_Connect.cursor()
 
-    app = Auto_Main()
+    app = AutoMain()
     app.mainloop()
     base_to_sql = app.ReturnValue
 

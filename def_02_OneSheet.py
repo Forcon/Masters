@@ -14,7 +14,7 @@ URL_JM = 'https://www.livemaster.ru/'
 def one_list(url_name, name_autor, black_author):
     """
     Считывает данные про работу (автор, цена, материал и т.д.) с одной страницы,
-    :param str black_author:
+    :param black_author:
     :param str name_autor:
     :param str url_name:
     """

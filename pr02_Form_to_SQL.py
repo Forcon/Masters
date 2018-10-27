@@ -18,6 +18,7 @@ from selenium.webdriver.support.ui import Select
 from def_02_BlackAutor import *
 from def_02_OneSheet import *
 from form_02_TextSeach import *
+from form_Boolean import *
 
 """
 Программа для считывания данных с ЯМ и помещения их в SQlite
@@ -36,10 +37,10 @@ def autor_item(driver, url_autor):
     item_url = []
     driver.get(URL_JM + url_autor)
 
-    try:  # -------- Показываем по 120 картинок на странице
-        Select(driver.find_element_by_name('cnt')).select_by_visible_text('120')
-    except:  # TODO: Нужно указание на правильную ошибку
-        pass
+    # try:  # -------- Показываем по 120 картинок на странице
+    Select(driver.find_element_by_name('cnt')).select_by_visible_text('120')
+    # except:  # TODO: Нужно указание на правильную ошибку
+    #     pass
 
     iteration = True
     ver = 2
@@ -57,7 +58,7 @@ def autor_item(driver, url_autor):
         try:  # ------- Пролистываем страницу и если это не удается -- завершаем цикл
             driver.find_element_by_link_text(str(ver)).click()
             ver += 1
-        except:  # TODO: Как правильно задать (NoSuchElementException) ?
+        except common.exceptions.NoSuchElementException:
             iteration = False
 
     return item_url
@@ -84,14 +85,14 @@ def reseach_item(driver, text_seach):
     driver.find_element_by_class_name("ui-search-btn").submit()
     time.sleep(3)
 
-    try:  # -------- Показываем по 120 картинок на странице
-        driver.find_element_by_id("perPage").click()
-        select = driver.find_elements_by_class_name("js-perpage-btn")
-        for option in select:
-            if option.get_attribute('data-value') == '6':
-                option.click()
-    except:  # TODO: Нужно указание на правильную ошибку
-        pass
+    # try:  # -------- Показываем по 120 картинок на странице
+    driver.find_element_by_id("perPage").click()
+    select = driver.find_elements_by_class_name("js-perpage-btn")
+    for option in select:
+        if option.get_attribute('data-value') == '6':
+            option.click()
+    # except:  # TODO: Нужно указание на правильную ошибку
+    #     pass
 
     pagesours = driver.page_source
     bs = BeautifulSoup(pagesours, "html.parser")  # , headers = headers)
@@ -130,15 +131,16 @@ def read_JM(autor_name):
     :param str autor_name:
     :return:
     """
-    SQL_Connect = sqlite3.connect('Masters.db')
-    cursor = SQL_Connect.cursor()
+    sql_connect = sqlite3.connect('Masters.db')
+    cursor = sql_connect.cursor()
 
     # --------- Запуск Firefox
     ssl._create_default_https_context = ssl._create_unverified_context
 
     # autor_name = 'forcon'
     #
-    app = TextSearch()
+
+    app = TextSearch()  # TODO: Здесь происходит сбой из-за центрирования окна
     app.mainloop()
     rez_vibor = app.sendValue  # Получаем текст для дальнейшего поиска на ЯМ
 
@@ -183,7 +185,7 @@ def read_JM(autor_name):
                     """.format(base_one_list[1], base_one_list[2], base_one_list[3], base_one_list[4], base_one_list[5],
                                base_one_list[6], base_one_list[7], base_one_list[8], base_one_list[9],
                                base_one_list[10], base_one_list[11], text_seach))
-                SQL_Connect.commit()  # Применение изменений к базе данных
+                sql_connect.commit()  # Применение изменений к базе данных
 
                 print(f"{base_one_list[1]}: {k + 1} из {kol_rab} ---> {(k + 1) / kol_rab:.2%}")
             except sqlite3.Error as e:
@@ -201,7 +203,7 @@ def read_JM(autor_name):
                 try:
                     cursor.execute("""UPDATE Items set Coll_User = '{:s}' 
                                    WHERE (Url_Item = '{:s}')""".format(new_list, base_one_list[3]))
-                    SQL_Connect.commit()  # Применение изменений к базе данных
+                    sql_connect.commit()  # Применение изменений к базе данных
                 except sqlite3.Error as e:
                     print(e, '----------> ?')
 
@@ -218,18 +220,19 @@ def read_JM(autor_name):
 
     print(f"Всего в базу внесено работ: {kol_rab - rab_autor}")
     cursor.close()
-    SQL_Connect.close()
+    sql_connect.close()
 
 
 if __name__ == '__main__':
     root = Tk()
     root.withdraw()
-    center_window = Screen_Size(root)
+    center_window = ScreenSize(root)
 
     autor_name = 'forcon'
     read_JM(autor_name)
 
-# Вы можете прочитать атрибут innerHTML, чтобы получить источник содержимого элемента или outerHTML для источника с текущим элементом.
+# Вы можете прочитать атрибут innerHTML, чтобы получить источник содержимого элемента или outerHTML 
+# для источника с текущим элементом.
 # element.get_attribute('innerHTML')
 
 #
