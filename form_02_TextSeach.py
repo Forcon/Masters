@@ -46,6 +46,9 @@ class TextSearch(Toplevel):
                                       "Работы по запросу", 20, 45, 1)
         self.author = TextEntryButton(self, 'Либо адрес страницы мастера, чьи работы Вы хотите добавить в базу:',
                                        "Работы автора", 90, 115, 2, URL_JM)
+
+        # self.grab_set()
+        # self.wait_window()
         self.item.text_entry.focus_set()
         self.protocol('WM_DELETE_WINDOW', self.exitMethod)  # TODO: Отключено временно
 
@@ -68,15 +71,14 @@ class TextSearch(Toplevel):
                     self.sendValue = self.item.get(), self.author.get()
                     self.destroy()
                 else:
+                    # self.grab_set()
+                    # self.wait_window()
                     self.item.text_entry.delete('0', END)
                     #  TODO: Проблема: после очистки поля фокус (и возможность выбрать поле для записи) блокируется.
-                    # self.destroy()  # Временное решение проблемы с блокировкой
-                    # self.__init__()
                     self.item.text_entry.focus_set()
             else:
                 self.sendValue = self.item.get(), self.author.get()
                 self.destroy()
-                # self.master.destroy()
         elif ver == 2:
             if self.author.get() == '':
                 messagebox.showinfo("GUI Python", "Надо ввести текст для поиска")
@@ -84,9 +86,6 @@ class TextSearch(Toplevel):
             elif re.search(r"[а-яА-ЯёЁ]", self.author.get()):
                 messagebox.showinfo("GUI Python", "В адресе не может быть русских букв")
                 self.author.text_entry.delete(len(URL_JM), END)
-                #  TODO: Проблема: после очистки поля фокус (и возможность выбрать поле для записи) блокируется.
-                # self.destroy()  # Временное решение проблемы с блокировкой
-                # self.__init__()
                 self.author.text_entry.focus_set()
             else:
                 self.sendValue = self.item.get(), self.author.get()
@@ -105,7 +104,6 @@ if __name__ == '__main__':
 
     app = TextSearch()
     # app.mainloop()
-    # root.
     root.wait_window(app)
     # text = app.sendValue
     text = app.get()

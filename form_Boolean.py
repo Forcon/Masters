@@ -42,8 +42,7 @@ class InformWin(Toplevel):
         self.destroy()
 
 
-
-class YesNo(Toplevel): # класс диалогового окна выхода
+class YesNo(Tk):  # класс диалогового окна выхода
     """
     Диалоговое окно типа да/нет
     """
