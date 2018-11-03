@@ -15,7 +15,7 @@ class Dialog(Toplevel):
         super().__init__()
 
         self.title('Проверка пароля')
-        self.geometry(center_window(390, 100))  # Располагает по центру страницы
+        self.geometry(center_window(self, 390, 100))  # Располагает по центру страницы
         # self.frame = Frame(self)
         # self.frame.pack(side=BOTTOM)
         self.label = Label(self, text='Введите пароль еще раз...')
@@ -54,7 +54,7 @@ class Dialog(Toplevel):
 if __name__ == '__main__':
     root = Tk()
     root.withdraw()
-    center_window = ScreenSize(root)
+    # center_window = ScreenSize(root)
 
     myTest = Dialog()
     print(myTest.go('Hello World!'))

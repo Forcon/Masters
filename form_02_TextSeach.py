@@ -40,15 +40,14 @@ class TextSearch(Toplevel):
         super().__init__()
         self.sendValue = ''
         self.title("Отбор картинок в базу")
-        # self.geometry(center_window(650, 145))  # Располагает по центру страницы # TODO: Отключено временно
-        self.geometry('650x145+600+400')  # Располагает по центру страницы
+        self.geometry(center_window(self, 650, 145))  # Располагает по центру страницы
 
         self.item = TextEntryButton(self, 'Введите текст для поиска работ по "Ярмарке Мастеров":',
                                       "Работы по запросу", 20, 45, 1)
         self.author = TextEntryButton(self, 'Либо адрес страницы мастера, чьи работы Вы хотите добавить в базу:',
                                        "Работы автора", 90, 115, 2, URL_JM)
-        # self.item.text_entry.focus_set()
-        # self.protocol('WM_DELETE_WINDOW', self.exitMethod) # TODO: Отключено временно
+        self.item.text_entry.focus_set()
+        self.protocol('WM_DELETE_WINDOW', self.exitMethod)  # TODO: Отключено временно
 
     def get(self):
         return self.sendValue
@@ -66,17 +65,18 @@ class TextSearch(Toplevel):
                 self.dialog = YesNo()
                 self.returnValue = self.dialog.go('Вопрос:', 'В запросе латинские буквы. Вы уверены?')
                 if self.returnValue:
-                    self.sendValue = (self.item.get(), self.author.get())
+                    self.sendValue = self.item.get(), self.author.get()
                     self.destroy()
                 else:
                     self.item.text_entry.delete('0', END)
-                    #  ------ Проблема: после очистки поля фокус (и возможность выбрать поле для записи) блокируется.
+                    #  TODO: Проблема: после очистки поля фокус (и возможность выбрать поле для записи) блокируется.
                     # self.destroy()  # Временное решение проблемы с блокировкой
                     # self.__init__()
                     self.item.text_entry.focus_set()
             else:
-                self.sendValue = (self.item.get(), self.author.get())
+                self.sendValue = self.item.get(), self.author.get()
                 self.destroy()
+                # self.master.destroy()
         elif ver == 2:
             if self.author.get() == '':
                 messagebox.showinfo("GUI Python", "Надо ввести текст для поиска")
@@ -84,11 +84,12 @@ class TextSearch(Toplevel):
             elif re.search(r"[а-яА-ЯёЁ]", self.author.get()):
                 messagebox.showinfo("GUI Python", "В адресе не может быть русских букв")
                 self.author.text_entry.delete(len(URL_JM), END)
+                #  TODO: Проблема: после очистки поля фокус (и возможность выбрать поле для записи) блокируется.
                 # self.destroy()  # Временное решение проблемы с блокировкой
                 # self.__init__()
                 self.author.text_entry.focus_set()
             else:
-                self.sendValue = (self.item.get(), self.author.get())
+                self.sendValue = self.item.get(), self.author.get()
                 self.destroy()
 
     def exitMethod(self):
@@ -101,15 +102,15 @@ class TextSearch(Toplevel):
 if __name__ == '__main__':
     root = Tk()
     root.withdraw()
-    center_window = ScreenSize(root)
 
     app = TextSearch()
-    app.mainloop()
+    # app.mainloop()
+    # root.
+    root.wait_window(app)
+    # text = app.sendValue
     text = app.get()
-    # root = Tk
-    # text = TextSearсh(root).sendValue
-
     print(text)
+
     try:
         pass
     except AttributeError:

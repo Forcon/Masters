@@ -5,6 +5,7 @@
 from tkinter import *
 import tkinter as tk
 
+
 """
 Информационное окно
 """
@@ -19,7 +20,7 @@ class InformWin(Toplevel):
         self.title(title)
 
         if (7 * len(message)) > width: width = 7 * len(message)
-        self.geometry(center_window(width, height))
+        self.geometry(center_window(self, width, height))
         # self.wm_iconbitmap(bitmap = 'img/Logo_JM.ico')
         # bk_image = tk.PhotoImage('img/Logo_LJ.jpg')
         # frame = Frame(self, image=bk_image)
@@ -62,7 +63,8 @@ class YesNo(Toplevel): # класс диалогового окна выхода
 
     def go(self, title='Question', message='[question goes here]', width=200, height=80):
         self.title(title)
-        self.geometry(center_window(width, height))
+        # from form_02_TextSeach import center_window # Передавать мастер
+        self.geometry(center_window(self, width, height))
         self.message.configure(text=message)
         self.booleanValue = TRUE
         self.grab_set()
@@ -79,29 +81,21 @@ class YesNo(Toplevel): # класс диалогового окна выхода
         self.destroy()
 
 
-# Располагает окно по центру страницы
-class ScreenSize:  #
-    """
-    # ----- Располагает окна по центру экрана
-    """
-    def __init__(self, master):
-        self.scr_w = master.winfo_screenwidth()
-        self.scr_h = master.winfo_screenheight()
-
-    def __call__(self, width=0, height=0):
-        self.screen = str(width) + "x" + str(height) + "+" + str(
-            (self.scr_w - width) // 2) + "+" + str((self.scr_h - height) // 2)
-        return self.screen
-
+def center_window(master, width=0, height=0):
+    scr_w = master.winfo_screenwidth()
+    scr_h = master.winfo_screenheight()
+    screen = str(width) + "x" + str(height) + "+" + str((scr_w - width) // 2) + "+" + str((scr_h - height) // 2)
+    return screen
 
 # тестовая команда
 if __name__ == '__main__':
     root = Tk()  # Создаем одно коневое окно Tk, остальные от него TopLevel
     root.withdraw()
-    center_window = ScreenSize(root)
+    # rrr = Toplevel()
+    # print(center_window(rrr))
 
     InformWin(message='Вы успешно авторизовались', fg='green')
-
+    # root.wait_window(app)
     # Выводит значок программы в нижнюю панель
     img = tk.PhotoImage(file='img/Logo_JM.gif')
     root.tk.call('wm', 'iconphoto', root._w, img)
