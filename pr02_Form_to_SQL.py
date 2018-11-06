@@ -27,7 +27,7 @@ from form_Boolean import *
 URL_JM = 'https://www.livemaster.ru/'
 
 
-def autor_item(driver, url_autor):
+def autor_item(url_autor):
     """
     # --- Для данных по работам автора
     :param driver:
@@ -35,6 +35,7 @@ def autor_item(driver, url_autor):
     :return:
     """
     item_url = []
+    driver = webdriver.Firefox()
     driver.get(URL_JM + url_autor)
 
     # try:  # -------- Показываем по 120 картинок на странице
@@ -64,7 +65,7 @@ def autor_item(driver, url_autor):
     return item_url
 
 
-def reseach_item(driver, text_seach):
+def reseach_item(text_seach):
     """
     # ----- Для данных по ключевым словам
     :param driver:
@@ -72,6 +73,7 @@ def reseach_item(driver, text_seach):
     :return:
     """
     item_url = []
+    driver = webdriver.Firefox()
     driver.get(URL_JM)
     # ---- Авторизация на сайте (если нужна) ------
     # element = driver.find_element_by_id("quicklogin").click()
@@ -140,16 +142,16 @@ def read_JM(autor_name):
     # autor_name = 'forcon'
     #
 
-    app = TextSearch()  # TODO: Здесь происходит сбой из-за центрирования окна
-    app.mainloop()
-    rez_vibor = app.sendValue  # Получаем текст для дальнейшего поиска на ЯМ
+    app = TextSearch()
+    root.wait_window(app)
+    rez_vibor = app.get()  # Получаем текст для дальнейшего поиска на ЯМ
 
     # rez_vibor = TextSearсh(root).sendValue  # Получаем текст для дальнейшего поиска на ЯМ
     text_seach = rez_vibor[1] if rez_vibor[1] != '' else rez_vibor[0]
-    driver = webdriver.Firefox()
+    # driver = webdriver.Firefox()
     # item_url_spisok = []
-    item_url_spisok = autor_item(driver, text_seach) if rez_vibor[1] != '' else reseach_item(driver, text_seach)
-
+    # item_url_spisok = autor_item(driver, text_seach) if rez_vibor[1] != '' else reseach_item(driver, text_seach)
+    item_url_spisok = autor_item(text_seach) if rez_vibor[1] != '' else reseach_item(text_seach)
     # text_seach = 'Птичка сердолик'
     # item_url_spisok = reseach_item(text_seach)
 
@@ -226,7 +228,7 @@ def read_JM(autor_name):
 if __name__ == '__main__':
     root = Tk()
     root.withdraw()
-    center_window = ScreenSize(root)
+    # center_window = ScreenSize(root)
 
     autor_name = 'forcon'
     read_JM(autor_name)

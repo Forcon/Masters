@@ -103,9 +103,7 @@ if __name__ == '__main__':
     root.withdraw()
 
     app = TextSearch()
-    # app.mainloop()
     root.wait_window(app)
-    # text = app.sendValue
     text = app.get()
     print(text)
 

@@ -9585,3 +9585,117 @@ See /usr/include/servers/bootstrap_defs.h for the error codes.
 1537460625533	Marionette	INFO	Stopped listening on port 63668
 1537460627542	Marionette	INFO	Stopped listening on port 64072
 1537460629796	Marionette	INFO	Stopped listening on port 64521
+1541273234276	geckodriver	INFO	geckodriver 0.20.1
+1541273234409	geckodriver	INFO	Listening on 127.0.0.1:54642
+1541273235236	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.oe62tsVNPvHn"
+1541273235982	Marionette	DEBUG	Received observer notification profile-after-change
+1541273236118	Marionette	DEBUG	Received observer notification command-line-startup
+1541273236118	Marionette	DEBUG	Received observer notification nsPref:changed
+1541273236118	Marionette	DEBUG	Init aborted (running=false, enabled=true, finalUIStartup=false)
+1541273236403	Marionette	DEBUG	Received observer notification toplevel-window-ready
+1541273237672	Marionette	DEBUG	Received observer notification sessionstore-windows-restored
+1541273237672	Marionette	DEBUG	Waiting for delayed startup...
+1541273237866	Marionette	DEBUG	Setting recommended pref app.update.disabledForTesting to true
+1541273237866	Marionette	DEBUG	Setting recommended pref security.turn_off_all_security_so_that_viruses_can_take_over_this_computer to true
+1541273237867	Marionette	DEBUG	Setting recommended pref toolkit.cosmeticAnimations.enabled to false
+1541273237867	Marionette	DEBUG	Setting recommended pref datareporting.policy.dataSubmissionPolicyAccepted to false
+1541273237868	Marionette	DEBUG	Setting recommended pref dom.disable_beforeunload to true
+1541273237911	Marionette	INFO	Listening on port 54653
+1541273237911	Marionette	DEBUG	Remote service is active
+1541273237961	Marionette	DEBUG	Accepted connection 0 from 127.0.0.1:54711
+1541273237964	Marionette	TRACE	0 -> [0,1,"newSession",{"acceptInsecureCerts":true,"browserName":"firefox","capabilities":{"desiredCapabilities":{"acceptInsecureCerts":true,"browserName":"firefox"}}}]
+1541273237965	Marionette	TRACE	0 <- [1,1,{"error":"unknown command","message":"newSession","stacktrace":"WebDriverError@chrome://marionette/content/error.js:178: ... et@chrome://marionette/content/server.js:245:8\n_onJSONObjectReady/<@chrome://marionette/content/transport.js:490:9\n"},null]
+1541273259686	addons.productaddons	WARN	Failed downloading via XHR, status: 0, reason: error
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1541273601180	geckodriver	INFO	geckodriver 0.20.1
+1541273601257	geckodriver	INFO	Listening on 127.0.0.1:54788
+1541273602200	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.Ak2Wpi68e1kv"
+1541273602769	Marionette	DEBUG	Received observer notification profile-after-change
+1541273602879	Marionette	DEBUG	Received observer notification command-line-startup
+1541273602879	Marionette	DEBUG	Received observer notification nsPref:changed
+1541273602879	Marionette	DEBUG	Init aborted (running=false, enabled=true, finalUIStartup=false)
+1541273603179	Marionette	DEBUG	Received observer notification toplevel-window-ready
+1541273603961	Marionette	DEBUG	Received observer notification sessionstore-windows-restored
+1541273603961	Marionette	DEBUG	Waiting for delayed startup...
+1541273604115	Marionette	DEBUG	Setting recommended pref app.update.disabledForTesting to true
+1541273604115	Marionette	DEBUG	Setting recommended pref security.turn_off_all_security_so_that_viruses_can_take_over_this_computer to true
+1541273604116	Marionette	DEBUG	Setting recommended pref toolkit.cosmeticAnimations.enabled to false
+1541273604117	Marionette	DEBUG	Setting recommended pref datareporting.policy.dataSubmissionPolicyAccepted to false
+1541273604118	Marionette	DEBUG	Setting recommended pref dom.disable_beforeunload to true
+1541273604158	Marionette	INFO	Listening on port 54799
+1541273604158	Marionette	DEBUG	Remote service is active
+1541273604174	Marionette	DEBUG	Accepted connection 0 from 127.0.0.1:54843
+1541273604176	Marionette	TRACE	0 -> [0,1,"newSession",{"acceptInsecureCerts":true,"browserName":"firefox","capabilities":{"desiredCapabilities":{"acceptInsecureCerts":true,"browserName":"firefox"}}}]
+1541273604176	Marionette	TRACE	0 <- [1,1,{"error":"unknown command","message":"newSession","stacktrace":"WebDriverError@chrome://marionette/content/error.js:178: ... et@chrome://marionette/content/server.js:245:8\n_onJSONObjectReady/<@chrome://marionette/content/transport.js:490:9\n"},null]
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1541273672449	geckodriver	INFO	geckodriver 0.20.1
+1541273672532	geckodriver	INFO	Listening on 127.0.0.1:54872
+1541273673497	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.9B7lmNyS18FU"
+1541273674038	Marionette	DEBUG	Received observer notification profile-after-change
+1541273674148	Marionette	DEBUG	Received observer notification command-line-startup
+1541273674148	Marionette	DEBUG	Received observer notification nsPref:changed
+1541273674148	Marionette	DEBUG	Init aborted (running=false, enabled=true, finalUIStartup=false)
+1541273674440	Marionette	DEBUG	Received observer notification toplevel-window-ready
+1541273675226	Marionette	DEBUG	Received observer notification sessionstore-windows-restored
+1541273675227	Marionette	DEBUG	Waiting for delayed startup...
+1541273675344	Marionette	DEBUG	Setting recommended pref app.update.disabledForTesting to true
+1541273675345	Marionette	DEBUG	Setting recommended pref security.turn_off_all_security_so_that_viruses_can_take_over_this_computer to true
+1541273675345	Marionette	DEBUG	Setting recommended pref toolkit.cosmeticAnimations.enabled to false
+1541273675347	Marionette	DEBUG	Setting recommended pref datareporting.policy.dataSubmissionPolicyAccepted to false
+1541273675347	Marionette	DEBUG	Setting recommended pref dom.disable_beforeunload to true
+1541273675389	Marionette	INFO	Listening on port 54883
+1541273675389	Marionette	DEBUG	Remote service is active
+1541273675471	Marionette	DEBUG	Accepted connection 0 from 127.0.0.1:54929
+1541273675479	Marionette	TRACE	0 -> [0,1,"newSession",{"acceptInsecureCerts":true,"browserName":"firefox","capabilities":{"desiredCapabilities":{"acceptInsecureCerts":true,"browserName":"firefox"}}}]
+1541273675479	Marionette	TRACE	0 <- [1,1,{"error":"unknown command","message":"newSession","stacktrace":"WebDriverError@chrome://marionette/content/error.js:178: ... et@chrome://marionette/content/server.js:245:8\n_onJSONObjectReady/<@chrome://marionette/content/transport.js:490:9\n"},null]
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1541360552362	geckodriver	INFO	geckodriver 0.20.1
+1541360552473	geckodriver	INFO	Listening on 127.0.0.1:51269
+1541360553339	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.JmYmVxosWCYr"
+1541360555527	Marionette	DEBUG	Received observer notification profile-after-change
+1541360555723	Marionette	DEBUG	Received observer notification command-line-startup
+1541360555723	Marionette	DEBUG	Received observer notification nsPref:changed
+1541360555723	Marionette	DEBUG	Init aborted (running=false, enabled=true, finalUIStartup=false)
+1541360556328	Marionette	DEBUG	Received observer notification toplevel-window-ready
+1541360557503	Marionette	DEBUG	Received observer notification sessionstore-windows-restored
+1541360557503	Marionette	DEBUG	Waiting for delayed startup...
+1541360557714	Marionette	DEBUG	Setting recommended pref app.update.disabledForTesting to true
+1541360557714	Marionette	DEBUG	Setting recommended pref security.turn_off_all_security_so_that_viruses_can_take_over_this_computer to true
+1541360557714	Marionette	DEBUG	Setting recommended pref toolkit.cosmeticAnimations.enabled to false
+1541360557715	Marionette	DEBUG	Setting recommended pref datareporting.policy.dataSubmissionPolicyAccepted to false
+1541360557715	Marionette	DEBUG	Setting recommended pref dom.disable_beforeunload to true
+1541360557779	Marionette	INFO	Listening on port 51280
+1541360557780	Marionette	DEBUG	Remote service is active
+1541360557809	Marionette	DEBUG	Accepted connection 0 from 127.0.0.1:51375
+1541360557812	Marionette	TRACE	0 -> [0,1,"newSession",{"acceptInsecureCerts":true,"browserName":"firefox","capabilities":{"desiredCapabilities":{"acceptInsecureCerts":true,"browserName":"firefox"}}}]
+1541360557812	Marionette	TRACE	0 <- [1,1,{"error":"unknown command","message":"newSession","stacktrace":"WebDriverError@chrome://marionette/content/error.js:178: ... et@chrome://marionette/content/server.js:245:8\n_onJSONObjectReady/<@chrome://marionette/content/transport.js:490:9\n"},null]
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+[GFX1-]: Receive IPC close with reason=AbnormalShutdown
+1541360758493	geckodriver	INFO	geckodriver 0.20.1
+1541360758574	geckodriver	INFO	Listening on 127.0.0.1:51419
+1541360759511	mozrunner::runner	INFO	Running command: "/Applications/Firefox.app/Contents/MacOS/firefox-bin" "-marionette" "-profile" "/var/folders/zz/97qspll14js48zhz_jx38p300000gn/T/rust_mozprofile.OWoHr7OEvMNb"
+1541360760096	Marionette	DEBUG	Received observer notification profile-after-change
+1541360760214	Marionette	DEBUG	Received observer notification command-line-startup
+1541360760214	Marionette	DEBUG	Received observer notification nsPref:changed
+1541360760215	Marionette	DEBUG	Init aborted (running=false, enabled=true, finalUIStartup=false)
+1541360760571	Marionette	DEBUG	Received observer notification toplevel-window-ready
+1541360761372	Marionette	DEBUG	Received observer notification sessionstore-windows-restored
+1541360761372	Marionette	DEBUG	Waiting for delayed startup...
+1541360761548	Marionette	DEBUG	Setting recommended pref app.update.disabledForTesting to true
+1541360761549	Marionette	DEBUG	Setting recommended pref security.turn_off_all_security_so_that_viruses_can_take_over_this_computer to true
+1541360761549	Marionette	DEBUG	Setting recommended pref toolkit.cosmeticAnimations.enabled to false
+1541360761550	Marionette	DEBUG	Setting recommended pref datareporting.policy.dataSubmissionPolicyAccepted to false
+1541360761551	Marionette	DEBUG	Setting recommended pref dom.disable_beforeunload to true
+1541360761593	Marionette	INFO	Listening on port 51430
+1541360761593	Marionette	DEBUG	Remote service is active
+1541360761704	Marionette	DEBUG	Accepted connection 0 from 127.0.0.1:51481
+1541360761707	Marionette	TRACE	0 -> [0,1,"newSession",{"acceptInsecureCerts":true,"browserName":"firefox","capabilities":{"desiredCapabilities":{"acceptInsecureCerts":true,"browserName":"firefox"}}}]
+1541360761708	Marionette	TRACE	0 <- [1,1,{"error":"unknown command","message":"newSession","stacktrace":"WebDriverError@chrome://marionette/content/error.js:178: ... et@chrome://marionette/content/server.js:245:8\n_onJSONObjectReady/<@chrome://marionette/content/transport.js:490:9\n"},null]
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
+JavaScript error: chrome://browser/content/browser-safebrowsing.js, line 16: TypeError: gBrowser is undefined
